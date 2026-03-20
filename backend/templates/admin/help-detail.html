@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Panel de Administrador</title>
+  <link rel="stylesheet" href="/static/css/admin-styles/layout2.css">
+  <link rel="stylesheet" href="/static/css/admin-styles/admin-config-g.css">
+  <link rel="stylesheet" href="/static/css/admin-styles/help-detail2.css">
+
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+<body data-msg-id="{{ msg_id }}">
+
+{% include "admin/components/header.html" %}
+
+<main>
+  <div class="help-grid">
+
+  <div class="help-data-list">
+<div class="msgN-title">
+<h1>Mensaje #<span id="msg-id"></span></h1>
+</div>
+
+<div class="help-data">
+<p><b>Nombre:</b> <span id="msg-nombre"></span></p>
+<p><b>Email:</b> <span id="msg-email"></span></p>
+<p><b>Teléfono:</b> <span id="msg-telefono"></span></p>
+</div>
+
+<div class="help-msg">
+<h3>Mensaje</h3>
+<p id="msg-texto"></p>
+</div>
+</div>
+</div>
+</main>
+<script src="/static/js/admin-js/help-detail.js"></script>
+<script src="/static/js/admin-js/general-admin.js"></script>
+</body>
+</html>

@@ -1,0 +1,249 @@
+/* Header */
+.admin-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0.9rem;
+    padding: 1rem 2rem;
+    font-size: 0.8rem;
+    border-radius: 0.6rem;
+    background-color: var(--black-color);
+}
+
+/* Sidebar */
+.admin-sidebar {
+    position: relative;
+    top: 10px; /* altura del header */
+    left: 15px;
+    width: 220px;
+    height: 29rem;
+    background-color: var(--black-color);
+    border-radius: 0.6rem;
+    padding: 1rem;
+}
+
+.admin-sidebar ul {
+  list-style: none;
+}
+
+.admin-sidebar li {
+  margin: 1rem 0;
+}
+
+.admin-sidebar a {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+  display: block;
+  padding: 0.5rem;
+  border-radius: 2px;
+  transition: background 0.2s;
+}
+
+.admin-sidebar a:hover {
+  background-color: var(--yellow-color);
+  color: white;
+}
+
+#logout-btn{
+  background-color: var(--yellow-color);
+  color: #fff;
+  border: none;
+  border-radius: 2px;
+  width: 8rem;
+  height: 1.9rem;
+}
+
+
+/*------------ NOTIFICACIONES -----------*/
+.admin-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 30px;
+  background: var(--black-color);
+  color: #fff;
+}
+
+.notification-wrapper {
+  position: relative;
+}
+
+.notification-btn {
+  position: relative;
+  left: 28rem;
+  background: none;
+  border: none;
+  font-size: 22px;
+  cursor: pointer;
+  color: white;
+}
+
+.notification-count {
+  position: absolute;
+  top: -5px;
+  right: -8px;
+  background: #ff0000;
+  color: white;
+  font-size: 11px;
+  padding: 2px 6px;
+  border-radius: 50%;
+  font-weight: bold;
+}
+
+/* PANEL */
+.notification-panel {
+  position: absolute;
+  top: 25px;
+  left: 6rem;
+  width: 350px;
+  max-height: 400px;
+  background: #282828;
+  border-radius: 12px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.5);
+  overflow: hidden;
+  animation: fadeIn 0.2s ease;
+  z-index: 1000;
+}
+
+/* flechita */
+.notification-panel::before {
+  content: "";
+  position: absolute;
+  top: -8px;
+  right: 18px;
+  width: 15px;
+  height: 15px;
+  background: #282828;
+  transform: rotate(45deg);
+}
+
+/* header interno */
+.notification-header {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 15px;
+  border-bottom: 1px solid #3a3a3a;
+  font-weight: bold;
+}
+
+/* lista */
+.notification-list {
+  max-height: 330px;
+  overflow-y: auto;
+}
+
+.notification-item {
+  padding: 12px 15px;
+  border-bottom: 1px solid #3a3a3a;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.notification-item:hover {
+  background: #383838;
+}
+
+.notification-item p {
+  margin: 4px 0;
+  font-size: 14px;
+  color: #ccc;
+}
+
+.notification-item .time {
+  font-size: 12px;
+  color: #888;
+}
+
+.hidden {
+  display: none;
+}
+
+.notification-item.unread {
+  background: #1f2a44;
+  border-left: 4px solid #3ea6ff;
+}
+
+#clearNotifications{
+  background-color: var(--yellow-color);
+  color: #fff;
+  padding: 0.3rem;
+  border-radius: 2px;
+  border: none;
+}
+
+
+
+/* ------------ SCROLL BAR ----------- */
+
+.notification-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.notification-list::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.notification-list::-webkit-scrollbar-thumb {
+  background: var(--w-color);
+  border-radius: 10px;
+  transition: all 0.3s ease;
+}
+
+.notification-list::-webkit-scrollbar-thumb:hover {
+  background: var(--w-color);
+}
+
+
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+
+/*---------------- TABLAS ----------------*/
+.admin-table {
+  width: 80%;
+  margin: 0.9rem 0 0 7rem;
+  border-collapse: collapse;
+  background-color: var(--black-color);
+  color: var(--w-color);
+  border-radius: 8px;
+  overflow: hidden;
+  font-size: 0.9rem;
+}
+
+/* header */
+.admin-table thead {
+  background-color: var(--black-color);
+}
+
+.admin-table th {
+  text-align: left;
+  padding: 0.9rem 1rem;
+  color: var(--w-color);
+  font-weight: 600;
+  border-bottom: 1px solid var(--w-color);
+}
+
+/* body */
+.admin-table td {
+  padding: 1rem;
+  border-bottom: 1px solid var(--black-color);
+}
+
+/* zebra */
+.admin-table tbody tr:nth-child(even) {
+  background-color: var(--black-color);
+}
+
+.admin-table tbody tr:nth-child(odd) {
+  background-color: var(--black-color);
+}
+
+/* acciones */
+.admin-table td:last-child {
+  display: flex;
+  gap: 0.5rem;
+}

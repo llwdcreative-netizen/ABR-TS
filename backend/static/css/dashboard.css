@@ -1,0 +1,213 @@
+/* =========================
+   DASHBOARD
+========================= */
+
+main{
+  padding: 1rem;
+  margin: 0;
+}
+
+.dashboard-text{
+  padding: 1rem;
+  font-size: .9rem;
+}
+
+.back-home{
+  background: var(--blue-color);
+  color: var(--white-color);
+  padding: 5px;
+  border-radius: 0.2rem;
+  text-decoration: none;
+
+}
+
+.dashboard-info{
+  margin-bottom: 1rem;
+}
+.dashboard-info h2{
+  margin-top: 1rem;
+}
+
+/* contenedor general */
+
+.user-info-container{
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+
+/* =========================
+   TARJETAS
+========================= */
+
+.user-info,
+.history-container,
+.help-form-container{
+  background: #fff;
+  border-radius: 10px;
+  padding: 1.2rem;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+}
+
+
+/* =========================
+   CUENTA
+========================= */
+
+.user-info{
+  display: flex;
+  flex-direction: column;
+  gap: .6rem;
+  margin-bottom: 1rem;
+  height: 25rem;
+}
+
+#logout-btn{
+  width: fit-content;
+  margin-top: .5rem;
+  padding: .5rem .9rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  background: #222;
+  color: white;
+}
+
+
+/* =========================
+   FAVORITOS
+========================= */
+
+.favoritos-preview{
+  margin-top: 1rem;
+}
+
+.fav-flex{
+  display: grid;
+  grid-template-columns: repeat(2,1fr);
+  gap: .6rem;
+}
+
+.producto-card img {
+  width: 50%;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.producto-card a{
+  text-decoration: none;
+  color: var(--black-color);
+}
+
+.ver-todos{
+  text-decoration: none;
+  display: inline-block;
+  padding: 0.5rem;
+  margin-top: 1rem;
+  border-radius: 0.2rem;
+  background: var(--blue-color);
+  color: var(--white-color);
+  font-size: .9rem;
+}
+
+
+/* =========================
+   HISTORIAL
+========================= */
+
+#purchase-history{
+  display: flex;
+  flex-direction: column;
+  gap: .7rem;
+}
+
+.history-container{
+  overflow-y: scroll;
+  height: 25rem;
+}
+
+.purchase-order li{
+  list-style: none;
+  padding: 0.5rem;
+}
+
+/* =========================
+   FORMULARIO
+========================= */
+
+.contact-form{
+  display: flex;
+  flex-direction: column;
+  gap: .8rem;
+}
+
+.campo{
+  display: flex;
+  flex-direction: column;
+  gap: .2rem;
+}
+
+.campo input,
+.campo textarea{
+  padding: .5rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+textarea{
+  min-height: 100px;
+}
+
+.btn-enviar-form{
+  margin-top: .5rem;
+  padding: .6rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  background: var(--blue-color);
+  color: white;
+}
+
+
+
+/*----------- DESKTOP QUERIES -----------*/
+@media (min-width:1024px){
+
+main{
+  max-width: 1200px;
+  margin: auto;
+}
+
+
+/* GRID PRINCIPAL */
+
+.user-info-container{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+}
+
+
+/* posiciones */
+
+.user-container{
+  grid-column: 1;
+}
+
+.history-container{
+  grid-column: 2;
+}
+
+.help-form-container{
+  grid-column: 3;
+}
+
+
+/* favoritos más grandes */
+
+.fav-flex{
+  grid-template-columns: repeat(4,1fr);
+}
+
+}

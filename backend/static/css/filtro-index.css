@@ -1,0 +1,55 @@
+.filtros ul, p{
+    display: flex;
+    flex-direction: row;
+    gap: 0.5rem;
+    justify-content: center;
+    align-items: center;
+}
+
+.filtros p{
+    color: var(--letter2-color);
+    text-transform: uppercase;
+    margin: 10px;
+}
+
+.categoria-btn img{
+    border-radius: 0.2rem;
+    width: 150px;
+    height: 150px;
+}
+
+.categoria-btn:hover, button:hover{
+    box-shadow: none;
+    outline: none;
+}
+.categoria-btn:focus, button:focus{
+    box-shadow: none;
+    outline: none;
+}
+.has-subfiltros .subfiltros {
+    display: none;
+    margin-left: 1rem;
+    margin-top: 0.3rem;
+}
+
+.has-subfiltros.active .subfiltros {
+    display: block;
+}
+/* --- Subfiltros desplegables con animación --- */
+.has-subfiltros .subfiltros {
+    display: block;              /* aseguramos que el bloque exista */
+    max-height: 0;               /* colapsado inicialmente */
+    overflow: hidden;
+    margin-left: 1rem;
+    margin-top: 0.3rem;
+    transition: max-height 0.3s ease;
+}
+
+/* cuando se activa */
+.has-subfiltros.active .subfiltros {
+    max-height: 200px;           /* o un valor grande que contenga todos los botones */  
+}
+
+.oculto {
+    display: none !important;
+}

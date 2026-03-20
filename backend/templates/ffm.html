@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Software</title>
+    <link rel="stylesheet" href="static/css/header-footer.css">
+    <link rel="stylesheet" href="static/css/config-g.css">
+    <link rel="stylesheet" href="static/css/modals.css">
+    <link rel="stylesheet" href="static/css/index.css">
+    <link rel="stylesheet" href="static/css/productos.css">
+    <link rel="stylesheet" href="static/css/chat-support.css">
+    <link rel="stylesheet" href="static/css/filtro-index.css">
+    <link rel="stylesheet" href="static/css/notification.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Comic+Relief:wght@400;700&family=Saira:ital,wght@0,100..900;1,100..900&family=Sofia+Sans:ital,wght@0,1..1000;1,1..1000&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- HEADER -->
+<header class="nav-header">
+  <h1 class="logo-title"><a href="/">ABR Servicio Técnico</a></h1>
+            <!-- BARRA DE OPCIONES -->
+              <section class="barra__menu">
+        <nav class="barra-nav__menu" id="navMenu">
+    <ul class="barra__menu-list">
+      <li class="nav__barra-item">
+        <a href="/">Inicio</a>
+      </li>
+      <li class="nav__barra-item">
+        <a href="/productos">Tienda</a>
+      </li>
+      <li class="nav__barra-item">
+        <a href="/faq">Preguntas frecuentes</a>
+      </li>
+      <li class="nav__barra-item">
+        <a href="/turnos">Turnos</a>
+      </li>
+    </ul>
+    </nav>
+           </section>
+  <div class="login__buttons">
+    <div class="notification-wrapper">
+  <button id="notificationBtn" class="notification-btn">
+    <i class="fa-solid fa-bell"></i>
+    <span id="notificationCount" class="notification-count">0</span>
+  </button>
+
+  <div id="notificationPanel" class="notification-panel hidden">
+    <div class="notification-header">
+      <span>Notificaciones</span>
+      <button id="clearNotifications">Limpiar</button>
+    </div>
+
+    <div id="notificationList" class="notification-list">
+      <p style="padding:15px;color:#aaa;">Cargando...</p>
+    </div>
+  </div>
+</div>
+      <button class="nav__login"><a href="/login" class="material-symbols-outlined login">person</a></button>
+    <button class="nav__login" id="cartbtn"><span class="material-symbols-outlined login">shopping_cart</span></button>
+    </div>
+    </header>
+    <!-- MENÚ DE COMPRAS -->
+      <div class="cart-overlay">
+  <div class="cart-menu" id="cartMenu">
+    <h2>Carrito</h2>
+    <ul id="cart-items"></ul>
+    <p>Total: $<span id="cart-total">0</span></p>
+    <button id="buy-btn" class="buy-button">Comprar</button>
+  </div>
+</div>
+              <!-- APARTADO DE IMÁGENES -->
+    <main>
+        <select id="marcaSelect">
+            <option value="">Todas las marcas</option>
+            <option value="Samsung">Samsung</option>
+            <option value="Apple">Apple</option>
+            <option value="Motorola">Motorola</option>
+        </select>
+    </main>
+<!-- FOOTER -->
+ <footer class="footer">
+  <div class="footer-container">
+    <div class="redes">
+      <ul>
+        <li class="redes-container">
+        <a class="fa-brands fa-facebook" href="#"></a>
+      </li>
+      <li class="redes-container">
+        <a class="fa-brands fa-instagram" href="#"></a>
+      </li>
+      <li class="redes-container">
+        <a class="fa-brands fa-tiktok" href="#"></a>
+      </li>
+      <li class="redes-container">
+        <a class="fa-brands fa-whatsapp" href="#"></a>
+      </li>
+      <li class="redes-container">
+        <a class="fa-brands fa-x-twitter" href="#"></a>
+      </li>
+      </ul>
+    </div>
+  </div>
+ </footer>
+<!-- Modal de confirmación de compra -->
+<div id="successModal" class="modal">
+  <div class="modal-content">
+    <h2>✅ Compra realizada con éxito</h2>
+      <p>Tu pedido ha sido registrado correctamente.</p>
+    <button id="download-btn" class="confirm-btn">⬇️ Descargar boleta en PDF</button>
+  </div>
+</div>
+  <script src="static/js/chat-support.js" type="module"></script>
+  <script src="static/js/filtro.js"></script>
+  <script src="static/js/notification.js"></script>
+</body>
+</html>

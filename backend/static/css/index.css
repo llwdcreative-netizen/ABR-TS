@@ -1,0 +1,245 @@
+h2{
+  text-align: start;
+  text-transform: uppercase;
+  margin: 0.8rem 0 1rem 0.8rem;
+  font-size: 1rem;
+}
+
+
+
+/* =========================
+   BANNER
+========================= */
+
+.product-box{
+  width: 100%;
+}
+
+.banner-img img{
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.texto-banner {
+  font-size: 2rem;
+  position: absolute;
+  top: 40%;
+  left: 40%;
+  transform: translate(-50%, -50%);
+
+  color: white;
+  text-align: center;
+}
+
+.texto-banner p{
+  font-size: 1.2rem;
+}
+
+/* =========================
+   SECCIÓN PRINCIPAL
+========================= */
+
+.productos-destacados{
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding: 1rem;
+}
+
+
+
+/* =========================
+   FILTROS
+========================= */
+
+.filtros-grid{
+  display: grid;
+  grid-template-columns: repeat(2,1fr);
+  gap: 15px;
+}
+
+.filtro-item{
+  display: flex;
+  justify-content: center;
+}
+
+
+
+.categoria-btn img{
+  width: 100%;
+}
+
+.filtros{
+  width: 100%;
+}
+
+.lista-filtros{
+  list-style: none;
+  padding: 0;
+  margin: 0;
+
+  display: flex;
+  flex-direction: column;
+  gap: .6rem;
+}
+
+
+/* botón categoría */
+
+.categoria-btn{
+  width: 100%;
+  padding: 15px;
+  border: none;
+  border-radius: 10px;
+  background: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+}
+
+
+
+/* =========================
+   PRODUCTOS MÁS VENDIDOS
+========================= */
+
+.top-products{
+  width: 100%;
+}
+
+/* GRID PRODUCTOS */
+
+.df-container{
+  display: grid;
+  grid-template-columns: repeat(2,1fr);
+  gap: 1rem;
+  margin: 1rem;
+}
+
+
+
+/* =========================
+   CARD PRODUCTO
+========================= */
+
+.product-card{
+  width: 100%;
+  background: white;
+
+  border: 1px solid #ddd;
+  border-radius: 6px;
+
+  overflow: hidden;
+  position: relative;
+}
+
+.card-img{
+  width: 100%;
+  height: 10rem;
+  object-fit: contain;
+}
+
+.product-card .info{
+  padding: .6rem;
+}
+
+.product-card h3{
+  font-size: .9rem;
+}
+
+.product-card .marca{
+  font-size: .8rem;
+  color: #777;
+}
+
+.product-card .price{
+  font-weight: bold;
+  color: #e74c3c;
+}
+
+
+/* etiqueta */
+
+.product-card .badge{
+  position: relative;
+  top: 0.5rem;
+  width: 5rem;
+
+  background: #ce5f33;
+  color: white;
+
+  padding: 4px 6px;
+  border-radius: 0 5px 5px 0;
+  font-size: .7rem;
+  font-weight: bold;
+}
+
+
+
+
+
+/* =========================
+   BOTÓN VER MÁS
+========================= */
+
+.view-more{
+  text-align: center;
+  margin: 1.5rem 0 1.5rem 0;
+}
+
+.view-more a{
+  text-decoration: none;
+  background: var(--fbg-color);
+  color: white;
+
+  padding: .6rem 1rem;
+  border-radius: 6px;
+}
+
+
+
+@media (min-width:1024px){
+
+/* layout principal */
+
+.categorias-destacadas{
+  flex-direction: row;
+  align-items: flex-start;
+}
+
+.filtros-grid{
+  display: flex;
+  flex-direction: row;
+  gap: 3rem;
+}
+
+/* sidebar filtros */
+
+.filtros{
+  width: 80%;
+}
+
+.categoria-btn{
+  flex-direction: row;
+  padding: 2rem;
+}
+
+/* sección productos */
+
+.top-products{
+  flex: 1;
+}
+
+
+/* grid productos */
+.df-container{
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+}
+
+
+}

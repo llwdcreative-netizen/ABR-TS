@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Panel de Administrador</title>
+  <link rel="stylesheet" href="/static/css/admin-styles/admin-header.css">
+  <link rel="stylesheet" href="/static/css/admin-styles/admin-config-g.css">
+  <link rel="stylesheet" href="/static/css/admin-styles/admin-login.css">
+</head>
+<body>
+<div class="title">
+<h2>Acceso Administrador</h2>
+</div>
+<div class="form-container">
+<form id="admin-login-form">
+  <input type="email" id="email" placeholder="Email admin" required>
+  <input type="password" id="password" placeholder="Contraseña" required>
+  <button type="submit">Ingresar</button>
+</form>
+</div>
+
+<p id="error" style="color:red"></p>
+
+<script src="/static/js/admin-js/admin-login.js"></script>
+</body>
+</html>

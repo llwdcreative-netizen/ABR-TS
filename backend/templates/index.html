@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Software</title>
+    <link rel="stylesheet" href="static/css/layout.css">
+    <link rel="stylesheet" href="static/css/config-g.css">
+    <link rel="stylesheet" href="static/css/modals.css">
+    <link rel="stylesheet" href="static/css/index.css">
+    <link rel="stylesheet" href="static/css/productos.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Comic+Relief:wght@400;700&family=Saira:ital,wght@0,100..900;1,100..900&family=Sofia+Sans:ital,wght@0,1..1000;1,1..1000&display=swap" rel="stylesheet">
+</head>
+<body href="/">
+<!-- HEADER -->
+{% include "components/header.html" %}
+
+<!-- MENÚ DE COMPRAS -->
+{% include "components/cart.html" %}
+
+<main>
+
+<!-- BANNER -->
+
+<div class="product-box">
+  <div class="banner-img">
+    <picture>
+        <source media="(max-width: 400px)" srcset="/static/img/banner-img/banner-phone-resolution.png">
+        <source media="(max-width: 1024px)" srcset="/static/img/banner-img/ABRindex-img.png">
+      <img src="static/img/banner-img/ABRindex-img.png" alt="">
+    </picture>
+
+  <div class="texto-banner">
+    <h3>Elegí mejor. Pagá menos.</h3>
+    <p>Accesorios · Repuestos · Envíos · Reparaciones</p>
+  </div>
+</div>
+  </div>
+</div>
+
+
+<!-- PRODUCTOS DESTACADOS -->
+
+<section class="categorias-destacadas">
+
+<!-- FILTROS -->
+<aside class="filtros">
+
+  <h2 class="titulo-seccion">CATEGORIA DESTACADA</h2>
+
+  <div class="filtros-grid">
+
+    <!-- FUNDAS -->
+    <div class="filtro-item">
+      <button class="categoria-btn" data-categoria="fundas">
+        <img src="static/filtro-img/phone-icon.png" alt="fundas">
+        <p>Fundas</p>
+      </button>
+    </div>
+
+    <!-- CARGADORES -->
+    <div class="filtro-item">
+      <button class="categoria-btn" data-categoria="cargadores">
+        <img src="static/filtro-img/energy-icon.png" alt="">
+        <p>Cargadores</p>
+      </button>
+    </div>
+
+    <!-- AURICULARES -->
+    <div class="filtro-item">
+      <button class="categoria-btn" data-categoria="auriculares">
+        <img src="static/filtro-img/airphone-icon.png" alt="">
+        <p>Auriculares</p>
+      </button>
+    </div>
+
+    <!-- ACCESORIOS -->
+    <div class="filtro-item">
+      <button class="categoria-btn" data-categoria="accesorios">
+        <img src="static/filtro-img/accesories-icon.png" alt="">
+        <p>Accesorios</p>
+      </button>
+    </div>
+
+  </div>
+
+</aside>
+
+
+  <!-- PRODUCTOS MÁS VENDIDOS -->
+
+  <section class="top-products">
+
+    <h2>Productos más vendidos</h2>
+
+    <div id="top-products-df" class="df-container">
+      <!-- PRODUCTOS CARGADOS POR JS -->
+    </div>
+
+    <div class="view-more">
+      <a href="/productos">Ver más &gt;</a>
+    </div>
+
+  </section>
+
+</section>
+
+<!-- CHAT BOT -->
+{% include "components/chat.html" %}
+
+</main>
+<!-- FOOTER -->
+{% include "components/footer.html" %}
+
+<!-- Modal de confirmación de compra -->
+
+<div id="successModal" class="modal">
+  <div class="modal-content">
+    <h2>✅ Compra realizada con éxito</h2>
+      <p>Tu pedido ha sido registrado correctamente.</p>
+    <button id="download-btn" class="confirm-btn">⬇️ Descargar boleta en PDF</button>
+  </div>
+</div>
+
+<script src="https://sdk.mercadopago.com/js/v2"></script>
+<script src="static/js/mercadopago.js"></script>
+<script src="static/js/checkout.js"></script>
+<script src="static/js/cart-modal.js" defer></script>
+<script src="static/js/chat-support.js" type="module"></script>
+<script src="static/js/filtro.js"></script>
+<script src="static/js/notification.js"></script>
+<script src="static/js/top-products.js"></script>
+</body>
+</html>

@@ -1,0 +1,177 @@
+/* =========================
+RESET
+========================= */
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+  font-family:system-ui,-apple-system,sans-serif;
+  background:#0f1115;
+  color:#e5e7eb;
+}
+
+
+/* =========================
+CONTENIDO
+========================= */
+
+.admin-content{
+  padding:1rem;
+}
+
+
+/* =========================
+SUBTITULO
+========================= */
+
+.turn-subtitle{
+  margin:1rem 0;
+}
+
+.turn-subtitle h2{
+  font-size:1.2rem;
+}
+
+
+/* =========================
+TABLA → CARDS MOBILE
+========================= */
+
+.admin-table table{
+  width:100%;
+}
+
+.admin-table thead{
+  display:none;
+}
+
+.admin-table tbody,
+.admin-table tr,
+.admin-table td{
+  display:block;
+  width:100%;
+}
+
+
+/* tarjeta */
+
+.admin-table tr{
+
+  background:#171a21;
+
+  padding:1rem;
+  margin-bottom:1rem;
+
+  border-radius:10px;
+
+  box-shadow:0 6px 20px rgba(0,0,0,.4);
+}
+
+
+/* campo */
+
+.admin-table td{
+
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+
+  padding:.4rem 0;
+
+  font-size:.9rem;
+
+  border-bottom:1px solid #262a33;
+}
+
+.admin-table td:last-child{
+  border-bottom:none;
+}
+
+
+/* etiquetas */
+
+.admin-table td:nth-child(1)::before{content:"Fecha";color:#9ca3af;}
+.admin-table td:nth-child(2)::before{content:"Hora";color:#9ca3af;}
+.admin-table td:nth-child(3)::before{content:"Nombre";color:#9ca3af;}
+.admin-table td:nth-child(4)::before{content:"DNI";color:#9ca3af;}
+.admin-table td:nth-child(5)::before{content:"Email";color:#9ca3af;}
+.admin-table td:nth-child(6)::before{content:"Whatsapp";color:#9ca3af;}
+.admin-table td:nth-child(7)::before{content:"Marca";color:#9ca3af;}
+.admin-table td:nth-child(8)::before{content:"Modelo";color:#9ca3af;}
+.admin-table td:nth-child(9)::before{content:"Reparación";color:#9ca3af;}
+.admin-table td:nth-child(10)::before{content:"Descripción";color:#9ca3af;}
+
+.admin-table td::before{
+  font-weight:600;
+}
+
+
+
+@media (min-width:1024px){
+
+.admin-content{
+  padding:2rem;
+}
+
+/* tabla normal */
+
+.admin-table table{
+  border-collapse:collapse;
+}
+
+.admin-table thead{
+  display:table-header-group;
+}
+
+.admin-table tbody{
+  display:table-row-group;
+}
+
+.admin-table tr{
+  display:table-row;
+  background:#171a21;
+}
+
+.admin-table td,
+.admin-table th{
+  display:table-cell;
+}
+
+
+/* encabezados */
+
+.admin-table th{
+  background:#1f232b;
+  padding:.7rem;
+  font-size:.9rem;
+  text-align:left;
+}
+
+
+/* celdas */
+
+.admin-table td{
+  padding:.7rem;
+  border-bottom:1px solid #2a2f39;
+  font-size:.9rem;
+}
+
+
+/* quitar etiquetas mobile */
+
+.admin-table td::before{
+  display:none;
+}
+
+
+/* hover */
+
+.admin-table tbody tr:hover{
+  background:#222733;
+}
+
+}

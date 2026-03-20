@@ -1,0 +1,131 @@
+/* ========================
+RESET
+======================== */
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+  font-family:system-ui, -apple-system, sans-serif;
+  background:#0f1115;
+  color:#e6e6e6;
+}
+
+
+/* ========================
+LAYOUT PRINCIPAL
+======================== */
+
+.admin-content{
+  width:100%;
+  padding:1rem;
+}
+
+.retiros-grid{
+  display:flex;
+  flex-direction:column;
+  gap:1rem;
+}
+
+
+/* ========================
+BUSCADOR
+======================== */
+
+.content-search{
+  width:100%;
+  margin-bottom:1rem;
+}
+
+.search-box{
+  width:100%;
+}
+
+.searchform{
+  display:flex;
+  align-items:center;
+  background: none;
+  border-radius:8px;
+  overflow:hidden;
+}
+
+.search-input{
+  flex:1;
+  border:none;
+  background:transparent;
+  padding:.7rem;
+  color:white;
+  font-size:.9rem;
+}
+
+.search-input:focus{
+  outline:none;
+}
+
+.search-button{
+  border:none;
+  background:#2c313a;
+  color:white;
+  padding:.6rem .8rem;
+  cursor:pointer;
+}
+
+
+
+
+
+@media (min-width:1024px){
+
+main{
+  padding:2rem;
+}
+
+
+/* layout */
+
+main{
+  display:grid;
+  grid-template-columns:240px 1fr;
+  gap:2rem;
+}
+
+
+/* contenedor del retiro */
+
+.retiro-data{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:1.5rem;
+}
+
+
+/* título ocupa todo */
+
+.admin-retiro-title{
+  grid-column:1 / -1;
+}
+
+
+/* estado y pedido */
+
+.admin-retiro-info:first-of-type{
+  grid-column:1 / -1;
+}
+
+
+/* select y botón en fila */
+
+.admin-retiro-info select{
+  width:auto;
+  margin-right:.5rem;
+}
+
+#btn-estado{
+  width:auto;
+  padding:.5rem 1rem;
+}
+
+}

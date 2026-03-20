@@ -1,0 +1,234 @@
+/* =========================
+RESET
+========================= */
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+  font-family:system-ui,-apple-system,sans-serif;
+  background:#0f1115;
+  color:#e5e7eb;
+}
+
+
+/* =========================
+MAIN
+========================= */
+
+main{
+  padding:1rem;
+}
+
+
+/* =========================
+GRID GENERAL
+========================= */
+
+.envio-grid{
+  display:flex;
+  flex-direction:column;
+  gap:1rem;
+}
+
+
+/* =========================
+CONTENEDOR ENVÍO
+========================= */
+
+.envio-data{
+  display:flex;
+  flex-direction:column;
+  gap:1rem;
+}
+
+
+/* =========================
+TÍTULO
+========================= */
+
+.admin-envio-title h1{
+  font-size:1.4rem;
+  margin-bottom:.5rem;
+}
+
+
+/* =========================
+CARDS
+========================= */
+
+.admin-envio-info{
+
+  background:#171a21;
+
+  padding:1rem;
+
+  border-radius:10px;
+
+  box-shadow:0 6px 20px rgba(0,0,0,.35);
+}
+
+
+/* títulos internos */
+
+.admin-envio-info h1{
+  font-size:1.2rem;
+  margin-bottom:.5rem;
+}
+
+.admin-envio-info h3{
+  font-size:1rem;
+  margin-bottom:.4rem;
+  color:#cbd5e1;
+}
+
+
+/* textos */
+
+.admin-envio-info p{
+  font-size:.9rem;
+  margin:.3rem 0;
+  color:#d1d5db;
+}
+
+
+/* =========================
+ESTADO
+========================= */
+
+#cambiar-estado{
+
+  width:100%;
+
+  margin-top:.5rem;
+
+  padding:.5rem;
+
+  background:#1e222b;
+  border:1px solid #2a2f39;
+
+  color:white;
+
+  border-radius:6px;
+}
+
+#btn-estado{
+
+  width:100%;
+
+  margin-top:.5rem;
+
+  padding:.6rem;
+
+  border:none;
+
+  border-radius:6px;
+
+  background:#3b82f6;
+
+  color:white;
+
+  font-weight:600;
+
+  cursor:pointer;
+}
+
+#btn-estado:hover{
+  background:#2563eb;
+}
+
+
+/* =========================
+PRODUCTOS
+========================= */
+
+#pedido-productos{
+  list-style:none;
+  margin-top:.5rem;
+}
+
+#pedido-productos li{
+
+  background:#1e222b;
+
+  padding:.5rem;
+
+  border-radius:6px;
+
+  margin-bottom:.4rem;
+
+  font-size:.9rem;
+}
+
+
+
+
+
+@media (min-width:1024px){
+
+main{
+  padding:2rem;
+}
+
+
+/* layout con sidebar */
+
+.envio-grid{
+  display:flex;
+  gap:2rem;
+}
+
+
+/* datos del envío */
+
+.envio-data{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:1.5rem;
+}
+
+
+/* título ocupa todo */
+
+.admin-envio-title{
+  grid-column:1 / -1;
+}
+
+
+/* estado ocupa todo */
+
+.admin-envio-info:first-of-type{
+  grid-column:1 / -1;
+}
+
+
+/* notas ocupa todo */
+
+.admin-envio-info:nth-last-child(2){
+  grid-column:1 / -1;
+}
+
+
+/* productos ocupa todo */
+
+.admin-envio-info:last-child{
+  grid-column:1 / -1;
+}
+
+
+/* estado en fila */
+
+#cambiar-estado{
+  width:auto;
+  margin-right:.5rem;
+}
+
+#btn-estado{
+  width:auto;
+  padding:.5rem 1rem;
+}
+
+}

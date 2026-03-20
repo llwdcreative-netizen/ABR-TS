@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ABR Servicio Técnico</title>
+  <link rel="stylesheet" href="static/css/layout.css">
+  <link rel="stylesheet" href="static/css/config-g.css">
+  <link rel="stylesheet" href="static/css/modals.css">
+  <link rel="stylesheet" href="static/css/productos.css">
+
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Comic+Relief:wght@400;700&family=Saira:ital,wght@0,100..900;1,100..900&family=Sofia+Sans:ital,wght@0,1..1000;1,1..1000&display=swap" rel="stylesheet">
+</head>
+<body>
+<!-- HEADER -->
+{% include "components/header.html" %}
+
+<!-- MENÚ DE COMPRAS -->
+{% include "components/cart.html" %}
+
+<main>
+  <div class="banner-container">
+    <picture>
+        <source media="(max-width: 400px)" srcset="/static/img/banner-img/prod-mobile-banner.png">
+        <source media="(max-width: 1024px)" srcset="/static/img/banner-img/phone-banner.png">
+    <img src="static/img/banner-img/phone-banner.png" alt="banner">
+    </picture>
+
+  <div class="texto-banner-prod">
+    <h3>Todo para tu celular, en un solo lugar.</h3>
+  </div>
+</div>
+  </div>
+
+<!-- BARRA DE BUSQUEDA -->
+{% include "components/search.html" %}
+
+<!-- FILTRO + PRODUCTOS -->
+
+<div class="fp-container">
+
+<!-- Filtros -->
+
+  <div class="filtros-container">
+    <div id="filtros"></div>
+    <div id="subfiltros"></div>
+  </div>
+
+<!-- Productos -->
+
+  <div class="tienda-container">
+    <h2>Nuestros productos</h2>
+      <div id="productos" class="productos-container">
+        <!-- PRODUCTOS GENERADOS POR JS -->
+      </div>
+  </div>
+</div>
+
+<!-- VENTANA DE CHAT -->
+{% include "components/chat.html" %}
+
+</main>
+
+<!-- FOOTER -->
+{% include "components/footer.html" %}
+
+<!-- Modal Resumen de Pedido -->
+
+<div id="orderModal" class="modal">
+  <div id="modal-compra">
+    <span class="close-modal">&times;</span>
+    <h2>Resumen del pedido</h2>
+    <ul id="order-summary"></ul>
+    <p>Total: $<span id="order-total">0</span></p>
+    <button id="confirmar-compra" class="confirm-btn">Confirmar compra</button>
+  </div>
+</div>
+
+<script src="static/js/code.js"></script>
+<script src="static/js/search.js"></script>
+<script src="static/js/productos.js"></script>
+<script src="static/js/filtro.js"></script>
+<script src="static/js/chat-support.js"></script>
+<script src="static/js/cart-modal.js"></script>
+<script src="static/js/notification.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</body>
+</html>

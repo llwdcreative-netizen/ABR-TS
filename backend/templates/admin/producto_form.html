@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Panel de Administrador</title>
+
+  <link rel="stylesheet" href="/static/css/admin-styles/layout2.css">
+  <link rel="stylesheet" href="/static/css/admin-styles/admin-config-g.css">
+  <link rel="stylesheet" href="/static/css/admin-styles/productos-form2.css">
+
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+<body>
+
+{% include "admin/components/header.html" %}
+
+<main class="admin-main">
+
+<div class="admin-tabs">
+  <button class="tab-btn active" data-target="productos">Productos</button>
+  <button class="tab-btn" data-target="crear">Crear producto y categorías</button>
+  <button class="tab-btn" data-target="shipping">Coste de envío</button>
+</div>
+<!-- ========================= -->
+<!-- LISTADO / EDICIÓN -->
+<!-- ========================= -->
+<div class="form-section-container">
+  <div class="list-prod-admin" id="productos">
+    <section class="admin-section">
+      <h2>Productos existentes</h2>
+
+      <div id="productos-list">
+        <!-- JS inyecta productos acá -->
+      </div>
+
+    </section>
+  </div>
+
+<div>
+<!---------- COSTE DE ENVÍO MODIFICABLE ---------------->
+
+    <div class="shipping-container tab-hidden" id="shipping">
+      <h2>Modificar costo de los envíos</h2>
+      <input type="number" id="shippingCostInput">
+      <button id="saveShipping">Guardar</button>
+    </div>
+
+  <!-- ========================= -->
+  <!-- FORMULARIO ALTA PRODUCTO -->
+  <!-- ========================= -->
+   <div class="form-prod-container tab-hidden" id="crear">
+    <div class="form-add-products">
+  <section class="admin-section">
+    <h2>Agregar producto</h2>
+
+    <form method="POST" class="add-form" enctype="multipart/form-data" id="producto-form">
+      <input name="nombre" placeholder="Nombre" required>
+
+      <textarea name="descripcion" placeholder="Descripción"></textarea>
+
+      <select name="marca_id" id="marca-select" required>
+        <option value="">Seleccionar marca</option>
+      </select>
+
+      <select name="categoria_id" id="categoria-select" required>
+        <option value="">Seleccionar categoría</option>
+      </select>
+
+      <select name="subcategoria_id" id="subcategoria-select">
+        <option value="">Sin subcategoría</option>
+      </select>
+
+      <input
+        type="number"
+        name="precio"
+        step="0.01"
+        placeholder="Precio"
+        required
+      >
+
+      <input
+        type="number"
+        name="stock"
+        min="0"
+        placeholder="Stock"
+      >
+
+      <input
+        type="file"
+        name="imagen"
+        id="imagen"
+        accept="image/*"
+      >
+
+      <img id="preview" style="max-width:200px; display:none;">
+
+      <button type="submit">Guardar producto</button>
+    </form>
+  </section>
+  </div>
+<!---------- CREAR SUB/CATEGORÍAS  ---------------->
+<div class="categorias-container">
+<h3>Nueva categoría</h3>
+<input id="nuevaCategoria" placeholder="Nombre categoría">
+<button onclick="crearCategoria()">Crear</button>
+
+<h3>Nueva subcategoría</h3>
+<select id="categoriaSelect"></select>
+<input id="nuevaSubcategoria" placeholder="Nombre subcategoría">
+<button onclick="crearSubcategoria()">Crear</button>
+
+</div>
+  </div>
+
+</div>
+</div>
+</main>
+<script src="/static/js/admin-js/producto-form.js"></script>
+<script src="/static/js/admin-js/general-admin.js"></script>
+</body>
+</html>

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ABR Servicio Técnico</title>
+    <link rel="stylesheet" href="static/css/layout.css">
+    <link rel="stylesheet" href="static/css/config-g.css">
+    <link rel="stylesheet" href="static/css/turnos.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Comic+Relief:wght@400;700&family=Saira:ital,wght@0,100..900;1,100..900&family=Sofia+Sans:ital,wght@0,1..1000;1,1..1000&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-rc.0/css/select2.min.css">
+</head>
+<body>
+
+<!-- HEADER -->
+{% include "components/header.html" %}
+
+<!-- MENÚ DE COMPRAS -->
+
+{% include "components/cart.html" %}
+
+<!-- CONTENIDO AQUÍ -->
+<main>
+  <div class="turn-container">
+    <div class="turn-form">
+      <h2>¡Solicita una reparación!</h2>
+      <p>Seleccine una fecha para su turno</p>
+
+  <input type="date" id="fecha-turno">
+
+  <p>Seleccine una hora</p>
+    <div id="horarios-container"></div>
+
+  <p>Nombre y apellido</p>
+    <input id="nombre">
+
+  <p>DNI</p>
+    <input type="number" id="dni">
+
+  <p>Email</p>
+    <input id="email">
+
+  <p>Whatsapp</p>
+    <input type="number" id="whatsapp">
+
+  <p>Busque su dispositivo</p>
+    <select id="dispositivo" style="width:300px;">
+    <option value="">Buscar modelo...</option>
+</select>
+
+  <p>Tipo de reparación</p>
+    <select id="tipo-reparacion">
+      <option>Pantalla</option>
+      <option>Batería</option>
+      <option>Pin de carga</option>
+      <option>Software</option>
+    </select>
+
+  <p>Describa los fallos de su dispositivo</p>
+    <textarea id="descripcion"></textarea>
+
+  <button id="enviar-turno" class="turno-btn">
+    Solicitar turno
+  </button>
+  </div>
+
+  <div class="map-container">
+    <iframe src="https://www.google.com/maps?q=TU_DIRECCION&output=embed" width="100%" height="200"></iframe>
+  </div>
+
+  </div>
+
+{% include "components/chat.html" %}
+</main>
+
+<!-- FOOTER -->
+{% include "components/footer.html" %}
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-rc.0/js/select2.min.js"></script>
+<script src="static/js/notification.js"></script>
+<script src="static/js/calendar.js"></script>
+<script src="static/js/turnos.js"></script>
+<script src="static/js/chat-support.js"></script>
+<script src="static/js/cart-modal.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</body>
+</html>

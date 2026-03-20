@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ABR Servicio Técnico</title>
+    <link rel="stylesheet" href="static/css/layout.css">
+    <link rel="stylesheet" href="static/css/responsive.css">
+    <link rel="stylesheet" href="static/css/config-g.css">
+    <link rel="stylesheet" href="static/css/login.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Comic+Relief:wght@400;700&family=Saira:ital,wght@0,100..900;1,100..900&family=Sofia+Sans:ital,wght@0,1..1000;1,1..1000&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="static/css/styles-login.css">
+</head>
+<body>
+<!-- HEADER -->
+{% include "components/header.html" %}
+
+    <!-- FORM DE INICIO/REGISTRO -->
+    <main class="main-auth">
+        <div class="auth-container">
+    <div class="tabs">
+      <div class="tab active" id="login-tab">Iniciar sesión</div>
+      <div class="tab" id="register-tab">Registrarse</div>
+    </div>
+
+<form id="login-form" class="active">
+  <input id="login-email" type="email" placeholder="Correo electrónico" required>
+  <input id="login-password" type="password" placeholder="Contraseña" required>
+  <button type="submit">Entrar</button>
+</form>
+
+
+<form id="register-form">
+  <input id="reg-name" type="text" placeholder="Nombre completo" required>
+  <input id="reg-email" type="email" placeholder="Correo electrónico" required>
+  <input id="reg-password" type="password" placeholder="Contraseña" required>
+  <input id="reg-password2" type="password" placeholder="Confirmar contraseña" required>
+  <button type="submit">Crear cuenta</button>
+</form>
+
+
+
+    <a href="index.html" class="back-home">← Volver al inicio</a>
+  </div>
+</main>
+<!-- FOOTER -->
+{% include "components/footer.html" %}
+
+ <script src="static/js/auth.js" defer></script>
+ <script src="static/js/code.js" defer></script>
+</body>
+</html>

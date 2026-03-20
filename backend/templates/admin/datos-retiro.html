@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalle de retiro</title>
+    <link rel="stylesheet" href="/static/css/admin-styles/layout2.css">
+    <link rel="stylesheet" href="/static/css/admin-styles/admin-config-g.css">
+    <link rel="stylesheet" href="/static/css/admin-styles/datos-retiros.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+
+<body>
+
+{% include "admin/components/header.html" %}
+
+<main>
+<div class="retiro-data">
+<div class="admin-retiro-title">
+    <h1>DETALLE RETIRO ADMIN</h1>
+</div>
+
+<div class="admin-retiro-info">
+    <h1>Retiro #<span id="pedido-id"></span></h1>
+            <select id="cambiar-estado">
+            <option value="PENDIENTE">Pendiente</option>
+            <option value="LISTO_PARA_RETIRAR">Listo para retirar</option>
+            <option value="RETIRADO">Retirado</option>
+            <option value="CANCELADO">Cancelado</option>
+        </select>   
+            <button id="btn-estado">Actualizar estado</button>
+</div>
+
+<div class="admin-retiro-info">
+<section>
+    <h3>Datos del pedido</h3>
+    <p><b>Fecha:</b> <span id="pedido-fecha"></span></p>
+    <p><b>Total:</b> $<span id="pedido-total"></span></p>
+    <p><b>Estado:</b> <span id="pedido-estado"></span></p>
+</section>
+</div>
+
+<div class="admin-retiro-info">
+<section>
+    <h3>Cliente</h3>
+    <p><b>Nombre:</b> <span id="cliente-nombre"></span></p>
+</section>
+</div>
+
+<div class="admin-retiro-info">
+<section>
+    <h3>Productos</h3>
+    <ul id="pedido-productos"></ul>
+</section>
+</div>
+</div>
+</main>
+<script src="/static/js/admin-js/datos-retiros.js"></script>
+<script src="/static/js/admin-js/general-admin.js"></script>
+</body>
+</html>

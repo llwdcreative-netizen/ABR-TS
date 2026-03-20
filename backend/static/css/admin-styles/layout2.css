@@ -1,0 +1,356 @@
+/* =====================
+HEADER
+===================== */
+input, select, textarea{
+  background: #3d3d3d;
+  color: #fff;
+  border: none;
+  border-radius: 0.2rem;
+  padding: 5px;
+  margin: 2px;
+}
+.admin-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+
+  padding:10px 15px;
+
+  background:#111318;
+  color:white;
+
+  position:relative;
+}
+
+
+/* =====================
+BOTÓN HAMBURGUESA
+===================== */
+
+.admin-menu-btn{
+  background:none;
+  border:none;
+  color:white;
+  font-size:28px;
+  cursor:pointer;
+}
+
+
+/* =====================
+SIDEBAR MOBILE
+===================== */
+
+.admin-sidebar{
+  position:fixed;
+
+  top:0;
+  left:-260px;
+
+  width:240px;
+  height:100vh;
+
+  background:#161a21;
+
+  padding-top:70px;
+
+  transition:.3s;
+  z-index:2000;
+}
+
+.admin-sidebar.active{
+  left:0;
+}
+
+.admin-sidebar ul{
+  list-style:none;
+}
+
+.admin-sidebar li{
+  border-bottom:1px solid #232833;
+}
+
+.admin-sidebar a{
+  display:block;
+  padding:14px 20px;
+
+  text-decoration:none;
+  color:#d0d6df;
+
+  font-size:.9rem;
+}
+
+.admin-sidebar a:hover{
+  background:#1f2430;
+  color:white;
+}
+
+
+/* =====================
+TÍTULO
+===================== */
+
+.admin-header h1{
+  font-size:1.1rem;
+}
+
+
+/* =====================
+NOTIFICACIONES
+===================== */
+
+/* =========================
+WRAPPER
+========================= */
+
+.notification-wrapper{
+  position:relative;
+  display:flex;
+  align-items:center;
+}
+
+/* =========================
+BOTÓN
+========================= */
+
+.notification-btn{
+  background:none;
+  border:none;
+
+  color:white;
+  font-size:20px;
+
+  cursor:pointer;
+  position:relative;
+
+  padding:6px;
+}
+/* contador */
+
+.notification-count{
+  position:absolute;
+
+  top:0.2rem;
+  right:3px;
+
+  background:#ff4d4d;
+  color:white;
+
+  font-size:10px;
+  font-weight:bold;
+
+  padding:6px;
+  border-radius:50%;
+}
+
+
+/* =========================
+PANEL
+========================= */
+
+.notification-panel{
+  position:absolute;
+
+  top:40px;
+  right:-15px;
+
+  width:260px;
+  max-height:320px;
+
+  background:#1a1d23;
+  color:white;
+
+  border-radius:8px;
+
+  box-shadow:0 8px 20px rgba(0,0,0,.4);
+
+  overflow:hidden;
+
+  z-index:2000;
+}
+
+
+/* oculto */
+
+.hidden{
+  display:none;
+}
+
+
+/* =========================
+HEADER
+========================= */
+
+.notification-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+
+  padding:10px 12px;
+
+  border-bottom:1px solid #2a2f39;
+
+  font-size:.9rem;
+  font-weight:600;
+}
+
+
+/* botón limpiar */
+
+#clearNotifications{
+  background:none;
+  border:none;
+
+  color:#8aa7ff;
+  font-size:.8rem;
+
+  cursor:pointer;
+}
+
+
+/* =========================
+LISTA
+========================= */
+
+.notification-list{
+  max-height:260px;
+  overflow-y:auto;
+
+  font-size:.85rem;
+}
+
+
+/* notificación */
+
+.notification-item{
+  padding:10px 12px;
+  border-bottom:1px solid #252a34;
+}
+
+.notification-item:hover{
+  background:#222733;
+}
+
+
+/* =====================
+LOGOUT
+===================== */
+
+#logout-btn{
+  background:#1f2430;
+  border:none;
+  color:white;
+
+  padding:6px 10px;
+  border-radius:6px;
+
+  cursor:pointer;
+}
+
+
+/*------------ TABLES -----------*/
+.admin-table thead{
+  display:none;
+}
+
+
+/* tabla se vuelve bloque */
+
+.admin-table,
+.admin-table tbody,
+.admin-table tr,
+.admin-table td{
+  display:block;
+  width:100%;
+}
+
+
+/* tarjeta */
+
+.admin-table tr{
+  background:#1a1d23;
+  margin-bottom:14px;
+  padding:14px;
+
+  border-radius:10px;
+
+  box-shadow:0 4px 10px rgba(0,0,0,.25);
+}
+
+
+/* cada campo */
+
+.admin-table td{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+
+  padding:6px 0;
+
+  font-size:.9rem;
+  border-bottom:1px solid #2a2f39;
+}
+
+
+/* último campo sin línea */
+
+.admin-table td:last-child{
+  border-bottom:none;
+}
+
+
+/* etiqueta */
+
+.admin-table td::before{
+  font-weight:600;
+  color:#9aa4b2;
+}
+
+
+/* nombres de columnas */
+
+.admin-table td:nth-child(1)::before{content:"ID";}
+.admin-table td:nth-child(2)::before{content:"Fecha";}
+.admin-table td:nth-child(3)::before{content:"Cliente";}
+.admin-table td:nth-child(4)::before{content:"Total";}
+.admin-table td:nth-child(5)::before{content:"Estado";}
+.admin-table td:nth-child(6)::before{content:"Acciones";}
+
+
+
+
+@media (min-width:1024px){
+
+.admin-header{
+  justify-content:flex-start;
+  gap:30px;
+}
+
+.admin-menu-btn{
+  display:none;
+}
+
+.admin-sidebar{
+  position:relative;
+  left:0;
+
+  height:auto;
+  width:auto;
+
+  padding-top:0;
+  background:none;
+}
+
+.admin-sidebar ul{
+  display:flex;
+  gap:20px;
+}
+
+.admin-sidebar li{
+  border:none;
+}
+
+.admin-sidebar a{
+  padding:6px 8px;
+}
+
+}

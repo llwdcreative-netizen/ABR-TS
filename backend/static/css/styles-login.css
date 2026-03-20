@@ -1,0 +1,74 @@
+
+
+.main-auth {
+    flex: 1;
+    display: flex;
+    justify-content: start;
+    align-items: start;
+}
+
+.auth-container {
+    width: 380px;
+    padding: 2rem;
+    text-align: center;
+    transition: 0.3s;
+}
+
+.tabs {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 1.5rem;
+}
+
+.tab {
+    flex: 1;
+    padding: 10px;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    font-weight: bold;
+    color: #555;
+}
+
+    .tab.active {
+    border-color: var(--letter-color);
+    color: var(--brown-gold);
+}
+
+form {
+    display: none;
+    flex-direction: column;
+    gap: 20px;
+}
+
+form.active {
+    display: flex;
+}
+
+input {
+    padding: 10px;
+    border: 1px solid var(--brown-yellow);
+    background: var(--gray-color);
+    border-radius: 2px;
+    outline: none;
+    }
+
+button {
+    padding: 0.5rem;
+    border: none;
+    background: var(--brown-gold);
+    color: #fff;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button:hover {
+    background: var(--letter-color);
+    }
+
+    .back-home {
+    display: block;
+    margin-top: 15px;
+    color: var(--brown-gold);
+    text-decoration: none;
+}

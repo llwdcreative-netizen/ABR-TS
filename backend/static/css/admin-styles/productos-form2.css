@@ -1,0 +1,326 @@
+/* =========================
+RESET
+========================= */
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+  font-family:system-ui, -apple-system, sans-serif;
+  background:#0f1115;
+  color:#e5e7eb;
+}
+
+
+/* =========================
+MAIN
+========================= */
+
+.admin-main{
+  padding:1rem;
+}
+
+
+.producto-item{
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    background:#171a21;
+    border-radius:10px;
+    padding: 1rem;
+}
+
+.producto-item button{
+    border: none;
+    padding: 0.3rem;
+    margin-top: 5px;
+    border-radius: 0.2rem;
+}
+button.guardar{
+    background: #59b865;
+}
+
+button.eliminar{
+    background: #b83e3e;
+}
+.form-grid{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:.2rem;
+  margin: .2rem;
+
+}
+
+.form-grid textarea{
+    grid-column:1 / -1;
+}
+
+/* contenedor principal */
+
+.form-section-container{
+  display:flex;
+  flex-direction:column;
+  gap:1.5rem;
+}
+
+
+/* =========================
+SECCIONES
+========================= */
+
+.admin-section{
+  background: none;
+  padding:1rem;
+
+  box-shadow:0 5px 15px rgba(0,0,0,.35);
+}
+
+.admin-section h2{
+  font-size:1.2rem;
+  margin-bottom:1rem;
+}
+
+.admin-section h3{
+  margin-top:1rem;
+  margin-bottom:.5rem;
+}
+
+
+/* =========================
+LISTA PRODUCTOS
+========================= */
+
+#productos-list{
+  display:flex;
+  flex-direction:column;
+  gap:.7rem;
+}
+
+
+/* ejemplo producto */
+
+.product-item{
+  background:#1f232b;
+  padding:.7rem;
+  border-radius:6px;
+  font-size:.9rem;
+}
+
+
+/* =========================
+FORMULARIO
+========================= */
+
+.add-form{
+  display:flex;
+  flex-direction:column;
+  gap:.6rem;
+}
+
+.add-form input,
+.add-form textarea,
+.add-form select{
+  background:#1a1d24;
+  border:1px solid #2a2f39;
+
+  padding:.55rem;
+  border-radius:6px;
+
+  color:white;
+  font-size:.9rem;
+}
+
+.add-form textarea{
+  resize:vertical;
+}
+
+.add-form input:focus,
+.add-form textarea:focus,
+.add-form select:focus{
+  outline:none;
+  border-color:#4c82ff;
+}
+
+
+/* botón */
+
+.add-form button{
+  margin-top:.5rem;
+
+  background:#3b82f6;
+  border:none;
+
+  padding:.6rem;
+  border-radius:6px;
+
+  color:white;
+  font-weight:600;
+
+  cursor:pointer;
+}
+
+.add-form button:hover{
+  background:#2f6fdc;
+}
+
+
+/* =========================
+IMAGEN PREVIEW
+========================= */
+
+#preview{
+  margin-top:.5rem;
+  border-radius:6px;
+}
+
+
+/* =========================
+COSTO ENVÍO
+========================= */
+
+.shipping-container{
+  background:#171a21;
+  padding:1rem;
+  border-radius:10px;
+}
+
+.shipping-container input{
+  width:100%;
+  margin:.5rem 0;
+
+  background:#1a1d24;
+  border:1px solid #2a2f39;
+
+  padding:.5rem;
+  border-radius:6px;
+  color:white;
+}
+
+.shipping-container button{
+  background:#3b82f6;
+  border:none;
+  padding:.5rem .8rem;
+  border-radius:6px;
+  color:white;
+  cursor:pointer;
+}
+
+
+/* =========================
+CATEGORÍAS
+========================= */
+
+.categorias-container{
+  background:#171a21;
+  padding:1rem;
+  border-radius:10px;
+}
+
+.categorias-container input,
+.categorias-container select,
+.categorias-container textarea{
+  width:100%;
+  margin:.3rem 0;
+
+  background:#1a1d24;
+  border:1px solid #2a2f39;
+
+  padding:.45rem;
+  border-radius:6px;
+  color:white;
+}
+
+.categorias-container button{
+  margin-bottom:.5rem;
+
+  background:#3b82f6;
+  border:none;
+
+  padding:.45rem .7rem;
+  border-radius:6px;
+
+  color:white;
+  cursor:pointer;
+}
+
+
+
+/*----------- BOTONES PESTAÑA ------------*/
+.admin-tabs{
+  display:flex;
+  gap:.5rem;
+  margin-bottom:1rem;
+}
+
+.tab-btn{
+
+  flex:1;
+
+  padding:.7rem;
+
+  border:none;
+  border-radius:8px;
+
+  background:#1f232b;
+  color:#cbd5e1;
+
+  cursor:pointer;
+
+  font-weight:600;
+
+  transition:.2s;
+}
+
+.tab-btn:hover{
+  background:#2a2f39;
+}
+
+.tab-btn.active{
+  background:#3b82f6;
+  color:white;
+}
+
+
+.tab-hidden{
+  display:none;
+}
+
+
+
+
+@media (min-width:1024px){
+
+.admin-main{
+  padding:2rem;
+}
+
+.admin-tabs{
+  display:none;
+}
+
+/* layout principal */
+
+.form-section-container{
+  display:grid;
+  grid-template-columns:1fr 380px;
+  gap:2rem;
+}
+
+/* mostrar todas las secciones en desktop */
+
+.tab-hidden{
+  display:block;
+}
+
+/* formularios derecha */
+
+.form-prod-container{
+  display:flex;
+  flex-direction:column;
+  gap:1.5rem;
+}
+
+}

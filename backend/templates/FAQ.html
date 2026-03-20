@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ABR Servicio Técnico</title>
+  <link rel="stylesheet" href="static/css/layout.css">
+  <link rel="stylesheet" href="static/css/config-g.css">
+  <link rel="stylesheet" href="static/css/FAQ.css">
+
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Comic+Relief:wght@400;700&family=Saira:ital,wght@0,100..900;1,100..900&family=Sofia+Sans:ital,wght@0,1..1000;1,1..1000&display=swap" rel="stylesheet">
+</head>
+<body>
+<!-- HEADER -->
+{% include "components/header.html" %}
+
+<!-- MENÚ DE COMPRAS -->
+{% include "components/cart.html" %}
+
+<!-- CONTENIDO AQUÍ -->
+
+<main>
+  <picture>
+    <source media="(max-width: 400px)" srcset="static/img/banner-img/FAQ-banner-mobile.png">
+    <source media="(max-width: 1024px)" srcset="static/img/banner-img/FAQ-banner.png" alt="">
+  <img class="FAQ-banner" src="static/img/banner-img/FAQ-banner.png" alt="">
+  </picture>
+
+  <div class="texto-banner">
+    <h3>¿Tenés dudas? Acá están las respuestas.</h3>
+  </div>
+<section class="faq">
+  <h2>Preguntas Frecuentes</h2>
+
+  <div class="faq-grid">
+    <div class="faq-item">
+      <button class="faq-question">¿El diagnóstico tiene costo?<span class="icon">+</span></button>
+      <div class="faq-answer">
+        <p>No. Evaluamos tu equipo sin cargo antes de realizar cualquier reparación.</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question">¿Cuánto tarda una reparación?<span class="icon">+</span></button>
+      <div class="faq-answer">
+        <p>La mayoría de las reparaciones se realizan entre 24 y 72 horas.</p>
+      </div>
+    </div>
+</div>
+
+</section>
+
+<!-- CHAT BOT -->
+{% include "components/chat.html" %}
+
+</main>
+<!-- FOOTER -->
+{% include "components/footer.html" %}
+
+<script src="static/js/chat-support.js"></script>
+<script src="static/js/cart-modal.js"></script>
+<script src="static/js/notification.js"></script>
+<script src="static/js/FAQ.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</body>
+</html>

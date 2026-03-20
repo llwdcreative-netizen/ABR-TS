@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Panel de Administrador</title>
+  <link rel="stylesheet" href="/static/css/admin-styles/admin-index.css">
+  <link rel="stylesheet" href="/static/css/admin-styles/layout2.css">
+  <link rel="stylesheet" href="/static/css/admin-styles/admin-config-g.css">
+
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+<body>
+{% include "admin/components/header.html" %}
+
+
+
+  <main class="admin-main">
+    <div class="info-index-container">
+
+  <div class="data-index-container">
+    <div class="title">
+    <h2>Bienvenido, Admin</h2>
+    </div>
+<div id="dashboard-content">
+
+  <div class="chart-box">
+    <p class="chart-title">Envíos</p>
+    <canvas id="pedidosChart"></canvas>
+  </div>
+
+  <div class="chart-box">
+    <p class="chart-title">Retiros</p>
+    <canvas id="retirosChart"></canvas>
+  </div>
+
+  <div class="chart-box">
+    <p class="chart-title">Envíos / Retiros</p>
+    <canvas id="tiposChart"></canvas>
+  </div>
+
+</div>
+
+<div class="daily-total">
+  <p class="daily-label">Total generado hoy</p>
+  <p id="totalDia" class="daily-amount">$0</p>
+</div>
+</div>
+</div>
+
+  </main>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="/static/js/admin-js/graphics.js"></script>
+  <script src="/static/js/admin-js/general-admin.js"></script>
+</body>
+</html>

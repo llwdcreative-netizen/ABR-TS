@@ -1,0 +1,28 @@
+/*---------- RESET ---------- */
+* { box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: "Sofia Sans", sans-serif;
+}
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html, body { 
+    height: 100%; 
+}
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    --white-color: #e8eaf0;
+    --black-color: #111;
+    --gray-color: #666;
+    --gray2-color: #8b8b8b;
+    --green-color: #27ae60;
+    --blue-color: #79abc2;
+    --blue2-color: #59869b;
+
+    background: var(--bg-color);
+}

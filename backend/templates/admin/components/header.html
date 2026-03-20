@@ -1,0 +1,37 @@
+<header class="admin-header">
+
+<button class="admin-menu-btn" id="adminMenuBtn">
+  <span class="material-symbols-outlined">menu</span>
+</button>
+
+<section class="admin-sidebar">
+<nav  >
+    <ul>
+      <li><a href="/admin">Dashboard</a></li>
+      <li><a href="/admin/producto-form">Productos</a></li>
+      <li><a href="/admin/envios">Envíos</a></li>
+      <li><a href="/admin/retiros">Retiros</a></li>
+      <li><a href="/admin/help">Formularios de ayuda</a></li>
+      <li><a href="/admin/turnos">Turnos</a></li>
+    </ul>
+  </nav>
+</section>
+
+<h1>Admin Panel</h1>
+
+<div class="notification-wrapper">
+    <button id="notificationBtn" class="notification-btn">
+<i class="fa-solid fa-bell"></i>
+    <span id="notificationCount" class="notification-count"></span>
+    </button>
+    <div id="notificationPanel" class="notification-panel hidden">
+    <div class="notification-header">
+        <span>Notificaciones</span>
+        <button id="clearNotifications">Limpiar</button>
+    </div>
+    <div id="notificationList" class="notification-list">
+    </div>
+    </div>
+</div>
+  <button id="logout-btn">Cerrar sesión</button>
+</header>

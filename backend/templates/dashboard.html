@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ABR Servicio Técnico</title>
+  <link rel="stylesheet" href="static/css/layout.css">
+  <link rel="stylesheet" href="static/css/config-g.css">
+  <link rel="stylesheet" href="static/css/responsive.css">
+  <link rel="stylesheet" href="static/css/dashboard.css">
+
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Comic+Relief:wght@400;700&family=Saira:ital,wght@0,100..900;1,100..900&family=Sofia+Sans:ital,wght@0,1..1000;1,1..1000&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<!-- HEADER -->
+{% include "components/header.html" %}
+
+<div class="dashboard-text">
+  <p>Cuenta / Dashboard</p>
+</div>
+
+<main>
+
+<div class="dashboard-info">
+  <a href="/index" class="back-home">← Volver al inicio</a>
+  <h2>Resumen del dashboard</h2>
+</div>
+
+<div class="user-info-container">
+  <div class="user-info">
+    <h3>Mi cuenta</h3>
+    <p><strong>Nombre:</strong> <span id="p-nombre"></span></p>
+    <p><strong>Email:</strong> <span id="p-email"></span></p>
+    <button id="logout-btn">Cerrar sesión</button>
+
+    <section class="favoritos-preview">
+      <h2>❤️ Tus favoritos</h2>
+      <div id="favoritos-preview-grid" class="fav-flex"></div>
+      <a href="/favoritos" class="ver-todos">Ver todos</a>
+    </section>
+    </div>
+
+  <div class="history-container">
+    <h2>Historial de compras</h2>
+    <div id="purchase-history"></div>
+  </div>
+
+  <div class="help-form-container">
+    <form class="contact-form" action="" method="POST">
+      <h3>¿Necesitas ayuda?</h3>
+      <p>¡Estamos aquí!</p>
+
+  <div class="campo">
+    <label for="nombre">Nombre:</label>
+    <input id="nombre" name="nombre" type="text" placeholder="Tu nombre" required>
+  </div>
+
+  <div class="campo">
+    <label for="apellido">Apellido:</label>
+    <input id="apellido" name="apellido" type="text" placeholder="Tu apellido" required>
+  </div>
+
+  <div class="campo">
+    <label for="email">Email:</label>
+    <input id="email" name="email" type="email" placeholder="tu@email.com" required>
+  </div>
+
+  <div class="campo">
+    <label for="numero">Número telefónico:</label>
+    <input id="numero" name="numero" type="number" placeholder="Número" required>
+  </div>
+
+  <div class="campo">
+    <label for="mensaje">Mensaje</label>
+    <textarea id="mensaje" name="mensaje" placeholder="Escribí tu mensaje..." required></textarea>
+  </div>
+
+  <button type="submit" class="btn-enviar-form">Enviar mensaje</button>
+
+  </form>
+</div>
+</div>
+<!-- CHAT BOT -->
+{% include "components/chat.html" %}
+
+</main>
+<!-- FOOTER -->
+{% include "components/footer.html" %}
+
+<script src="static/js/chat-support.js" type="module"></script>
+<script src="static/js/notification.js"></script>
+<script src="static/js/dashboard.js"></script>
+<script src="static/js/help.js"></script>
+<script src="static/js/fav-preview.js"></script>
+</body>
+</html>

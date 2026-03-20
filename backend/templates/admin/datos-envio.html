@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalle de envíos</title>
+    <link rel="stylesheet" href="/static/css/admin-styles/layout2.css">
+    <link rel="stylesheet" href="/static/css/admin-styles/admin-config-g.css">
+    <link rel="stylesheet" href="/static/css/admin-styles/datos-envios.css">
+
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+<body>
+{% include "admin/components/header.html" %}
+  <main>
+    <div class="envio-grid">
+
+<div class="envio-data">
+  <div class="admin-envio-title">
+    <h1>DETALLE ENVÍO ADMIN</h1>
+  </div>
+
+<div class="admin-envio-info">
+<h1>Envío #<span id="pedido-id"></span></h1>
+    <select id="cambiar-estado">
+      <option value="PENDIENTE">Pendiente</option>
+      <option value="EN_CAMINO">En camino</option>
+      <option value="ENTREGADO">Entregado</option>
+      <option value="CANCELADO">Cancelado</option>
+  </select>
+
+      <button id="btn-estado">Actualizar estado</button>
+</div>
+
+
+<div class="admin-envio-info">
+<section>
+  <h3>Datos del pedido</h3>
+  <p><b>Fecha:</b> <span id="pedido-fecha"></span></p>
+  <p><b>Total:</b> $<span id="pedido-total"></span></p>
+  <p><b>Estado:</b> <span id="pedido-estado"></span></p>
+</section>
+</div>
+
+<div class="admin-envio-info">
+<section>
+  <h3>Cliente</h3>
+  <p><b>Nombre:</b> <span id="cliente-nombre"></span></p>
+  <p><b>Teléfono:</b> <span id="cliente-telefono"></span></p>
+  <p><b>Email:</b> <span id="cliente-email"></span></p>
+</section>
+</div>
+
+<div class="admin-envio-info">
+<section>
+  <h3>Dirección de envío</h3>
+  <p>
+    <span id="direccion-calle"></span>
+    <span id="direccion-numero"></span>
+    <span id="direccion-piso"></span>
+  </p>
+  <p>
+    <span id="direccion-barrio"></span>,
+    <span id="direccion-ciudad"></span>,
+    <span id="direccion-provincia"></span>
+  </p>
+  <p><b>CP:</b> <span id="direccion-cp"></span></p>
+</section>
+</div>
+
+<div class="admin-envio-info">
+<section>
+  <h3>Notas</h3>
+  <p id="pedido-notas">—</p>
+</section>
+</div>
+
+<div class="admin-envio-info">
+<section>
+  <h3>Productos</h3>
+  <ul id="pedido-productos"></ul>
+</section>
+</div>
+</div>
+</div>
+</main>
+<script src="/static/js/admin-js/datos-envios.js"></script>
+<script src="/static/js/admin-js/general-admin.js"></script>
+</body>
+</html>

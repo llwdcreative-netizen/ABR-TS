@@ -1,0 +1,206 @@
+/* =========================
+RESET
+========================= */
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+  font-family:system-ui,-apple-system,sans-serif;
+  background:#0f1115;
+  color:#e5e7eb;
+}
+
+main{
+  padding:1rem;
+}
+
+
+/* =========================
+CONTENEDOR PRINCIPAL
+========================= */
+
+.retiro-data{
+  display:flex;
+  flex-direction:column;
+  gap:1rem;
+}
+
+
+/* =========================
+TÍTULO
+========================= */
+
+.admin-retiro-title{
+  margin-bottom:.5rem;
+}
+
+.admin-retiro-title h1{
+  font-size:1.4rem;
+}
+
+
+/* =========================
+TARJETAS
+========================= */
+
+.admin-retiro-info{
+
+  background:#171a21;
+
+  padding:1rem;
+
+  border-radius:10px;
+
+  box-shadow:0 6px 18px rgba(0,0,0,.4);
+}
+
+
+/* títulos internos */
+
+.admin-retiro-info h1{
+  font-size:1.2rem;
+  margin-bottom:.6rem;
+}
+
+.admin-retiro-info h3{
+  font-size:1rem;
+  margin-bottom:.5rem;
+  color:#d1d5db;
+}
+
+
+/* textos */
+
+.admin-retiro-info p{
+  font-size:.9rem;
+  margin:.3rem 0;
+  color:#cbd5e1;
+}
+
+
+/* =========================
+ESTADO
+========================= */
+
+#cambiar-estado{
+
+  width:100%;
+
+  margin-top:.5rem;
+
+  padding:.5rem;
+
+  background:#1e222b;
+  border:1px solid #2a2f39;
+
+  color:white;
+
+  border-radius:6px;
+}
+
+#btn-estado{
+
+  margin-top:.6rem;
+
+  width:100%;
+
+  padding:.6rem;
+
+  border:none;
+
+  border-radius:6px;
+
+  background:#3b82f6;
+
+  color:white;
+
+  font-weight:600;
+
+  cursor:pointer;
+}
+
+#btn-estado:hover{
+  background:#2563eb;
+}
+
+
+/* =========================
+PRODUCTOS
+========================= */
+
+#pedido-productos{
+  list-style:none;
+  margin-top:.5rem;
+}
+
+#pedido-productos li{
+
+  background:#1e222b;
+
+  padding:.5rem;
+
+  border-radius:6px;
+
+  margin-bottom:.4rem;
+
+  font-size:.9rem;
+}
+
+
+
+@media (min-width:1024px){
+
+main{
+  padding:2rem;
+}
+
+
+/* layout */
+
+main{
+  display:flex;
+  flex-direction: column;
+  gap:2rem;
+}
+
+
+/* contenedor del retiro */
+
+.retiro-data{
+  display:flex;
+  flex-direction: column;
+  gap:1.5rem;
+}
+
+
+/* título ocupa todo */
+
+.admin-retiro-title{
+  grid-column:1 / -1;
+}
+
+
+/* estado y pedido */
+
+.admin-retiro-info:first-of-type{
+  grid-column:1 / -1;
+}
+
+
+/* select y botón en fila */
+
+.admin-retiro-info select{
+  width:auto;
+  margin-right:.5rem;
+}
+
+#btn-estado{
+  width:auto;
+  padding:.5rem 1rem;
+}
+
+}
