@@ -1,4 +1,32 @@
+# Variables de entorno
 .env
-.venv
+
+# Entorno virtual
+.venv/
+venv/
+
+# Cache de Python
 __pycache__/
 *.pyc
+*.pyo
+*.pyd
+
+# Logs
+*.log
+
+# IDEs
+.vscode/
+.idea/
+
+# Sistema
+.DS_Store
+Thumbs.db
+
+# Distribución
+build/
+dist/
+*.egg-info/
+
+# Testing / cache
+.pytest_cache/
+.mypy_cache/
