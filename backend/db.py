@@ -9,10 +9,7 @@ ADMIN_EMAIL = "llwd.creative@gmail.com"
 
 def get_db():
     return psycopg.connect(
-        host=os.getenv("DB_HOST"),
-        dbname=os.getenv("DB_NAME"),
-        user=os.getenv("DB_USER"),
-        password=os.getenv("DB_PASSWORD"),
+        os.getenv("DATABASE_URL"),
         row_factory=psycopg.rows.dict_row
     )
 
