@@ -40,6 +40,14 @@ def init_db():
             """)
 
 
+            cur.execute("""
+                CREATE TABLE IF NOT EXISTS marcas (
+                    id SERIAL PRIMARY KEY,
+                    nombre VARCHAR(100) UNIQUE NOT NULL
+                );
+            """)
+
+
             #SISTEMA DE TURNOS
             cur.execute("""
                 CREATE TABLE IF NOT EXISTS turnos (
@@ -128,12 +136,6 @@ def init_db():
                 )
             """)
 
-            cur.execute("""
-                CREATE TABLE IF NOT EXISTS marcas (
-                    id SERIAL PRIMARY KEY,
-                    nombre VARCHAR(100) UNIQUE NOT NULL
-                );
-            """)
 
             cur.execute("""
                 CREATE TABLE IF NOT EXISTS productos (
