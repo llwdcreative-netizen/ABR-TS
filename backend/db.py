@@ -1,5 +1,7 @@
 import psycopg
 import psycopg.rows
+import os
+print(os.getenv("DATABASE_URL"))
 from werkzeug.security import generate_password_hash
 
 ADMIN_EMAIL = "llwd.creative@gmail.com"
@@ -7,10 +9,10 @@ ADMIN_EMAIL = "llwd.creative@gmail.com"
 
 def get_db():
     return psycopg.connect(
-        host="localhost",
-        dbname="postgres",
-        user="postgres",
-        password="CRAZYNOISEBIZARRETOWN",
+        host=os.getenv("DB_HOST"),
+        dbname=os.getenv("DB_NAME"),
+        user=os.getenv("DB_USER"),
+        password=os.getenv("DB_PASSWORD"),
         row_factory=psycopg.rows.dict_row
     )
 
