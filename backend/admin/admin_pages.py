@@ -6,8 +6,8 @@ admin_pages = Blueprint("admin_pages", __name__)
 
 @admin_pages.route("/admin")
 def admin_panel():
-    if not session.get("is_admin"):
-        return redirect("/admin/login")  # ✅ apunta a la ruta Flask
+    if session.get("rol") != "admin":
+        return redirect("/admin/login")
     return render_template("admin/admin-panel.html")
 
 @admin_pages.route("/admin/login", methods=["GET"])
@@ -55,8 +55,7 @@ def admin_estados():
 
 @admin_pages.route("/admin/producto-form", methods=["GET", "POST"])
 def admin_producto_form():
-    # 🔒 Verificar que sea admin
-    if not session.get("is_admin"):
+    if session.get("rol") != "admin":
         return redirect("/admin/login")
 
     if request.method == "POST":

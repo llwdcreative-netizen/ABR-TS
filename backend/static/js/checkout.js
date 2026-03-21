@@ -91,9 +91,9 @@ document.addEventListener("DOMContentLoaded", () => {
         },
 
         back_urls: {
-          success: `http://localhost:5500/mipedido.html?id=${pedidoId}&tipo=${tipo}`,
-          failure: "http://localhost:5500/mp/error.html",
-          pending: "http://localhost:5500/mp/pendiente.html"
+          success: `https://abr-ts.onrender.com/mipedido.html?id=${pedidoId}&tipo=${tipo}`,
+          failure: "https://abr-ts.onrender.com/mp/error.html",
+          pending: "https://abr-ts.onrender.com/mp/pendiente.html"
         },
 
         auto_return: "approved"
@@ -101,7 +101,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
-      const mpResp = await fetch("http://127.0.0.1:5000/create_preference", {
+      const mpResp = await fetch("/create_preference", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",

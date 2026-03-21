@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     // ========================
     // VERIFICAR SESIÓN
     // ========================
-    const res = await fetch("http://127.0.0.1:5000/me", { 
+    const res = await fetch("/me", { 
       credentials: "include" 
     });
     const data = await res.json();
@@ -29,7 +29,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     // OBTENER HISTORIAL DE COMPRAS
     // ========================
 
-    const resHistory = await fetch("http://127.0.0.1:5000/purchase/history", { 
+    const resHistory = await fetch("/purchase/history", { 
       credentials: "include" 
     });
 
@@ -161,7 +161,7 @@ orderDiv.innerHTML = `
     const logoutBtn = document.getElementById("logout-btn");
     if (logoutBtn) {
       logoutBtn.addEventListener("click", async () => {
-        await fetch("http://127.0.0.1:5000/logout", { method: "POST", credentials: "include" });
+        await fetch("/logout", { method: "POST", credentials: "include" });
         window.location.href = "/login";
       });
     }

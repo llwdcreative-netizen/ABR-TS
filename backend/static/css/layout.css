@@ -3,6 +3,8 @@
 ========================= */
 
 .nav-header{
+  position: relative; /* 👈 CLAVE */
+  z-index: 1000;  
   background:var(--black-color);
   color:var(--white-color);
   padding:12px;

@@ -19,23 +19,35 @@ BANNER
 ========================= */
 
 .banner-container{
-width:100%;
-margin-bottom:10px;
+  position: relative;
 }
 
 .banner-container img{
-width:100%;
+  width: 100%;
+  height: auto;
+  display: block;
 }
 
 .texto-banner-prod {
-  font-size: 2rem;
   position: absolute;
-  top: 40%;
+  top: 50%;
   left: 75%;
   transform: translate(-50%, -50%);
 
-  color: white;
   text-align: center;
+  color: white;
+
+  width: 40%;
+}
+
+/* TÍTULO */
+.texto-banner-prod h3 {
+  font-size: clamp(1.5rem, 4vw, 2rem);
+  font-weight: 700;
+}
+
+.mobile-break {
+  display: block;
 }
 
 /* =========================
@@ -162,7 +174,17 @@ gap:40px;
 align-items:start;
 }
 
+/* texto*/
+.texto-banner-prod {
+  left: 70%;
+}
+  .texto-banner-prod h3 {
+    font-size: 2.5rem;
+  }
 
+  .mobile-break {
+  display: none;
+}
 /* filtros */
 
 .filtros-container{

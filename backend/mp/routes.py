@@ -292,7 +292,7 @@ def mp_webhook():
 
 @mp_routes.route("/mp/success")
 def mp_success():
-    return redirect("http://127.0.0.1:5500/dashboard.html")
+    return redirect("https://abr-ts.onrender.com/dashboard.html")
 
 
 

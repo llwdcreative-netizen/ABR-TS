@@ -15,27 +15,44 @@ h2{
   width: 100%;
 }
 
-.banner-img img{
+.banner-img {
+  position: relative;
+}
+
+.banner-img img {
   width: 100%;
   height: auto;
   display: block;
 }
 
+/* TEXTO */
 .texto-banner {
-  font-size: 2rem;
   position: absolute;
-  top: 40%;
-  left: 40%;
+  top: 50%;
+  left: 35%;
   transform: translate(-50%, -50%);
 
-  color: white;
   text-align: center;
+  color: var(--white-color);
+
+  padding: 10px;
+  width: 50%;
 }
 
-.texto-banner p{
-  font-size: 1.2rem;
+/* TÍTULO */
+.texto-banner h3 {
+  font-size: clamp(1.5rem, 4vw, 3rem);
+  font-weight: 700;
 }
 
+.texto-banner p {
+  font-size: clamp(0.9rem, 2vw, 1.3rem);
+  margin-top: 5px;
+}
+
+.mobile-break {
+  display: block;
+}
 /* =========================
    SECCIÓN PRINCIPAL
 ========================= */
@@ -92,6 +109,7 @@ h2{
   padding: 15px;
   border: none;
   border-radius: 10px;
+  text-decoration: none;
   background: none;
   display: flex;
   flex-direction: column;
@@ -214,6 +232,22 @@ h2{
   display: flex;
   flex-direction: row;
   gap: 3rem;
+}
+.texto-banner {
+  left: 20%;
+
+}
+/*textos*/
+  .texto-banner h3 {
+    font-size: 2.5rem;
+  }
+
+  .texto-banner p {
+    font-size: 1.2rem;
+  }
+
+  .mobile-break {
+  display: none;
 }
 
 /* sidebar filtros */

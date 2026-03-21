@@ -18,7 +18,28 @@ def index():
 
 @public_bp.route("/productos")
 def productos_page():
-    return render_template("productos.html")
+    categoria = request.args.get("categoria")
+
+    db = get_db()
+    cur = db.cursor()
+
+    if categoria:
+        cur.execute("""
+            SELECT p.*
+            FROM productos p
+            JOIN categorias c ON p.categoria_id = c.id
+            WHERE LOWER(c.nombre) = %s
+        """, (categoria.lower(),))
+    else:
+        cur.execute("SELECT * FROM productos")
+
+    productos = cur.fetchall()
+    db.close()
+
+    print("CATEGORIA:", categoria)
+    print("PRODUCTOS:", productos)
+
+    return render_template("productos.html", productos=productos)
 
 @public_bp.route("/faq")
 def faq():
@@ -44,7 +65,7 @@ def login_page():
 @public_bp.route("/dashboard")
 def dashboard():
     if "user_id" not in session:
-        return redirect(url_for("login"))
+        return redirect(url_for("auth.login"))
 
     return render_template("dashboard.html")
 

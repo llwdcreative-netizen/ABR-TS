@@ -28,9 +28,14 @@ def register():
     hashed = generate_password_hash(password)
 
     cur.execute(
-        "INSERT INTO users (email, password, nombre) VALUES (%s, %s, %s)",
+        "INSERT INTO users (email, password, nombre) VALUES (%s, %s, %s) RETURNING id",
         (email, hashed, nombre)
     )
+
+    user_id = cur.fetchone()["id"]
+
+    session.permanent = True
+    session["user_id"] = user_id
 
     db.commit()
     db.close()

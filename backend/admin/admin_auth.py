@@ -26,9 +26,10 @@ def admin_login():
 
 # 🔐 sesión
     session.clear()
-    session["user_id"] = admin["id"]   # opcional pero recomendable unificar
-    session["rol"] = "admin"           # 🔥 CLAVE
+    session["admin_id"] = admin["id"]
+    session["rol"] = "admin"        # 🔥 CLAVE
 
+    print(session)
 
     return jsonify({"ok": True})
 

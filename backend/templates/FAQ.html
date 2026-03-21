@@ -21,40 +21,50 @@
 <!-- CONTENIDO AQUÍ -->
 
 <main>
-  <picture>
-    <source media="(max-width: 400px)" srcset="static/img/banner-img/FAQ-banner-mobile.png">
-    <source media="(max-width: 1024px)" srcset="static/img/banner-img/FAQ-banner.png" alt="">
-  <img class="FAQ-banner" src="static/img/banner-img/FAQ-banner.png" alt="">
-  </picture>
 
-  <div class="texto-banner">
-    <h3>¿Tenés dudas? Acá están las respuestas.</h3>
+  <div class="faq-banner-container">
+    <picture>
+      <source media="(max-width: 400px)" srcset="static/img/banner-img/FAQ-banner-mobile.png">
+      <source media="(max-width: 1024px)" srcset="static/img/banner-img/FAQ-banner.png">
+      <img src="static/img/banner-img/FAQ-banner.png" alt="FAQ banner">
+    </picture>
+
+    <div class="texto-banner">
+      <h3>
+        ¿Tenés dudas?<br class="mobile-break">
+        Acá están las respuestas.
+      </h3>
+    </div>
   </div>
-<section class="faq">
-  <h2>Preguntas Frecuentes</h2>
 
-  <div class="faq-grid">
-    <div class="faq-item">
-      <button class="faq-question">¿El diagnóstico tiene costo?<span class="icon">+</span></button>
-      <div class="faq-answer">
-        <p>No. Evaluamos tu equipo sin cargo antes de realizar cualquier reparación.</p>
+  <section class="faq">
+    <h2>Preguntas Frecuentes</h2>
+
+    <div class="faq-grid">
+      <div class="faq-item">
+        <button class="faq-question">
+          ¿El diagnóstico tiene costo?
+          <span class="icon">+</span>
+        </button>
+        <div class="faq-answer">
+          <p>No. Evaluamos tu equipo sin cargo antes de realizar cualquier reparación.</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question">
+          ¿Cuánto tarda una reparación?
+          <span class="icon">+</span>
+        </button>
+        <div class="faq-answer">
+          <p>La mayoría de las reparaciones se realizan entre 24 y 72 horas.</p>
+        </div>
       </div>
     </div>
-
-    <div class="faq-item">
-      <button class="faq-question">¿Cuánto tarda una reparación?<span class="icon">+</span></button>
-      <div class="faq-answer">
-        <p>La mayoría de las reparaciones se realizan entre 24 y 72 horas.</p>
-      </div>
-    </div>
-</div>
-
-</section>
-
-<!-- CHAT BOT -->
+  </section>
 {% include "components/chat.html" %}
-
 </main>
+
 <!-- FOOTER -->
 {% include "components/footer.html" %}
 

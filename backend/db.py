@@ -8,8 +8,13 @@ ADMIN_EMAIL = "llwd.creative@gmail.com"
 
 
 def get_db():
+    db_url = os.getenv("DATABASE_URL")
+
+    # 👇 FORZAR LOCAL TEMPORALMENTE
+    db_url = "postgresql://postgres:CRAZYNOISEBIZARRETOWN@localhost/postgres"
+
     return psycopg.connect(
-        os.getenv("DATABASE_URL"),
+        db_url,
         row_factory=psycopg.rows.dict_row
     )
 
@@ -150,6 +155,14 @@ def init_db():
                     marca_id INTEGER REFERENCES marcas(id)
                 )
             """)
+
+
+            cur.execute("""
+                ALTER TABLE productos
+                ADD COLUMN IF NOT EXISTS categoria_id INTEGER REFERENCES categorias(id);
+            """)
+
+
             # ADMINS
             cur.execute("""
                 CREATE TABLE IF NOT EXISTS admins (

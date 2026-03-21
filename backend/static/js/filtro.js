@@ -24,23 +24,29 @@ async function generarFiltros() {
   if (!res.ok) return console.error("Error al cargar categorías");
   const categorias = await res.json();
 
-  categorias.forEach(cat => {
-    const boton = document.createElement("button");
-    boton.textContent = cat.categoria;
-    boton.onclick = () => {
-      filtrarProductos(cat.categoria);
-      generarSubcategorias(cat);
-    };
-    contenedor.appendChild(boton);
+categorias.forEach(cat => {
+  const boton = document.createElement("button");
+  boton.textContent = cat.categoria;
 
-    if (esAdmin) {
-      const categoriaSelect = document.getElementById("categoriaSelect");
-      const option = document.createElement("option");
-      option.value = cat.id;
-      option.textContent = cat.categoria;
-      categoriaSelect.appendChild(option);
-    }
-  });
+  boton.onclick = () => {
+    const url = new URL(window.location);
+    url.searchParams.set("categoria", cat.categoria);
+    window.history.pushState({}, "", url);
+
+    filtrarProductos(cat.categoria);
+    generarSubcategorias(cat);
+  };
+
+  contenedor.appendChild(boton);
+
+  if (esAdmin) {
+    const categoriaSelect = document.getElementById("categoriaSelect");
+    const option = document.createElement("option");
+    option.value = cat.id;
+    option.textContent = cat.categoria;
+    categoriaSelect.appendChild(option);
+  }
+});
 }
 
 // --- crear subcategoría ---
@@ -82,8 +88,15 @@ function generarSubcategorias(cat) {
 // --- filtrar productos ---
 function filtrarProductos(cat, sub) {
   document.querySelectorAll(".producto").forEach(p => {
-    const matchCat = !cat || p.dataset.categoria === cat;
-    const matchSub = !sub || p.dataset.subcategoria === sub;
+
+    const matchCat =
+      !cat ||
+      p.dataset.categoria.toLowerCase() === cat.toLowerCase();
+
+    const matchSub =
+      !sub ||
+      p.dataset.subcategoria.toLowerCase() === sub.toLowerCase();
+
     p.classList.toggle("oculto", !(matchCat && matchSub));
   });
 }

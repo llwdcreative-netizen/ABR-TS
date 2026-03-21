@@ -392,32 +392,33 @@ def get_products():
 @admin_api_bp.route("/api/productos")
 def api_productos():
     marca_id = request.args.get("marca")
+    categoria = request.args.get("categoria")
 
     db = get_db()
     cur = db.cursor()
 
+    query = """
+        SELECT p.id, p.nombre, p.descripcion, p.precio,
+               p.stock, p.imagen,
+               p.categoria,
+               p.subcategoria,
+               m.nombre AS marca
+        FROM productos p
+        JOIN marcas m ON p.marca_id = m.id
+        WHERE p.activo = TRUE
+    """
+
+    params = []
+
     if marca_id:
-        cur.execute("""
-            SELECT p.id, p.nombre, p.descripcion, p.precio,
-                    p.stock, p.imagen,
-                    p.categoria,
-                    p.subcategoria,
-                    m.nombre AS marca
-            FROM productos p
-            JOIN marcas m ON p.marca_id = m.id
-            WHERE p.activo = TRUE AND p.marca_id = %s
-        """, (marca_id,))
-    else:
-        cur.execute("""
-            SELECT p.id, p.nombre, p.descripcion, p.precio,
-                    p.stock, p.imagen,
-                    p.categoria,
-                    p.subcategoria,
-                    m.nombre AS marca
-            FROM productos p
-            JOIN marcas m ON p.marca_id = m.id
-            WHERE p.activo = TRUE
-        """)
+        query += " AND p.marca_id = %s"
+        params.append(marca_id)
+
+    if categoria:
+        query += " AND p.categoria = %s"
+        params.append(categoria)
+
+    cur.execute(query, tuple(params))
 
     productos = [dict(row) for row in cur.fetchall()]
     db.close()
