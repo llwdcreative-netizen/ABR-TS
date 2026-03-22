@@ -506,7 +506,7 @@ def editar_producto(id):
     precio = float(request.form["precio"])
     stock = int(request.form.get("stock", 0))
     marca_id = request.form.get("marca_id")
-    categoria = request.form.get("categoria")
+    categoria_id = request.form.get("categoria_id")
     subcategoria = request.form.get("subcategoria")
 
     if marca_id:
@@ -515,6 +515,9 @@ def editar_producto(id):
         # mantener la marca actual
         cur.execute("SELECT marca_id FROM productos WHERE id=%s", (id,))
         marca_id = cur.fetchone()["marca_id"] 
+
+    if categoria_id:
+        categoria_id = int(categoria_id)
 
     archivo = request.files.get("imagen")
     nombre_imagen = None
@@ -540,15 +543,15 @@ def editar_producto(id):
 
         cur.execute("""
             UPDATE productos
-            SET nombre=%s, descripcion=%s, precio=%s, stock=%s, imagen=%s, marca_id=%s, categoria=%s, subcategoria=%s
+            SET nombre=%s, descripcion=%s, precio=%s, stock=%s, imagen=%s, marca_id=%s, categoria_id=%s, subcategoria_id=%s
             WHERE id=%s
-        """, (nombre, descripcion, precio, stock, nombre_imagen, marca_id, categoria, subcategoria, id))
+        """, (nombre, descripcion, precio, stock, nombre_imagen, marca_id, categoria_id, subcategoria, id))
     else:
         cur.execute("""
             UPDATE productos
-            SET nombre=%s, descripcion=%s, precio=%s, stock=%s, marca_id=%s, categoria=%s, subcategoria=%s
+            SET nombre=%s, descripcion=%s, precio=%s, stock=%s, marca_id=%s, categoria_id=%s, subcategoria_id=%s
             WHERE id=%s
-        """, (nombre, descripcion, precio, stock, marca_id, categoria, subcategoria, id))
+        """, (nombre, descripcion, precio, stock, marca_id, categoria_id, subcategoria, id))
 
     db.commit()
     db.close()
@@ -582,7 +585,7 @@ def guardar_producto():
     precio = float(request.form["precio"])
     stock = int(request.form.get("stock", 0))
     marca_id = int(request.form["marca_id"])
-    categoria = request.form.get("categoria")
+    categoria_id = request.form.get("categoria_id")
     subcategoria = request.form.get("subcategoria")
 
     archivo = request.files.get("imagen")
@@ -615,7 +618,7 @@ def guardar_producto():
         stock,
         imagen,
         marca_id,
-        categoria,
+        categoria_id,
         subcategoria
     )
     VALUES (%s,%s,%s,%s,%s,%s,%s,%s)
@@ -626,7 +629,7 @@ def guardar_producto():
         stock,
         nombre_imagen,
         marca_id,
-        categoria,
+        categoria_id,
         subcategoria
     ))
     db.commit()
