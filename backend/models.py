@@ -1,4 +1,4 @@
-from app import db
+from run import db
 
 class Envio(db.Model):
     id = db.Column(db.Integer, primary_key=True)

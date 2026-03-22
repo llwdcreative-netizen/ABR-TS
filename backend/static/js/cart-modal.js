@@ -45,7 +45,7 @@ async function crearPagoCarrito(carrito, email, tipo, referencia_id) {
     auto_return: "approved"
   };
 
-  const res = await fetch("http://127.0.0.1:5000/create_preference", {
+  const res = await fetch("/create_preference", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     credentials: "include",

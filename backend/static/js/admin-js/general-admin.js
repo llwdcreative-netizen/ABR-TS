@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const logoutBtn = document.getElementById("logout-btn");
   if (logoutBtn) {
     logoutBtn.addEventListener("click", async () => {
-      await fetch("http://127.0.0.1:5000/admin/logout", {
+      await fetch("/admin/logout", {
         method: "POST",
         credentials: "include"
       });
