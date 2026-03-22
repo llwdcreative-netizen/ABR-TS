@@ -64,20 +64,10 @@
 
 </main>
 
+{% include "components/modals.html" %}
+
 <!-- FOOTER -->
 {% include "components/footer.html" %}
-
-<!-- Modal Resumen de Pedido -->
-
-<div id="orderModal" class="modal">
-  <div id="modal-compra">
-    <span class="close-modal">&times;</span>
-    <h2>Resumen del pedido</h2>
-    <ul id="order-summary"></ul>
-    <p>Total: $<span id="order-total">0</span></p>
-    <button id="confirmar-compra" class="confirm-btn">Confirmar compra</button>
-  </div>
-</div>
 
 <script src="static/js/code.js"></script>
 <script src="static/js/search.js"></script>

@@ -1,0 +1,78 @@
+<!-- ======================
+    MODAL: Resumen Carrito
+====================== -->
+<div id="orderModal" class="modal" style="display:none;">
+  <div class="modal-content">
+    <span class="close-modal">&times;</span>
+
+    <h2>Resumen del pedido</h2>
+
+    <ul id="order-summary"></ul>
+
+    <p><strong>Total: $<span id="order-total">0</span></strong></p>
+
+    <!-- ESTE BOTÓN ES CLAVE -->
+    <button id="confirm-btn" class="btn-primary">Confirmar</button>
+  </div>
+</div>
+
+<!-- ==========================
+       MODAL COMPRA FINAL
+=========================== -->
+<div id="modal-compra" class="modal">
+  <div class="modal-content">
+    <span class="close-modal">&times;</span>
+    <h2>Confirmar compra</h2>
+
+    <!-- Nombre del producto o lista -->
+    <p id="modal-nombre"></p>
+
+    <!-- Total sin envío -->
+    <p id="modal-precio"></p>
+
+    <!-- Envío (se muestra solo si corresponde) -->
+    <p id="costo-envio" class="oculto"></p>
+
+    <label>Método de entrega:</label>
+    <div class="metodos-entrega">
+      <label><input type="radio" name="entrega" value="envio"> Envío por correo</label>
+      <label><input type="radio" name="entrega" value="retiro"> Retirar por sucursal</label>
+    </div>
+
+    <!-- MÉTODO: RETIRO -->
+<div id="retiro-info" class="oculto">
+  <h4>Datos para retiro</h4>
+  <label>Nombre de quien retira:</label>
+  <input type="text" id="cliente" placeholder="Tu nombre" required>
+</div>
+
+
+    <!-- FORM ENVÍO -->
+    <div id="form-envio" class="form-envio oculto">
+      <h3>Datos de envío</h3>
+      <input type="text" id="env-nombre" placeholder="Nombre completo">
+      <input type="text" id="env-telefono" placeholder="Teléfono">
+      <input type="email" id="env-email" placeholder="Email">
+      <input type="text" id="env-calle" placeholder="Calle">
+      <input type="text" id="env-numero" placeholder="Número">
+      <input type="text" id="env-piso" placeholder="Piso/Depto (opcional)">
+      <input type="text" id="env-barrio" placeholder="Barrio">
+      <input type="text" id="env-ciudad" placeholder="Ciudad">
+      <input type="text" id="env-provincia" placeholder="Provincia">
+      <input type="text" id="env-cp" placeholder="Código postal">
+      <textarea id="env-notas" placeholder="Notas adicionales (opcional)"></textarea>
+    </div>
+
+    <button id="confirmar-compra" class="btn-confirmar" data-from="cart">Confirmar compra</button>
+  </div>
+</div>
+
+
+  <!-- MODAL ÉXITO -->
+  <div id="successModal" class="modal">
+    <div class="modal-content">
+      <h2>✅ Compra realizada con éxito</h2>
+      <p>Tu pedido ha sido registrado correctamente.</p>
+      <button id="download-btn" class="confirm-btn">⬇️ Descargar boleta en PDF</button>
+    </div>
+  </div>
