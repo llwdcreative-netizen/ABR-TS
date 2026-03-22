@@ -1,7 +1,7 @@
 // detail.js
 document.addEventListener("DOMContentLoaded", async () => {
     async function checkLogin() {
-    const res = await fetch("http://127.0.0.1:5000/me", {
+    const res = await fetch("/me", {
       credentials: "include"
     });
     const data = await res.json();

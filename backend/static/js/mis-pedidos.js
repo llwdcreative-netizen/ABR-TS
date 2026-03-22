@@ -1,5 +1,5 @@
 async function cargarMisPedidos() {
-  const res = await fetch("http://127.0.0.1:5000/envios/mis-pedidos", {
+  const res = await fetch("/envios/mis-pedidos", {
     credentials: "include"
   });
 
