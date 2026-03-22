@@ -10,8 +10,8 @@ ADMIN_EMAIL = "llwd.creative@gmail.com"
 def get_db():
     db_url = os.getenv("DATABASE_URL")
 
-    # 👇 FORZAR LOCAL TEMPORALMENTE
-    db_url = "postgresql://postgres:CRAZYNOISEBIZARRETOWN@localhost/postgres"
+    if not db_url:
+            db_url = "LOCALHOST_DATABASE"
 
     return psycopg.connect(
         db_url,
