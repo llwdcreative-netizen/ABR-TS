@@ -398,13 +398,18 @@ def api_productos():
     cur = db.cursor()
 
     query = """
-        SELECT p.id, p.nombre, p.descripcion, p.precio,
-               p.stock, p.imagen,
-               p.categoria,
-               p.subcategoria,
-               m.nombre AS marca
+        SELECT 
+            p.id, 
+            p.nombre, 
+            p.descripcion, 
+            p.precio,
+            p.stock, 
+            p.imagen,
+            c.nombre AS categoria,
+            m.nombre AS marca
         FROM productos p
-        JOIN marcas m ON p.marca_id = m.id
+        LEFT JOIN marcas m ON p.marca_id = m.id
+        LEFT JOIN categorias c ON p.categoria_id = c.id
         WHERE p.activo = TRUE
     """
 
@@ -415,7 +420,7 @@ def api_productos():
         params.append(marca_id)
 
     if categoria:
-        query += " AND p.categoria = %s"
+        query += " AND p.categoria_id   = %s"
         params.append(categoria)
 
     cur.execute(query, tuple(params))
@@ -432,14 +437,21 @@ def admin_productos_json():
     cur = db.cursor()
 
     cur.execute("""
-        SELECT p.id, p.nombre, p.descripcion, p.precio,
-            p.stock, p.imagen, p.activo,
+        SELECT 
+            p.id, 
+            p.nombre, 
+            p.descripcion, 
+            p.precio,
+            p.stock, 
+            p.imagen, 
+            p.activo,
             p.marca_id,
-            p.categoria,
-            p.subcategoria,
+            p.categoria_id,
+            c.nombre AS categoria,
             m.nombre AS marca
         FROM productos p
         LEFT JOIN marcas m ON p.marca_id = m.id
+        LEFT JOIN categorias c ON p.categoria_id = c.id
         ORDER BY p.id DESC
     """)
 
