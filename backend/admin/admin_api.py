@@ -618,10 +618,9 @@ def guardar_producto():
         stock,
         imagen,
         marca_id,
-        categoria_id,
-        subcategoria
+        categoria_id
     )
-    VALUES (%s,%s,%s,%s,%s,%s,%s,%s)
+    VALUES (%s,%s,%s,%s,%s,%s,%s)
     """, (
         nombre,
         descripcion,
@@ -629,8 +628,7 @@ def guardar_producto():
         stock,
         nombre_imagen,
         marca_id,
-        categoria_id,
-        subcategoria
+        categoria_id
     ))
     db.commit()
     db.close()
