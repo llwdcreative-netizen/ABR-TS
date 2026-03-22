@@ -543,13 +543,13 @@ def editar_producto(id):
 
         cur.execute("""
             UPDATE productos
-            SET nombre=%s, descripcion=%s, precio=%s, stock=%s, imagen=%s, marca_id=%s, categoria_id=%s, subcategoria_id=%s
+            SET nombre=%s, descripcion=%s, precio=%s, stock=%s, imagen=%s, marca_id=%s, categoria_id=%s, subcategoria=%s
             WHERE id=%s
         """, (nombre, descripcion, precio, stock, nombre_imagen, marca_id, categoria_id, subcategoria, id))
     else:
         cur.execute("""
             UPDATE productos
-            SET nombre=%s, descripcion=%s, precio=%s, stock=%s, marca_id=%s, categoria_id=%s, subcategoria_id=%s
+            SET nombre=%s, descripcion=%s, precio=%s, stock=%s, marca_id=%s, categoria_id=%s, subcategoria=%s
             WHERE id=%s
         """, (nombre, descripcion, precio, stock, marca_id, categoria_id, subcategoria, id))
 
