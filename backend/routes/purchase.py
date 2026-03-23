@@ -144,7 +144,7 @@ def purchase():
         "PENDIENTE_PAGO",
         json.dumps(cliente, ensure_ascii=False),
         fecha,
-        envio_id  # 🔥 clave
+        envio_id 
     ))
 
     pedido_id = cur.fetchone()["id"]
