@@ -51,6 +51,10 @@ def create_mp_preference_service(data):
             "referencia_id": referencia_id
             
         },
+        "payment_methods": {  
+            "excluded_payment_methods": [],
+            "excluded_payment_types": []
+        },
         "notification_url": MP_NOTIFICATION_URL,
         "back_urls": {
             "success": "https://untrustful-jose-unsoarable.ngrok-free.dev/gracias.html",
