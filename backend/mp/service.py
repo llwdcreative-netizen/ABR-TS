@@ -13,6 +13,7 @@ def create_mp_preference_service(data):
     items = data.get("items", [])
     tipo = data.get("tipo")
     referencia_id = data.get("referencia_id")
+    payer = data.get("payer", {})
 
     if tipo not in ("envio", "retiro"):
         raise MPServiceError("Tipo inválido")
@@ -46,7 +47,8 @@ def create_mp_preference_service(data):
         "items": mp_items,
         "metadata": {
             "tipo": tipo,
-            "referencia_id": referencia_id
+            "referencia_id": referencia_id,
+            "payer": payer,
             
         },
         "payment_methods": {

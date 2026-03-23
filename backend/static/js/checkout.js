@@ -85,6 +85,10 @@ document.addEventListener("DOMContentLoaded", () => {
           currency_id: "ARS"
         })),
 
+        payer: {
+          email: datos.email // 🔥 CLAVE
+        },
+
         metadata: { 
           pedido_id: pedidoId,  // 🔥 ANTES envio_id
           tipo: tipo            // 🔥 muy importante para backend
