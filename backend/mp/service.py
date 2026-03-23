@@ -45,16 +45,21 @@ def create_mp_preference_service(data):
 
     preference_data = {
         "items": mp_items,
+
+        "payer": {
+            "email": payer.get("email")
+        },
+
         "metadata": {
             "tipo": tipo,
-            "referencia_id": referencia_id,
-            "payer": payer,
-            
+            "referencia_id": referencia_id
         },
+
         "payment_methods": {
             "excluded_payment_methods": [],
             "excluded_payment_types": []
         },
+
         "notification_url": MP_NOTIFICATION_URL,
         "back_urls": {
             "success": "https://abr-ts.onrender.com/gracias.html",
