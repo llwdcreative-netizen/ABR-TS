@@ -13,7 +13,6 @@ def create_mp_preference_service(data):
     items = data.get("items", [])
     tipo = data.get("tipo")
     referencia_id = data.get("referencia_id")
-    payer = data.get("payer", {})
 
     if tipo not in ("envio", "retiro"):
         raise MPServiceError("Tipo inválido")
@@ -62,9 +61,6 @@ def create_mp_preference_service(data):
         },
         "auto_return": "approved"
     }
-
-    if payer and payer.get("email"):
-        preference_data["payer"] = payer
 
     pref = mp_sdk.preference().create(preference_data)
     print("MP RAW RESPONSE:", pref)
