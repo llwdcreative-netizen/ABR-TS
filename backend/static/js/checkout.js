@@ -90,8 +90,8 @@ document.addEventListener("DOMContentLoaded", () => {
         },
 
         metadata: { 
-          pedido_id: pedidoId,  // 🔥 ANTES envio_id
-          tipo: tipo            // 🔥 muy importante para backend
+          pedido_id: pedidoId, 
+          tipo: tipo            
         },
 
         back_urls: {
@@ -118,8 +118,7 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
-      window.location.href =
-        `https://www.mercadopago.com.ar/checkout/v1/redirect?pref_id=${mpData.preference_id}`;
+      window.location.href = mpData.init_point;
 
     } catch (err) {
       console.error(err);
