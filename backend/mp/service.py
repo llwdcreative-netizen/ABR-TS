@@ -45,7 +45,6 @@ def create_mp_preference_service(data):
 
     preference_data = {
         "items": mp_items,
-        "payer": payer,
         "metadata": {
             "tipo": tipo,
             "referencia_id": referencia_id
@@ -63,6 +62,9 @@ def create_mp_preference_service(data):
         },
         "auto_return": "approved"
     }
+
+    if payer and payer.get("email"):
+        preference_data["payer"] = payer
 
     pref = mp_sdk.preference().create(preference_data)
     print("MP RAW RESPONSE:", pref)

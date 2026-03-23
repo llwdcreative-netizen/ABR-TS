@@ -81,7 +81,7 @@ document.addEventListener("DOMContentLoaded", () => {
         items: productos.map(p => ({
           title: p.nombre,
           quantity: p.cantidad,
-          unit_price: p.precio,
+          unit_price: Number(p.precio),
           currency_id: "ARS"
         })),
 
