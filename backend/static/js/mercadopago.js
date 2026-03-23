@@ -27,5 +27,6 @@ async function crearPagoMercadoPago(carrito, email) {
 
   const data = await res.json();
   if (!data.ok) throw new Error(data.error || "No se pudo crear la preferencia de pago");
-  return data.preference_id;
+  console.log("MP DATA:", data);
+  return data.id;
 }
