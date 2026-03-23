@@ -105,6 +105,11 @@ def init_db():
                     estado TEXT DEFAULT 'PENDIENTE'
                 )
             """)
+
+            cur.execute("""
+                ALTER TABLE historial 
+                ADD COLUMN IF NOT EXISTS envio_id INTEGER;
+                """)
             
             # Envíos
             cur.execute("""

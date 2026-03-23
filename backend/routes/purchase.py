@@ -46,6 +46,8 @@ def purchase():
     if tipo == "envio":
         conn = get_db()
         cur = conn.cursor()
+        print(cur.fetchone())
+        print("DB URL:", conn.info.dsn)
         cur.execute("SELECT valor FROM configuracion WHERE clave = 'shipping_cost'")
         row = cur.fetchone()
         envio_cost = float(row["valor"]) if row else 0
@@ -127,6 +129,7 @@ def purchase():
         envio_id = cur.fetchone()["id"]
 
     # 2. guardar en historial (SIEMPRE)
+    
     cur.execute("""
         INSERT INTO historial (
             user_id, tipo, items, subtotal, envio, total,
