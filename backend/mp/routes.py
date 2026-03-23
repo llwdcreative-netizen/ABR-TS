@@ -18,6 +18,7 @@ def create_preference():
 
     # 🔥 soporta ambos formatos (root y metadata)
     metadata = data.get("metadata", {}) or {}
+    payer = data.get("payer", {})
 
     items = data.get("items", [])
 
@@ -118,7 +119,8 @@ def create_preference():
         pref_id = create_mp_preference_service({
             "items": mp_items,
             "tipo": tipo,
-            "referencia_id": referencia_id
+            "referencia_id": referencia_id,
+            "payer": payer
         })
 
         return jsonify({
