@@ -301,7 +301,7 @@ def mp_success():
 
 # TODO: En producción, exigir validación de firma estricta OBLIGATORIA
 
-#def validar_firma_mp(request):
+def validar_firma_mp(request):
     event_type = request.args.get("type") or request.args.get("topic")
 
     # Solo validar firma en producción real de payment

@@ -507,7 +507,7 @@ def editar_producto(id):
     stock = int(request.form.get("stock", 0))
     marca_id = request.form.get("marca_id")
     categoria_id = request.form.get("categoria_id")
-    subcategoria = request.form.get("subcategoria")
+    subcategoria_id = request.form.get("subcategoria_id")
 
     if marca_id:
         marca_id = int(marca_id)
@@ -543,15 +543,15 @@ def editar_producto(id):
 
         cur.execute("""
             UPDATE productos
-            SET nombre=%s, descripcion=%s, precio=%s, stock=%s, imagen=%s, marca_id=%s, categoria_id=%s, subcategoria=%s
+            SET nombre=%s, descripcion=%s, precio=%s, stock=%s, imagen=%s, marca_id=%s, categoria_id=%s, subcategoria_id=%s
             WHERE id=%s
-        """, (nombre, descripcion, precio, stock, nombre_imagen, marca_id, categoria_id, subcategoria, id))
+        """, (nombre, descripcion, precio, stock, nombre_imagen, marca_id, categoria_id, subcategoria_id, id))
     else:
         cur.execute("""
             UPDATE productos
-            SET nombre=%s, descripcion=%s, precio=%s, stock=%s, marca_id=%s, categoria_id=%s, subcategoria=%s
+            SET nombre=%s, descripcion=%s, precio=%s, stock=%s, marca_id=%s, categoria_id=%s, subcategoria_id=%s
             WHERE id=%s
-        """, (nombre, descripcion, precio, stock, marca_id, categoria_id, subcategoria, id))
+        """, (nombre, descripcion, precio, stock, marca_id, categoria_id, subcategoria_id, id))
 
     db.commit()
     db.close()
