@@ -86,7 +86,7 @@ document.addEventListener("DOMContentLoaded", () => {
         })),
 
         payer: {
-          email: datos.email // 🔥 CLAVE
+          email: datos.email || "llwd.creative@gmail.com"
         },
 
         metadata: { 
