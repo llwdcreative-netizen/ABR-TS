@@ -51,7 +51,7 @@ def create_mp_preference_service(data):
             "referencia_id": referencia_id
             
         },
-        "payment_methods": {  
+        "payment_methods": {
             "excluded_payment_methods": [],
             "excluded_payment_types": []
         },
