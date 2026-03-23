@@ -56,9 +56,9 @@ def create_mp_preference_service(data):
         },
         "notification_url": MP_NOTIFICATION_URL,
         "back_urls": {
-            "success": "https://untrustful-jose-unsoarable.ngrok-free.dev/gracias.html",
-            "failure": "https://untrustful-jose-unsoarable.ngrok-free.dev/error.html",
-            "pending": "https://untrustful-jose-unsoarable.ngrok-free.dev/pendiente.html"
+            "success": "https://abr-ts.onrender.com/gracias.html",
+            "failure": "https://abr-ts.onrender.com/error.html",
+            "pending": "https://abr-ts.onrender.com/pendiente.html"
         },
         "auto_return": "approved"
     }
