@@ -19,7 +19,7 @@ def purchase():
 
     data = request.json or {}
 
-    tipo = data.get("tipo").lower  # "envio" o "retiro"
+    tipo = data.get("tipo").lower()  # "envio" o "retiro"
     if tipo not in ["envio", "retiro"]:
         return jsonify({"error": "Tipo inválido"}), 400
 
