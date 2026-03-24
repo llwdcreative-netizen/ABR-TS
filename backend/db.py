@@ -167,6 +167,10 @@ def init_db():
                 ADD COLUMN IF NOT EXISTS categoria_id INTEGER REFERENCES categorias(id);
             """)
 
+            cur.execute("""
+                ALTER TABLE productos
+                ADD COLUMN IF NOT EXISTS subcategoria_id INTEGER REFERENCES subcategorias(id);
+            """)
 
             # ADMINS
             cur.execute("""
