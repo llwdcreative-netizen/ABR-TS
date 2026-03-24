@@ -253,10 +253,19 @@ def admin_estadisticas_pedidos():
     cur = db.cursor()
 
     cur.execute("""
-        SELECT
-            COUNT(*) FILTER (WHERE estado IN ('ENTREGADO','RETIRADO')) AS completados,
-            COUNT(*) FILTER (WHERE estado NOT IN ('ENTREGADO','RETIRADO','CANCELADO')) AS pendientes
-        FROM historial
+    SELECT
+        COUNT(*) FILTER (
+            WHERE tipo = 'envio' AND estado = 'ENTREGADO'
+        ) AS envios_completados,
+
+        COUNT(*) FILTER (
+            WHERE tipo = 'retiro' AND estado = 'RETIRADO'
+        ) AS retiros_completados,
+
+        COUNT(*) FILTER (
+            WHERE estado NOT IN ('ENTREGADO','RETIRADO','CANCELADO')
+        ) AS pendientes
+    FROM historial
     """)
 
     row = cur.fetchone()
