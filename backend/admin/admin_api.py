@@ -255,12 +255,8 @@ def admin_estadisticas_pedidos():
     cur.execute("""
     SELECT
         COUNT(*) FILTER (
-            WHERE tipo = 'envio' AND estado = 'ENTREGADO'
-        ) AS envios_completados,
-
-        COUNT(*) FILTER (
-            WHERE tipo = 'retiro' AND estado = 'RETIRADO'
-        ) AS retiros_completados,
+            WHERE estado IN ('ENTREGADO','RETIRADO')
+        ) AS completados,
 
         COUNT(*) FILTER (
             WHERE estado NOT IN ('ENTREGADO','RETIRADO','CANCELADO')
@@ -271,10 +267,12 @@ def admin_estadisticas_pedidos():
     row = cur.fetchone()
     db.close()
 
+    print(row)
     return jsonify({
         "completados": row["completados"] or 0,
         "pendientes": row["pendientes"] or 0
     })
+
 
 
 @admin_api_bp.route("/admin/api/estadisticas/retiros")
