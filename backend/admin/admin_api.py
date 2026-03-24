@@ -273,32 +273,6 @@ def admin_estadisticas_pedidos():
         "pendientes": row["pendientes"] or 0
     })
 
-
-
-@admin_api_bp.route("/admin/api/estadisticas/retiros")
-@admin_required
-def estadisticas_retiros():
-    conn = get_db()
-    cur = conn.cursor()
-
-    cur.execute("""
-        SELECT
-            COUNT(*) FILTER (WHERE estado = 'PENDIENTE') AS pendientes,
-            COUNT(*) FILTER (WHERE estado = 'LISTO_PARA_RETIRAR') AS listos,
-            COUNT(*) FILTER (WHERE estado = 'RETIRADO') AS retirados
-        FROM historial
-        WHERE tipo = 'retiro'
-    """)
-
-    row = cur.fetchone()
-    conn.close()
-
-    return jsonify({
-        "pendientes": row["pendientes"] or 0,
-        "listos": row["listos"] or 0,
-        "retirados": row["retirados"] or 0
-    })
-
 @admin_api_bp.route("/admin/api/estadisticas/tipos")
 @admin_required
 def estadisticas_tipos():
