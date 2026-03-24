@@ -306,10 +306,10 @@ def estadisticas_tipos():
     cur = conn.cursor()
 
     cur.execute("""
-        SELECT
-            COUNT(*) FILTER (WHERE tipo = 'envio') AS envios,
-            COUNT(*) FILTER (WHERE tipo = 'retiro') AS retiros
-        FROM historial
+    SELECT
+        COUNT(*) FILTER (WHERE LOWER(tipo) = 'envio') AS envios,
+        COUNT(*) FILTER (WHERE LOWER(tipo) = 'retiro') AS retiros
+    FROM historial
     """)
 
     row = cur.fetchone()
