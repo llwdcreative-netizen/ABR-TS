@@ -254,77 +254,67 @@ def admin_estadisticas_pedidos():
 
     cur.execute("""
         SELECT
-            COUNT(*) FILTER (WHERE estado = 'ENTREGADO') AS completados,
-            COUNT(*) FILTER (WHERE estado != 'ENTREGADO') AS pendientes
-        FROM envios
+            COUNT(*) FILTER (WHERE estado IN ('ENTREGADO','RETIRADO')) AS completados,
+            COUNT(*) FILTER (WHERE estado NOT IN ('ENTREGADO','RETIRADO','CANCELADO')) AS pendientes
+        FROM historial
     """)
 
     row = cur.fetchone()
-    completados = row["completados"] if row else 0
-    pendientes = row["pendientes"] if row else 0
-
     db.close()
 
     return jsonify({
-        "completados": completados,
-        "pendientes": pendientes
+        "completados": row["completados"] or 0,
+        "pendientes": row["pendientes"] or 0
     })
 
 
 @admin_api_bp.route("/admin/api/estadisticas/retiros")
+@admin_required
 def estadisticas_retiros():
     conn = get_db()
     cur = conn.cursor()
 
     cur.execute("""
-        SELECT estado, COUNT(*) as total
+        SELECT
+            COUNT(*) FILTER (WHERE estado = 'PENDIENTE') AS pendientes,
+            COUNT(*) FILTER (WHERE estado = 'LISTO_PARA_RETIRAR') AS listos,
+            COUNT(*) FILTER (WHERE estado = 'RETIRADO') AS retirados
         FROM historial
         WHERE tipo = 'retiro'
-        GROUP BY estado
     """)
 
-    rows = cur.fetchall()
+    row = cur.fetchone()
     conn.close()
 
-    pendientes = 0
-    retirados = 0
-
-    for row in rows:
-        if row["estado"] == "PENDIENTE":
-            pendientes = row["total"]
-        elif row["estado"] == "RETIRADO":
-            retirados = row["total"]
-
     return jsonify({
-        "pendientes": pendientes,
-        "retirados": retirados
+        "pendientes": row["pendientes"] or 0,
+        "listos": row["listos"] or 0,
+        "retirados": row["retirados"] or 0
     })
 
 @admin_api_bp.route("/admin/api/estadisticas/tipos")
+@admin_required
 def estadisticas_tipos():
     conn = get_db()
     cur = conn.cursor()
 
-    # Envíos
-    cur.execute("SELECT COUNT(*) as total FROM envios")
-    envios = cur.fetchone()["total"]
-
-    # Retiros online
     cur.execute("""
-        SELECT COUNT(*) as total
+        SELECT
+            COUNT(*) FILTER (WHERE tipo = 'envio') AS envios,
+            COUNT(*) FILTER (WHERE tipo = 'retiro') AS retiros
         FROM historial
-        WHERE tipo = 'retiro'
     """)
-    retiros = cur.fetchone()["total"]
 
+    row = cur.fetchone()
     conn.close()
 
     return jsonify({
-        "envios": envios,
-        "retiros": retiros
+        "envios": row["envios"] or 0,
+        "retiros": row["retiros"] or 0
     })
 
 @admin_api_bp.route("/admin/api/estadisticas/total-dia")
+@admin_required
 def total_generado_hoy():
     conn = get_db()
     cur = conn.cursor()
@@ -332,47 +322,22 @@ def total_generado_hoy():
     tz = ZoneInfo("America/Argentina/Buenos_Aires")
     ahora = datetime.now(tz)
 
-    # inicio del día 00:00:00
     inicio = ahora.replace(hour=0, minute=0, second=0, microsecond=0)
-
-    # inicio del día siguiente
     fin = inicio + timedelta(days=1)
 
-    # =========================
-    # TOTAL ENVIOS
-    # =========================
     cur.execute("""
-        SELECT COALESCE(SUM(total), 0) AS total_envios
-        FROM envios
+        SELECT COALESCE(SUM(total), 0) AS total
+        FROM historial
         WHERE fecha >= %s
         AND fecha < %s
         AND estado != 'CANCELADO'
     """, (inicio, fin))
 
-    row = cur.fetchone()
-    total_envios = float(row["total_envios"]) if row else 0
-
-    # =========================
-    # TOTAL RETIROS
-    # =========================
-    cur.execute("""
-        SELECT COALESCE(SUM(total), 0) AS total_retiros
-        FROM historial
-        WHERE tipo = 'retiro'
-        AND fecha >= %s
-        AND fecha < %s
-        AND estado != 'CANCELADO'
-    """, (inicio, fin))
-
-    row = cur.fetchone()
-    total_retiros = float(row["total_retiros"]) if row else 0
-
+    total = cur.fetchone()["total"]
     conn.close()
 
     return jsonify({
-        "total_dia": round(total_envios + total_retiros, 2),
-        "envios": round(total_envios, 2),
-        "retiros": round(total_retiros, 2)
+        "total_dia": round(float(total), 2)
     })
     
 
