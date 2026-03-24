@@ -305,19 +305,19 @@ def estadisticas_tipos():
     conn = get_db()
     cur = conn.cursor()
 
-    cur.execute("""
-    SELECT
-        COUNT(*) FILTER (WHERE LOWER(tipo) = 'envio') AS envios,
-        COUNT(*) FILTER (WHERE LOWER(tipo) = 'retiro') AS retiros
-    FROM historial
-    """)
+    # contar envíos reales
+    cur.execute("SELECT COUNT(*) AS total FROM envios")
+    envios = cur.fetchone()["total"]
 
-    row = cur.fetchone()
+    # contar retiros reales
+    cur.execute("SELECT COUNT(*) AS total FROM historial WHERE tipo = 'retiro'")
+    retiros = cur.fetchone()["total"]
+
     conn.close()
 
     return jsonify({
-        "envios": row["envios"] or 0,
-        "retiros": row["retiros"] or 0
+        "envios": envios or 0,
+        "retiros": retiros or 0
     })
 
 @admin_api_bp.route("/admin/api/estadisticas/total-dia")
