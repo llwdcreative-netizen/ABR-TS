@@ -246,81 +246,80 @@ def cambiar_estado_pedido(pedido_id):
 
 #------------- ESTADISTICAS ------------
 
-@admin_api_bp.route("/admin/api/estadisticas/pedidos")
+@admin_api_bp.route("/admin/api/dashboard")
 @admin_required
-def admin_estadisticas_pedidos():
-    db = get_db()
-    cur = db.cursor()
+def dashboard():
+    conn = get_db()
+    cur = conn.cursor()
 
+    # -------------------------
+    # PEDIDOS (global)
+    # -------------------------
     cur.execute("""
-    SELECT
-        COUNT(*) FILTER (
-            WHERE estado IN ('ENTREGADO','RETIRADO')
-        ) AS completados,
+        SELECT
+            COUNT(*) FILTER (
+                WHERE estado IN ('ENTREGADO','RETIRADO')
+            ) AS completados,
 
-        COUNT(*) FILTER (
-            WHERE estado NOT IN ('ENTREGADO','RETIRADO','CANCELADO')
-        ) AS pendientes
-    FROM historial
+            COUNT(*) FILTER (
+                WHERE estado NOT IN ('ENTREGADO','RETIRADO','CANCELADO')
+            ) AS pendientes
+        FROM historial
     """)
+    pedidos = cur.fetchone()
 
-    row = cur.fetchone()
-    db.close()
+    # -------------------------
+    # TIPOS
+    # -------------------------
+    cur.execute("""
+        SELECT
+            COUNT(*) FILTER (WHERE tipo = 'envio') AS envios,
+            COUNT(*) FILTER (WHERE tipo = 'retiro') AS retiros
+        FROM historial
+    """)
+    tipos = cur.fetchone()
 
-    print(row)
-    return jsonify({
-        "completados": row["completados"] or 0,
-        "pendientes": row["pendientes"] or 0
-    })
+    # -------------------------
+    # RETIROS (detalle)
+    # -------------------------
+    cur.execute("""
+        SELECT
+            COUNT(*) FILTER (WHERE estado = 'PENDIENTE_PAGO') AS pendientes,
+            COUNT(*) FILTER (WHERE estado = 'LISTO_PARA_RETIRAR') AS listos,
+            COUNT(*) FILTER (WHERE estado = 'RETIRADO') AS retirados
+        FROM historial
+        WHERE tipo = 'retiro'
+    """)
+    retiros = cur.fetchone()
 
-@admin_api_bp.route("/admin/api/estadisticas/tipos")
-@admin_required
-def estadisticas_tipos():
-    conn = get_db()
-    cur = conn.cursor()
-
-    # contar envíos reales
-    cur.execute("SELECT COUNT(*) AS total FROM envios")
-    envios = cur.fetchone()["total"]
-
-    # contar retiros reales
-    cur.execute("SELECT COUNT(*) AS total FROM historial WHERE tipo = 'retiro'")
-    retiros = cur.fetchone()["total"]
-
-    conn.close()
-
-    return jsonify({
-        "envios": envios or 0,
-        "retiros": retiros or 0
-    })
-
-@admin_api_bp.route("/admin/api/estadisticas/total-dia")
-@admin_required
-def total_generado_hoy():
-    conn = get_db()
-    cur = conn.cursor()
-
-    tz = ZoneInfo("America/Argentina/Buenos_Aires")
-    ahora = datetime.now(tz)
-
-    inicio = ahora.replace(hour=0, minute=0, second=0, microsecond=0)
-    fin = inicio + timedelta(days=1)
-
+    # -------------------------
+    # TOTAL DEL DÍA
+    # -------------------------
     cur.execute("""
         SELECT COALESCE(SUM(total), 0) AS total
         FROM historial
-        WHERE fecha >= %s
-        AND fecha < %s
-        AND estado != 'CANCELADO'
-    """, (inicio, fin))
+        WHERE DATE(fecha) = CURRENT_DATE
+    """)
+    total = cur.fetchone()
 
-    total = cur.fetchone()["total"]
     conn.close()
 
     return jsonify({
-        "total_dia": round(float(total), 2)
+        "pedidos": {
+            "completados": pedidos["completados"] or 0,
+            "pendientes": pedidos["pendientes"] or 0
+        },
+        "tipos": {
+            "envios": tipos["envios"] or 0,
+            "retiros": tipos["retiros"] or 0
+        },
+        "retiros": {
+            "pendientes": retiros["pendientes"] or 0,
+            "listos": retiros["listos"] or 0,
+            "retirados": retiros["retirados"] or 0
+        },
+        "total_dia": float(total["total"])
     })
-    
 
 # -------------- PRODUCTOS ----------------------------
 
