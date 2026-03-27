@@ -53,6 +53,9 @@ def crear_notificacion(
     referencia_id=None,
     tipo="general"
 ):
+
+    print("🟡 INSERT NOTIFICACION:", titulo, mensaje, rol)
+
     db = get_db()
     cur = db.cursor()
 

@@ -235,6 +235,7 @@ def mp_webhook():
         # =========================
 
         if tipo == "envio":
+            print("🔥 CREANDO NOTIFICACION ADMIN (ENVIO)")
             crear_notificacion_admin(
                 titulo="📦 Pago confirmado (envío)",
                 mensaje=f"Envío #{referencia_id} listo para procesar",
@@ -242,6 +243,7 @@ def mp_webhook():
                 referencia_id=referencia_id
             )
         else:
+            print("🔥 CREANDO NOTIFICACION ADMIN (RETIRO)")
             crear_notificacion_admin(
                 titulo="🏪 Pago confirmado (retiro)",
                 mensaje=f"Pedido #{referencia_id} listo para retirar",
