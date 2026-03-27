@@ -665,7 +665,7 @@ def obtener_notificaciones():
     cur = db.cursor()
 
     # 🔥 ADMIN
-    if session.get("is_admin"):
+    if session.get("rol") == "admin":
         cur.execute("""
             SELECT id, titulo, mensaje, tipo, leida, referencia_id,
             TO_CHAR(fecha, 'YYYY-MM-DD HH24:MI') as fecha
@@ -698,7 +698,7 @@ def marcar_leidas():
     db = get_db()
     cur = db.cursor()
 
-    if session.get("is_admin"):
+    if session.get("rol") == "admin":
         cur.execute("""
             UPDATE notificaciones
             SET leida = TRUE
@@ -723,7 +723,7 @@ def marcar_leidas():
 @admin_api_bp.route("/notificaciones/limpiar", methods=["DELETE"])
 def limpiar_notificaciones():
     print("SESSION LIMPIAR:", dict(session))
-    if not session.get("is_admin"):
+    if not session.get("rol") == "admin":
         return jsonify({"error": "No autorizado"}), 403
 
     db = get_db()
@@ -744,7 +744,7 @@ def marcar_notificacion_leida(notif_id):
     db = get_db()
     cur = db.cursor()
 
-    if session.get("is_admin"):
+    if session.get("rol") == "admin":
         cur.execute("""
             UPDATE notificaciones
             SET leida = TRUE
@@ -773,7 +773,7 @@ def contar_no_leidas():
     db = get_db()
     cur = db.cursor()
 
-    if session.get("is_admin"):
+    if session.get("rol") == "admin":
         cur.execute("""
             SELECT COUNT(*) FROM notificaciones
             WHERE rol = 'admin' AND leida = FALSE
