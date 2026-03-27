@@ -1,6 +1,10 @@
 from flask import Blueprint, request, jsonify, redirect, current_app
 from backend.mp.service import create_mp_preference_service
-from backend.services.notification_service import notificar_pago_aprobado, crear_notificacion
+from backend.services.notification_service import (
+    notificar_pago_aprobado,
+    crear_notificacion,
+    crear_notificacion_admin
+)
 
 import hmac
 import hashlib
@@ -171,6 +175,7 @@ def mp_webhook():
 
     try:
         if tipo == "envio":
+            print("🔥 INTENTANDO CREAR NOTIFICACION")
             # =========================
             # ENVÍO
             # =========================
@@ -228,7 +233,6 @@ def mp_webhook():
         # =========================
         # 🔔 NOTIFICACIONES ADMIN
         # =========================
-        from backend.services.notification_service import crear_notificacion_admin
 
         if tipo == "envio":
             crear_notificacion_admin(
