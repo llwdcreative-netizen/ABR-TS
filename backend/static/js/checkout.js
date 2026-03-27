@@ -2,17 +2,26 @@ document.addEventListener("DOMContentLoaded", () => {
   const confirmarBtn = document.getElementById("confirmar-compra");
   if (!confirmarBtn) return;
 
+  let procesando = false; // 🔥 evita doble click
+
   confirmarBtn.addEventListener("click", async () => {
+    if (procesando) return;
+    procesando = true;
+    confirmarBtn.disabled = true;
 
     const metodoEl = document.querySelector("input[name='entrega']:checked");
     if (!metodoEl) {
       alert("Seleccioná un método de entrega");
+      procesando = false;
+      confirmarBtn.disabled = false;
       return;
     }
 
     const productos = JSON.parse(localStorage.getItem("carrito")) || [];
     if (!productos.length) {
       alert("Tu carrito está vacío 😅");
+      procesando = false;
+      confirmarBtn.disabled = false;
       return;
     }
 
@@ -37,12 +46,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (!datos.nombre || !datos.calle || !datos.numero || !datos.ciudad) {
         alert("Completá los datos obligatorios del envío.");
+        procesando = false;
+        confirmarBtn.disabled = false;
         return;
       }
     } else {
       datos.nombre = document.getElementById("cliente").value.trim();
       if (!datos.nombre) {
         alert("Ingresá el nombre de quien retira.");
+        procesando = false;
+        confirmarBtn.disabled = false;
         return;
       }
     }
@@ -51,28 +64,30 @@ document.addEventListener("DOMContentLoaded", () => {
       // =====================
       // 1️⃣ CREAR PEDIDO
       // =====================
-        const tipo = metodoEl.value; // "envio" o "retiro"
+      const tipo = metodoEl.value;
 
-        const pedidoResp = await fetch("/purchase", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          credentials: "include",
-          body: JSON.stringify({
-            tipo,              // 🔥 clave nueva
-            ...datos,
-            productos
-          })
-        });
+      const pedidoResp = await fetch("/purchase", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({
+          tipo,
+          ...datos,
+          productos
+        })
+      });
 
-        const pedidoData = await pedidoResp.json();
+      const pedidoData = await pedidoResp.json();
 
-        if (!pedidoData.ok) {
-          console.error(pedidoData);
-          alert("Error creando el pedido");
-          return;
-        }
+      if (!pedidoData.ok) {
+        console.error(pedidoData);
+        alert("Error creando el pedido");
+        procesando = false;
+        confirmarBtn.disabled = false;
+        return;
+      }
 
-        const pedidoId = pedidoData.pedido_id; // 🔥 unificado
+      const pedidoId = pedidoData.pedido_id;
 
       // =====================
       // 2️⃣ MERCADO PAGO
@@ -86,24 +101,14 @@ document.addEventListener("DOMContentLoaded", () => {
         })),
 
         payer: {
-          email: datos.email || "llwd.creative@gmail.com"
+          email: datos.email || "test@test.com" // fallback simple
         },
 
-        metadata: { 
-          pedido_id: pedidoId, 
-          tipo: tipo            
-        },
-
-        back_urls: {
-          success: `https://abr-ts.onrender.com/mipedido.html?id=${pedidoId}&tipo=${tipo}`,
-          failure: "https://abr-ts.onrender.com/mp/error.html",
-          pending: "https://abr-ts.onrender.com/mp/pendiente.html"
-        },
-
-        auto_return: "approved"
+        metadata: {
+          tipo: tipo,
+          referencia_id: pedidoId   // 🔥 CLAVE
+        }
       };
-
-
 
       const mpResp = await fetch("/create_preference", {
         method: "POST",
@@ -113,17 +118,23 @@ document.addEventListener("DOMContentLoaded", () => {
       });
 
       const mpData = await mpResp.json();
+
       if (!mpData.ok) {
+        console.error(mpData);
         alert("Error iniciando el pago");
+        procesando = false;
+        confirmarBtn.disabled = false;
         return;
       }
 
-      window.location.href = mpData.init_point;
+      // 🔥 REDIRECCIÓN CORRECTA
+      window.location.href = `https://www.mercadopago.com.ar/checkout/v1/redirect?pref_id=${mpData.preference_id}`;
 
     } catch (err) {
       console.error(err);
       alert("Error inesperado en la compra");
+      procesando = false;
+      confirmarBtn.disabled = false;
     }
-
   });
 });

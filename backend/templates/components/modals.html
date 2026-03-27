@@ -33,11 +33,19 @@
     <!-- Envío (se muestra solo si corresponde) -->
     <p id="costo-envio" class="oculto"></p>
 
-    <label>Método de entrega:</label>
-    <div class="metodos-entrega">
-      <label><input type="radio" name="entrega" value="envio"> Envío por correo</label>
-      <label><input type="radio" name="entrega" value="retiro"> Retirar por sucursal</label>
-    </div>
+<label>Método de entrega:</label>
+
+  <div class="metodos-entrega">
+    <label>
+      <input type="radio" name="entrega" value="envio">
+      <span>Envío por correo</span>
+    </label>
+
+    <label>
+      <input type="radio" name="entrega" value="retiro">
+      <span>Retirar por sucursal</span>
+    </label>
+  </div>
 
     <!-- MÉTODO: RETIRO -->
 <div id="retiro-info" class="oculto">
@@ -69,10 +77,9 @@
 
 
   <!-- MODAL ÉXITO -->
-  <div id="successModal" class="modal">
+  <div id="successModal" class="successModal">
     <div class="modal-content">
       <h2>✅ Compra realizada con éxito</h2>
       <p>Tu pedido ha sido registrado correctamente.</p>
-      <button id="download-btn" class="confirm-btn">⬇️ Descargar boleta en PDF</button>
     </div>
   </div>

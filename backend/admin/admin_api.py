@@ -2,8 +2,6 @@ from flask import request, jsonify, Blueprint, jsonify, redirect, session,curren
 import json
 from backend.db import get_db
 from backend.admin.decorators import admin_required
-from datetime import datetime, timedelta
-from zoneinfo import ZoneInfo
 from backend.services.catalog_utils import (load_product_catalog,
 is_available)
 from backend.services.notification_service import (crear_notificacion)
@@ -19,16 +17,41 @@ admin_api_bp = Blueprint("admin_api", __name__)
 @admin_api_bp.route("/admin/api/pedidos")
 @admin_required
 def admin_pedidos():
+    tipo = request.args.get("tipo")  # 🔥 LEER QUERY PARAM
+
     db = get_db()
     cur = db.cursor()
 
-    cur.execute("""
-        SELECT id, tipo, total, estado, cliente, envio_id,
-        TO_CHAR(fecha AT TIME ZONE 'America/Argentina/Buenos_Aires',
-        'YYYY-MM-DD HH24:MI') as fecha
-        FROM historial
-        ORDER BY fecha DESC
-    """)
+    if tipo == "envio":
+        # 🔥 SOLO ENVÍOS (desde historial o envios, elegí uno)
+        cur.execute("""
+            SELECT id, tipo, total, estado, cliente, envio_id,
+            TO_CHAR(fecha AT TIME ZONE 'America/Argentina/Buenos_Aires',
+            'YYYY-MM-DD HH24:MI') as fecha
+            FROM historial
+            WHERE tipo = 'envio'
+            ORDER BY fecha DESC
+        """)
+
+    elif tipo == "retiro":
+        cur.execute("""
+            SELECT id, tipo, total, estado, cliente, envio_id,
+            TO_CHAR(fecha AT TIME ZONE 'America/Argentina/Buenos_Aires',
+            'YYYY-MM-DD HH24:MI') as fecha
+            FROM historial
+            WHERE tipo = 'retiro'
+            ORDER BY fecha DESC
+        """)
+
+    else:
+        # opcional: traer todo si no se especifica
+        cur.execute("""
+            SELECT id, tipo, total, estado, cliente, envio_id,
+            TO_CHAR(fecha AT TIME ZONE 'America/Argentina/Buenos_Aires',
+            'YYYY-MM-DD HH24:MI') as fecha
+            FROM historial
+            ORDER BY fecha DESC
+        """)
 
     rows = cur.fetchall()
     db.close()
@@ -49,7 +72,7 @@ def admin_pedidos():
             "total": r["total"],
             "estado": r["estado"],
             "nombre": nombre,
-            "envio_id": r.get("envio_id")  # 🔥 nuevo
+            "envio_id": r.get("envio_id")
         })
 
     return jsonify(data)
@@ -522,19 +545,28 @@ def eliminar_producto(id):
 
     return jsonify({"ok": True})
 
+
+
+
+
+UPLOAD_FOLDER = "static/uploads"
+
 @admin_api_bp.route("/producto-form", methods=["POST"])
 @admin_required
 def guardar_producto():
+
     nombre = request.form["nombre"]
     descripcion = request.form.get("descripcion", "").strip()
     precio = float(request.form["precio"])
     stock = int(request.form.get("stock", 0))
     marca_id = int(request.form["marca_id"])
-    categoria_id = request.form.get("categoria_id")
-    subcategoria = request.form.get("subcategoria")
+
+    categoria_id = request.form.get("categoria")
+    subcategoria_id = request.form.get("subcategoria")
 
     archivo = request.files.get("imagen")
     print("ARCHIVO RECIBIDO:", archivo)
+
     nombre_imagen = None
 
     if archivo and archivo.filename:
@@ -546,7 +578,6 @@ def guardar_producto():
         ext = filename.rsplit(".", 1)[1].lower()
         nombre_imagen = f"{uuid.uuid4().hex}.{ext}"
 
-        # 🔥 RUTA CORRECTA ABSOLUTA
         upload_folder = os.path.join(current_app.root_path, "static", "uploads")
         os.makedirs(upload_folder, exist_ok=True)
 
@@ -555,17 +586,19 @@ def guardar_producto():
 
     db = get_db()
     cur = db.cursor()
+
     cur.execute("""
-    INSERT INTO productos (
-        nombre,
-        descripcion,
-        precio,
-        stock,
-        imagen,
-        marca_id,
-        categoria_id
-    )
-    VALUES (%s,%s,%s,%s,%s,%s,%s)
+        INSERT INTO productos (
+            nombre,
+            descripcion,
+            precio,
+            stock,
+            imagen,
+            marca_id,
+            categoria_id,
+            subcategoria_id
+        )
+        VALUES (%s,%s,%s,%s,%s,%s,%s,%s)
     """, (
         nombre,
         descripcion,
@@ -573,12 +606,14 @@ def guardar_producto():
         stock,
         nombre_imagen,
         marca_id,
-        categoria_id
+        categoria_id,
+        subcategoria_id
     ))
+
     db.commit()
     db.close()
 
-    return redirect("/admin/producto-form")
+    return jsonify({"ok": True})
 
 
 #--------- COSTE DE ENVÍO MODIFICABLE -----------
@@ -626,66 +661,62 @@ def update_shipping():
 
 @admin_api_bp.route("/notificaciones")
 def obtener_notificaciones():
-    rol = request.args.get("rol")
-    
-    conn = get_db()
-    cur = conn.cursor()
+    db = get_db()
+    cur = db.cursor()
 
-    if rol == "admin":
+    # 🔥 ADMIN
+    if session.get("is_admin"):
         cur.execute("""
-            SELECT 
-                id,
-                usuario_id,
-                rol,
-                titulo,
-                mensaje,
-                tipo,
-                leida,
-                referencia_id,
-                TO_CHAR(fecha, 'YYYY-MM-DD HH24:MI') as fecha
+            SELECT id, titulo, mensaje, tipo, leida, referencia_id,
+            TO_CHAR(fecha, 'YYYY-MM-DD HH24:MI') as fecha
             FROM notificaciones
             WHERE rol = 'admin'
             ORDER BY fecha DESC
         """)
-    else:
-        if "user_id" not in session:
-            return jsonify([])
 
+    # 👤 USUARIO
+    elif session.get("user_id"):
         cur.execute("""
-            SELECT 
-                id,
-                usuario_id,
-                rol,
-                titulo,
-                mensaje,
-                tipo,
-                leida,
-                referencia_id,
-                TO_CHAR(fecha, 'YYYY-MM-DD HH24:MI') as fecha
+            SELECT id, titulo, mensaje, tipo, leida, referencia_id,
+            TO_CHAR(fecha, 'YYYY-MM-DD HH24:MI') as fecha
             FROM notificaciones
             WHERE usuario_id = %s
             ORDER BY fecha DESC
         """, (session["user_id"],))
 
+    else:
+        return jsonify([])
+
     rows = cur.fetchall()
-    conn.close()
+    db.close()
 
     return jsonify([dict(r) for r in rows])
 
 
 @admin_api_bp.route("/notificaciones/marcar-leidas", methods=["POST"])
 def marcar_leidas():
-    conn = get_db()
-    cur = conn.cursor()
+    db = get_db()
+    cur = db.cursor()
 
-    cur.execute("""
-        UPDATE notificaciones
-        SET leida = TRUE
-        WHERE rol = 'admin'
-    """)
+    if session.get("is_admin"):
+        cur.execute("""
+            UPDATE notificaciones
+            SET leida = TRUE
+            WHERE rol = 'admin'
+        """)
 
-    conn.commit()
-    conn.close()
+    elif session.get("user_id"):
+        cur.execute("""
+            UPDATE notificaciones
+            SET leida = TRUE
+            WHERE usuario_id = %s
+        """, (session["user_id"],))
+
+    else:
+        return jsonify({"error": "No autorizado"}), 401
+
+    db.commit()
+    db.close()
 
     return jsonify({"ok": True})
 
@@ -710,23 +741,55 @@ def limpiar_notificaciones():
 
 @admin_api_bp.route("/notificaciones/<int:notif_id>/leer", methods=["POST"])
 def marcar_notificacion_leida(notif_id):
-    if "user_id" not in session:
-        return jsonify({"error": "No autorizado"}), 401
-
     db = get_db()
     cur = db.cursor()
 
-    cur.execute("""
-        UPDATE notificaciones
-        SET leida = TRUE
-        WHERE id = %s
-        AND usuario_id = %s
-    """, (notif_id, session["user_id"]))
+    if session.get("is_admin"):
+        cur.execute("""
+            UPDATE notificaciones
+            SET leida = TRUE
+            WHERE id = %s AND rol = 'admin'
+        """, (notif_id,))
+
+    elif session.get("user_id"):
+        cur.execute("""
+            UPDATE notificaciones
+            SET leida = TRUE
+            WHERE id = %s AND usuario_id = %s
+        """, (notif_id, session["user_id"]))
+
+    else:
+        return jsonify({"error": "No autorizado"}), 401
 
     db.commit()
     db.close()
 
     return jsonify({"ok": True})
+
+
+
+@admin_api_bp.route("/notificaciones/no-leidas")
+def contar_no_leidas():
+    db = get_db()
+    cur = db.cursor()
+
+    if session.get("is_admin"):
+        cur.execute("""
+            SELECT COUNT(*) FROM notificaciones
+            WHERE rol = 'admin' AND leida = FALSE
+        """)
+    elif session.get("user_id"):
+        cur.execute("""
+            SELECT COUNT(*) FROM notificaciones
+            WHERE usuario_id = %s AND leida = FALSE
+        """, (session["user_id"],))
+    else:
+        return jsonify({"count": 0})
+
+    count = cur.fetchone()[0]
+    db.close()
+
+    return jsonify({"count": count})
 
 #----------- REVIEWS ------------
 

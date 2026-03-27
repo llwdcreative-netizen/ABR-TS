@@ -17,8 +17,8 @@
     flex-direction: column;
     gap: 12px;
     padding: 20px;
-    background: var(--bg-color);
-    margin: 10% auto;
+    background: var(--white-color);
+    margin: 5% auto;
     padding: 20px;
     border-radius: 13px;
     width: 90%;
@@ -27,7 +27,7 @@
     overflow: hidden;
 }
 #order-summary{
-    background: #fff;
+    background: var(--white-color);
     border-radius: 20px;
     display: flex;
     flex-direction: column;
@@ -54,9 +54,16 @@
   color: red;
 }
 
-.confirm-btn {
-  background: var(--buy-color);
-  color: white;
+input, textarea{
+  margin-bottom: 3px;
+  padding: 2px;
+  border-radius: 4px;
+  border: 1px solid var(--black-color);
+}
+
+.btn-confirmar{
+  background: var(--green-color);
+  color: var(--white-color);
   border: none;
   font-weight: bold;
   padding: 12px 20px;
@@ -65,10 +72,76 @@
   margin-top: 15px;
 }
 
-.confirm-button:hover {
-  background: var(--buy-colorH);
+.btn-confirmar:hover {
+  background: var(--black-color);
 }
 
 .oculto{
+  display: none;
+}
+
+
+
+@media (min-width: 1024px) {
+
+  /* Caja más grande y cómoda */
+  .modal-content {
+    width: 100%;
+    max-width: 650px;
+
+    padding: 30px;
+    gap: 16px;
+
+    margin: 0; /* elimina el margin mobile */
+  }
+
+  /* Lista más alta */
+  #order-summary {
+    max-height: 300px;
+    padding: 15px;
+  }
+
+  /* Inputs en grid (clave en desktop) */
+  .form-envio {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  /* Inputs que ocupan toda la fila */
+  #env-email,
+  #env-calle,
+  #env-notas {
+    grid-column: span 2;
+  }
+
+  textarea {
+    min-height: 100px;
+  }
+
+  /* Método de entrega en fila */
+  .metodos-entrega {
+    display: flex;
+    gap: 20px;
+  }
+
+  /* Botón más elegante */
+  .btn-confirmar {
+    width: fit-content;
+    align-self: flex-end;
+    padding: 12px 30px;
+  }
+
+  /* Inputs más cómodos */
+  input, textarea {
+    padding: 8px;
+  }
+}
+
+.oculto{
+  display: none;
+}
+
+.successModal{
   display: none;
 }

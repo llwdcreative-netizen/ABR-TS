@@ -11,8 +11,11 @@ class MPServiceError(Exception):
 def create_mp_preference_service(data):
     mp_sdk = mercadopago.SDK(current_app.config["MP_ACCESS_TOKEN"])
     items = data.get("items", [])
-    tipo = data.get("tipo")
-    referencia_id = data.get("referencia_id")
+    tipo = data.get("tipo") or data.get("metadata", {}).get("tipo")
+    referencia_id = data.get("referencia_id") or data.get("metadata", {}).get("referencia_id")
+
+    print("🔥 SERVICE DATA:", data)
+    print("🔥 TIPO FINAL:", tipo)
     payer = data.get("payer", {})
 
     if tipo not in ("envio", "retiro"):

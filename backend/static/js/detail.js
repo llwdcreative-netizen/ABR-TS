@@ -135,10 +135,18 @@ async function crearPagoMercadoPago(items, tipo, referencia_id, email) {
       unit_price: Number(p.price),
       currency_id: "ARS"
     })),
-    tipo,
-    referencia_id,
-    payer: { email: email || "cliente@correo.com" }
+
+    payer: {
+      email: email || "cliente@correo.com"
+    },
+
+    metadata: {   // 🔥 ESTE ES EL FIX REAL
+      tipo: tipo,
+      referencia_id: referencia_id
+    }
   };
+
+  console.log("MP PAYLOAD DETAIL:", payload); // 🔍 debug
 
   const res = await fetch("/create_preference", {
     method: "POST",
@@ -239,15 +247,16 @@ async function crearPagoMercadoPago(items, tipo, referencia_id, email) {
           return;
         }
 
-const pedidoId = data.pedido_id;
-const envioId = data.envio_id;
+let referenciaId = metodo.value === "envio"
+  ? data.envio_id
+  : data.pedido_id;
 
-let referenciaId;
+console.log("🧠 REFERENCIA FINAL:", referenciaId, "TIPO:", metodo.value);
 
-if (metodo.value === "envio") {
-  referenciaId = envioId;
-} else {
-  referenciaId = pedidoId;
+if (!referenciaId) {
+  console.error("❌ referencia inválida:", data);
+  alert("Error interno: no se pudo generar la referencia");
+  return;
 }
 
 if (!referenciaId) {

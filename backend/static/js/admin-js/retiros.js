@@ -18,7 +18,7 @@ async function cargarRetirosAdmin() {
     tr.innerHTML = `
         <td>${p.id}</td>
         <td>${p.fecha}</td>
-        <td>${p.cliente?.nombre || "-"}</td>
+        <td>${p.nombre || "-"}</td>
         <td>$ ${p.total}</td>
         <td>
           <div style="display:flex; gap:8px; align-items:center;">  

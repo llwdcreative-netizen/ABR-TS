@@ -6,7 +6,15 @@ from zoneinfo import ZoneInfo
 
 from backend.db import get_db
 
-
+def crear_notificacion_admin(titulo, mensaje, tipo="general", referencia_id=None):
+    crear_notificacion(
+        usuario_id=None,   #no pertenece a un usuario específico
+        rol="admin",
+        titulo=titulo,
+        mensaje=mensaje,
+        referencia_id=referencia_id,
+        tipo=tipo
+    )
 
 def enviar_email(destinatario, asunto, mensaje):
     msg = MIMEText(mensaje)

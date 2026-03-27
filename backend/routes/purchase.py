@@ -14,6 +14,7 @@ purchase_bp = Blueprint("purchase", __name__)
 # -------------------------------------------------
 @purchase_bp.route("/purchase", methods=["POST"])
 def purchase():
+    print("🚨 PURCHASE EJECUTADO")
     if "user_id" not in session:
         return jsonify({"error": "No autenticado"}), 401
 
@@ -46,7 +47,6 @@ def purchase():
     if tipo == "envio":
         conn = get_db()
         cur = conn.cursor()
-        print(cur.fetchone())
         print("DB URL:", conn.info.dsn)
         cur.execute("SELECT valor FROM configuracion WHERE clave = 'shipping_cost'")
         row = cur.fetchone()
@@ -159,7 +159,7 @@ def purchase():
         "ok": True,
         "pedido_id": pedido_id,
         "envio_id": envio_id
-    }), 200
+    })
 # -------------------------------------------------
 # HISTORIAL
 # -------------------------------------------------
