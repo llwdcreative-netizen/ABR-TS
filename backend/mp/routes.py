@@ -118,8 +118,8 @@ def create_preference():
 def mp_webhook():
     print("🔥 WEBHOOK RECIBIDO")
 
-    if not validar_firma_mp(request):
-        return "Invalid signature", 403
+    #if not validar_firma_mp(request):
+        #return "Invalid signature", 403
 
     data = request.get_json(silent=True)
     if not data:
