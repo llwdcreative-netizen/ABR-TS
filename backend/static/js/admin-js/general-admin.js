@@ -53,7 +53,9 @@ document.addEventListener("DOMContentLoaded", () => {
   // 🔄 Cargar notificaciones
   async function cargarNotificaciones() {
     try {
-      const res = await fetch(`/notificaciones?rol=admin`);
+    const res = await fetch(`/notificaciones?rol=admin`, {
+      credentials: "include"
+    });
       const data = await res.json();
 
       lista.innerHTML = "";
