@@ -150,12 +150,18 @@ def mp_webhook():
 
     pago = r.json()
 
+    print("👉 STATUS PAGO:", pago.get("status"))
+    print("👉 METADATA:", pago.get("metadata"))
+
     if pago.get("status") != "approved":
         return "OK", 200
 
     metadata = pago.get("metadata", {})
     tipo = metadata.get("tipo")
     referencia_id = metadata.get("referencia_id")
+
+    print("👉 TIPO:", tipo)
+    print("👉 REFERENCIA:", referencia_id)
 
     if not tipo or not referencia_id:
         return "OK", 200
