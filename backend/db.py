@@ -102,7 +102,8 @@ def init_db():
                     fecha TIMESTAMPTZ,
                     subtotal REAL DEFAULT 0,
                     envio REAL DEFAULT 0,
-                    estado TEXT DEFAULT 'PENDIENTE'
+                    estado TEXT DEFAULT 'PENDIENTE',
+                    email TEXT
                 )
             """)
 

@@ -88,6 +88,10 @@ def purchase():
     elif tipo == "retiro":
         cliente = data.get("cliente", {})
 
+        if not cliente.get("email"):
+            cliente["email"] = data.get("email")
+            print("📩 EMAIL FINAL GUARDADO:", cliente.get("email"))
+
 # -------------------------
 # INSERT
 # -------------------------
