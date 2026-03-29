@@ -172,6 +172,14 @@ def init_db():
                 ALTER TABLE productos
                 ADD COLUMN IF NOT EXISTS subcategoria_id INTEGER REFERENCES subcategorias(id);
             """)
+            
+            cur.execute("""
+            CREATE TABLE IF NOT EXISTS pagos_procesados (
+                id SERIAL PRIMARY KEY,
+                payment_id TEXT UNIQUE,
+                fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                )
+            """)
 
             # ADMINS
             cur.execute("""
