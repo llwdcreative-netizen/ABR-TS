@@ -8,7 +8,7 @@ from backend.db import get_db
 
 def crear_notificacion_admin(titulo, mensaje, tipo="general", referencia_id=None):
     crear_notificacion(
-        usuario_id=None,   #no pertenece a un usuario específico
+        usuario_id=None,
         rol="admin",
         titulo=titulo,
         mensaje=mensaje,
@@ -47,9 +47,9 @@ def notificar_pago_aprobado(email_cliente, referencia_id):
 
 def crear_notificacion(
     usuario_id,
-    rol,
     titulo,
     mensaje,
+    rol="usuario",
     referencia_id=None,
     tipo="general"
 ):

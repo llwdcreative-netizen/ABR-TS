@@ -173,12 +173,22 @@ def mp_webhook():
     db = get_db()
     cur = db.cursor()
 
+    # 🔐 evitar duplicados
+    cur.execute("""
+        SELECT 1 FROM pagos_procesados WHERE payment_id = %s
+    """, (payment_id,))
+
+    if cur.fetchone():
+        db.close()
+        print("⚠️ Pago ya procesado, ignorando...")
+        return "OK", 200
+
     try:
+        user_id = None
+
         if tipo == "envio":
             print("🔥 INTENTANDO CREAR NOTIFICACION")
-            # =========================
-            # ENVÍO
-            # =========================
+
             cur.execute("""
                 SELECT total, estado, user_id 
                 FROM envios 
@@ -187,9 +197,19 @@ def mp_webhook():
 
             row = cur.fetchone()
             if not row:
+                db.close()
                 return "OK", 200
 
+            user_id = row["user_id"]
+
+            # 🔁 evitar reprocesar estados
             if row["estado"] != "PENDIENTE_PAGO":
+                cur.execute("""
+                    INSERT INTO pagos_procesados (payment_id)
+                    VALUES (%s)
+                """, (payment_id,))
+                db.commit()
+                db.close()
                 return "OK", 200
 
             cur.execute("""
@@ -198,7 +218,6 @@ def mp_webhook():
                 WHERE id = %s
             """, (referencia_id,))
 
-            # actualizar historial vinculado
             cur.execute("""
                 UPDATE historial 
                 SET estado = 'EN_CAMINO'
@@ -206,9 +225,6 @@ def mp_webhook():
             """, (referencia_id,))
 
         else:
-            # =========================
-            # RETIRO
-            # =========================
             cur.execute("""
                 SELECT total, estado, user_id 
                 FROM historial 
@@ -217,9 +233,19 @@ def mp_webhook():
 
             row = cur.fetchone()
             if not row:
+                db.close()
                 return "OK", 200
 
+            user_id = row["user_id"]
+
+            # 🔁 evitar reprocesar estados
             if row["estado"] != "PENDIENTE_PAGO":
+                cur.execute("""
+                    INSERT INTO pagos_procesados (payment_id)
+                    VALUES (%s)
+                """, (payment_id,))
+                db.commit()
+                db.close()
                 return "OK", 200
 
             cur.execute("""
@@ -228,12 +254,25 @@ def mp_webhook():
                 WHERE id = %s
             """, (referencia_id,))
 
+        # 🔐 guardar SIEMPRE el payment_id
+        cur.execute("""
+            INSERT INTO pagos_procesados (payment_id)
+            VALUES (%s)
+        """, (payment_id,))
+
         db.commit()
 
-        # =========================
-        # 🔔 NOTIFICACIONES ADMIN
-        # =========================
+        # 🔔 notificación usuario
+        crear_notificacion(
+            usuario_id=user_id,
+            rol="usuario",
+            titulo="Pago confirmado",
+            mensaje=f"Tu pedido #{referencia_id} fue aprobado",
+            tipo=tipo,
+            referencia_id=referencia_id
+        )
 
+        # 🔔 notificación admin
         if tipo == "envio":
             print("🔥 CREANDO NOTIFICACION ADMIN (ENVIO)")
             crear_notificacion_admin(
