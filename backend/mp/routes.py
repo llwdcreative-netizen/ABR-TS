@@ -187,65 +187,66 @@ def mp_webhook():
         user_id = None
 
         if tipo == "envio":
-            print("🔥 INTENTANDO CREAR NOTIFICACION")
+            print("🔥 PROCESANDO ENVIO")
 
+            # 🔍 sacar usuario desde historial
             cur.execute("""
-                SELECT total, estado, user_id 
-                FROM envios 
-                WHERE id = %s
+                SELECT user_id, estado
+                FROM historial
+                WHERE envio_id = %s
             """, (referencia_id,))
 
             row = cur.fetchone()
             if not row:
-                db.close()
                 return "OK", 200
 
             user_id = row["user_id"]
 
-            # 🔁 evitar reprocesar estados
+            # evitar reprocesar
             if row["estado"] != "PENDIENTE_PAGO":
                 cur.execute("""
                     INSERT INTO pagos_procesados (payment_id)
                     VALUES (%s)
+                    ON CONFLICT DO NOTHING
                 """, (payment_id,))
                 db.commit()
-                db.close()
                 return "OK", 200
 
+            # actualizar estados
             cur.execute("""
                 UPDATE envios 
-                SET estado = 'EN_CAMINO'
+                SET estado = 'PAGADO'
                 WHERE id = %s
             """, (referencia_id,))
 
             cur.execute("""
                 UPDATE historial 
-                SET estado = 'EN_CAMINO'
+                SET estado = 'PAGADO'
                 WHERE envio_id = %s
             """, (referencia_id,))
 
         else:
+            print("🔥 PROCESANDO RETIRO")
+
             cur.execute("""
-                SELECT total, estado, user_id 
+                SELECT user_id, estado
                 FROM historial 
                 WHERE id = %s AND tipo = 'retiro'
             """, (referencia_id,))
 
             row = cur.fetchone()
             if not row:
-                db.close()
                 return "OK", 200
 
             user_id = row["user_id"]
 
-            # 🔁 evitar reprocesar estados
             if row["estado"] != "PENDIENTE_PAGO":
                 cur.execute("""
                     INSERT INTO pagos_procesados (payment_id)
                     VALUES (%s)
+                    ON CONFLICT DO NOTHING
                 """, (payment_id,))
                 db.commit()
-                db.close()
                 return "OK", 200
 
             cur.execute("""
@@ -254,38 +255,46 @@ def mp_webhook():
                 WHERE id = %s
             """, (referencia_id,))
 
-        # 🔐 guardar SIEMPRE el payment_id
+        # 🔐 guardar pago procesado
         cur.execute("""
             INSERT INTO pagos_procesados (payment_id)
             VALUES (%s)
+            ON CONFLICT DO NOTHING
         """, (payment_id,))
 
         db.commit()
+        
+        if tipo == "envio":
+            titulo = "Pago de envío confirmado 📦"
+            mensaje = f"Tu envío #{referencia_id} fue pagado correctamente, en breve será preparado"
+        else:
+            titulo = "Pago confirmado 🏪"
+            mensaje = f"Tu pedido #{referencia_id} ya está pago y listo para retirar"
 
         # 🔔 notificación usuario
         crear_notificacion(
             usuario_id=user_id,
             rol="usuario",
-            titulo="Pago confirmado",
-            mensaje=f"Tu pedido #{referencia_id} fue aprobado",
+            titulo=titulo,
+            mensaje=mensaje,
             tipo=tipo,
             referencia_id=referencia_id
         )
 
+
         # 🔔 notificación admin
+
         if tipo == "envio":
-            print("🔥 CREANDO NOTIFICACION ADMIN (ENVIO)")
             crear_notificacion_admin(
-                titulo="📦 Pago confirmado (envío)",
-                mensaje=f"Envío #{referencia_id} listo para procesar",
+                titulo="Ha ingresado un nuevo pedido para ENVÍO",
+                mensaje=f"Envío #{referencia_id} pendiente de procesar",
                 tipo="envio",
                 referencia_id=referencia_id
             )
         else:
-            print("🔥 CREANDO NOTIFICACION ADMIN (RETIRO)")
             crear_notificacion_admin(
-                titulo="🏪 Pago confirmado (retiro)",
-                mensaje=f"Pedido #{referencia_id} listo para retirar",
+                titulo="Ha ingresado un nuevo pedido para RETIRO",
+                mensaje=f"Pedido #{referencia_id} pendiente de armar",
                 tipo="retiro",
                 referencia_id=referencia_id
             )

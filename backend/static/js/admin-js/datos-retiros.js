@@ -67,7 +67,7 @@ async function actualizarEstadoRetiro() {
 
   const nuevoEstado = document.getElementById("cambiar-estado").value;
 
-  const res = await fetch(`/admin/pedidos/retiro/${id}/estado`, {
+  const res = await fetch(`/admin/pedidos/${id}/estado`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
