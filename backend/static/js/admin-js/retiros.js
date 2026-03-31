@@ -59,8 +59,8 @@ function opcionesRetiro(actual) {
   ).join("");
 }
 
-async function cambiarEstado(tipo, id, estado) {
-  const res = await fetch(`/admin/pedidos/${tipo}/${id}/estado`, {
+async function cambiarEstado(id, estado) {
+  const res = await fetch(`/admin/pedidos/${id}/estado`, {
     method: "POST",
     credentials: "include",
     headers: { "Content-Type": "application/json" },
