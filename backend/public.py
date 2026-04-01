@@ -120,9 +120,9 @@ def mp_gracias():
 
 
 @public_bp.route("/mp/pendiente")
-def mp_gracias():
+def mp_pendiente():
     return render_template("pendiente.html")
 
 @public_bp.route("/mp/error")
-def mp_gracias():
+def mp_error():
     return render_template("error.html")
