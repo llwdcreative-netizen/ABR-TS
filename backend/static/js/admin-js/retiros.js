@@ -26,7 +26,7 @@ async function cargarRetirosAdmin() {
               ${textoEstadoRetiro(p.estado)}
             </span>
 
-            <select onchange="cambiarEstado('${p.tipo}', ${p.id}, this.value)">
+            <select onchange="cambiarEstado(${p.id}, this.value)">
               ${opcionesRetiro(p.estado)}
             </select>
           </div>
