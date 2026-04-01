@@ -111,3 +111,18 @@ def mis_envios():
 def favoritos_page():
     return render_template("favoritos.html")
 
+
+
+
+@public_bp.route("/mp/gracias")
+def mp_gracias():
+    return render_template("gracias.html")
+
+
+@public_bp.route("/mp/pendiente")
+def mp_gracias():
+    return render_template("pendiente.html")
+
+@public_bp.route("/mp/error")
+def mp_gracias():
+    return render_template("error.html")

@@ -38,9 +38,9 @@ async function crearPagoCarrito(carrito, email, tipo, referencia_id) {
     referencia_id, // envio_id o retiro_id
     payer: { email: email || "cliente@correo.com" },
     back_urls: {
-      success: "https://abr-ts.onrender.com/mp/gracias.html",
-      failure: "https://abr-ts.onrender.com/mp/error.html",
-      pending: "https://abr-ts.onrender.com/mp/pendiente.html"
+      success: "https://abr-ts.onrender.com/mp/gracias",
+      failure: "https://abr-ts.onrender.com/mp/error",
+      pending: "https://abr-ts.onrender.com/mp/pendiente"
     },
     auto_return: "approved"
   };
