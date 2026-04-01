@@ -269,7 +269,7 @@ def mp_webhook():
             mensaje = f"Tu envío #{referencia_id} fue pagado correctamente, en breve será preparado"
         else:
             titulo = "Pago confirmado 🏪"
-            mensaje = f"Tu pedido #{referencia_id} ya está pago y listo para retirar"
+            mensaje = f"Tu pedido #{referencia_id} ya está pago y está siendo preparado"
 
         # 🔔 notificación usuario
         crear_notificacion(

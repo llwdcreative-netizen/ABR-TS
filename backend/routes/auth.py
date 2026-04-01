@@ -333,3 +333,22 @@ def limpiar_notificaciones_usuario():
     db.close()
 
     return jsonify({"success": True})
+
+
+
+
+@auth_bp.route("/notificaciones/usuario/marcar-leidas", methods=["POST"])
+def marcar_leidas_usuario():
+    db = get_db()
+    cur = db.cursor()
+
+    cur.execute("""
+        UPDATE notificaciones
+        SET leida = TRUE
+        WHERE usuario_id = %s AND rol = 'usuario'
+    """, (session["user_id"],))
+
+    db.commit()
+    db.close()
+
+    return jsonify({"ok": True})

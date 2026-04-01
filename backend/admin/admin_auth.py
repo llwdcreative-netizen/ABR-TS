@@ -27,7 +27,7 @@ def admin_login():
 # 🔐 sesión
     session.clear()
     session["admin_id"] = admin["id"]
-    session["rol"] = "admin"        # 🔥 CLAVE
+    session["rol"] = "admin"        
 
     print(session)
 

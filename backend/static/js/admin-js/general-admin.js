@@ -115,7 +115,8 @@ document.addEventListener("DOMContentLoaded", () => {
   async function marcarLeidas() {
     try {
       await fetch("/notificaciones/marcar-leidas", {
-        method: "POST"
+        method: "POST",
+        credentials: "include"
       });
       cargarNotificaciones();
     } catch (err) {

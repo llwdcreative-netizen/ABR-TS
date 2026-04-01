@@ -65,8 +65,9 @@ async function cargarNotificacionesCliente() {
 
 async function marcarLeidasCliente() {
   try {
-    await fetch(`/notificaciones/marcar-leidas`, {
-      method: "POST"
+    await fetch(`/notificaciones/usuario/marcar-leidas`, {
+      method: "POST",
+      credentials: "include"
     });
 
     cargarNotificacionesCliente();
