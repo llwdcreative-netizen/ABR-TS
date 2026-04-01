@@ -116,13 +116,13 @@ def favoritos_page():
 
 @public_bp.route("/mp/gracias")
 def mp_gracias():
-    return render_template("gracias.html")
+    return render_template("mp/gracias.html")
 
 
 @public_bp.route("/mp/pendiente")
 def mp_pendiente():
-    return render_template("pendiente.html")
+    return render_template("mp/pendiente.html")
 
 @public_bp.route("/mp/error")
 def mp_error():
-    return render_template("error.html")
+    return render_template("mp/error.html")
