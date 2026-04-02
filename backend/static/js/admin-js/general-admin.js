@@ -173,3 +173,25 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
 });
+
+
+
+
+//================================
+// ELIMINAR PEDIDO
+//================================
+async function eliminarPedido(id) {
+  if (!confirm("¿Eliminar pedido? Esto no se puede deshacer")) return;
+
+  const res = await fetch(`/admin/pedidos/${id}`, {
+    method: "DELETE",
+    credentials: "include"
+  });
+
+  const data = await res.json();
+
+  if (data.ok) {
+    alert("Pedido eliminado");
+    location.reload();
+  }
+}

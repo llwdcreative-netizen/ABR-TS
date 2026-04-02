@@ -3,6 +3,7 @@ from datetime import datetime
 from zoneinfo import ZoneInfo
 import json
 from decimal import Decimal
+from backend.services.notification_service import crear_notificacion_admin
 
 from backend.db import get_db
 
@@ -216,34 +217,58 @@ def purchase_history():
     return jsonify(data)
 
 
-@purchase_bp.route("/pedido/<int:pedido_id>", methods=["GET"])
-def detalle_pedido(pedido_id):
+@purchase_bp.route("/pedidos/<int:pedido_id>/cancelar", methods=["POST"])
+def cancelar_pedido(pedido_id):
+
+    # 🔐 validar sesión
     if "user_id" not in session:
-        return jsonify({"error": "No autorizado"}), 401
+        return jsonify({"error": "No autenticado"}), 401
 
     db = get_db()
     cur = db.cursor()
 
+    # 🔍 verificar pedido
     cur.execute("""
-        SELECT *,
-        TO_CHAR(fecha AT TIME ZONE 'America/Argentina/Buenos_Aires',
-        'YYYY-MM-DD HH24:MI') as fecha_formateada
+        SELECT estado, tipo, envio_id
         FROM historial
         WHERE id = %s AND user_id = %s
     """, (pedido_id, session["user_id"]))
 
     row = cur.fetchone()
-    db.close()
 
     if not row:
-        return jsonify({"error": "Pedido no encontrado"}), 404
+        db.close()
+        return jsonify({"error": "No autorizado"}), 403
 
-    return jsonify({
-        "id": row["id"],
-        "tipo": row["tipo"],
-        "fecha": row["fecha_formateada"],
-        "estado": row["estado"],
-        "total": row["total"],
-        "productos": json.loads(row["items"] or "[]"),
-        "cliente": json.loads(row["cliente"] or "{}")
-    })
+    # ⚠️ validar estado (solo antes de pagar)
+    if row["estado"] not in ["PENDIENTE", "PENDIENTE_PAGO"]:
+        db.close()
+        return jsonify({"error": "No se puede cancelar"}), 400
+
+    # 🔥 cancelar historial
+    cur.execute("""
+        UPDATE historial
+        SET estado = 'CANCELADO'
+        WHERE id = %s
+    """, (pedido_id,))
+
+    # 🚚 si es envío, cancelar también
+    if row["tipo"] == "envio" and row["envio_id"]:
+        cur.execute("""
+            UPDATE envios
+            SET estado = 'CANCELADO'
+            WHERE id = %s
+        """, (row["envio_id"],))
+
+    db.commit()
+    db.close()
+
+    # 🔔 notificación admin
+    crear_notificacion_admin(
+        titulo="❌ Pedido cancelado",
+        mensaje=f"Pedido #{pedido_id} cancelado por el usuario",
+        tipo=row["tipo"],
+        referencia_id=pedido_id
+    )
+
+    return jsonify({"ok": True})

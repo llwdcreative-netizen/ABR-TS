@@ -64,7 +64,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     // RENDERIZAR CADA ORDEN
     // ========================
 
-    purchases.sort((a, b) => (b.fecha || "").localeCompare(a.fecha || ""));
+    purchases.sort((a, b) => new Date(b.fecha) - new Date(a.fecha));
 
 purchases.forEach(order => {
   console.log("PRODUCTOS QUE LLEGAN:", order.productos);
@@ -140,6 +140,16 @@ orderDiv.onclick = () => {
 
 };
 
+let botonCancelar = "";
+
+if (estado === "PENDIENTE" || estado === "PENDIENTE_PAGO") {
+  botonCancelar = `
+    <button onclick="cancelarPedido(event, ${order.id})">
+      ❌ Cancelar pedido
+    </button>
+  `;
+}
+
 orderDiv.innerHTML = `
   <strong>Compra del ${fecha} — ${hora}</strong><br>
   <em>Tipo: ${order.metodo || order.tipo || "—"}</em>
@@ -148,12 +158,46 @@ orderDiv.innerHTML = `
   <p>Envío: $${envio.toFixed(2)}</p>
   <strong>Total: $${total.toFixed(2)}</strong>
   <p><em>Estado: ${estado}</em></p>
+  ${botonCancelar}
   <small>Click para ver detalle</small>
   <hr>
 `;
 
   container.appendChild(orderDiv);
 });
+
+/*---------------------- CANCELAR PEDIDO -------------------------*/
+
+async function cancelarPedido(e, id) {
+  e.stopPropagation();
+
+  if (!confirm("¿Cancelar este pedido?")) return;
+
+  const btn = e.target;
+  btn.disabled = true;
+
+  try {
+    const res = await fetch(`/pedidos/${id}/cancelar`, {
+      method: "POST",
+      credentials: "include"
+    });
+
+    if (!res.ok) throw new Error();
+
+    const data = await res.json();
+
+    if (data.ok) {
+      alert("Pedido cancelado");
+      location.reload();
+    } else {
+      throw new Error(data.error);
+    }
+
+  } catch {
+    alert("Error al cancelar");
+    btn.disabled = false;
+  }
+}
 
     // ========================
     // BOTÓN DE CIERRE DE SESIÓN
