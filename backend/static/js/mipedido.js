@@ -32,6 +32,26 @@ async function cargarPedido() {
   estadoElem.textContent = textoEstado(pedido.estado);
   estadoElem.style.color = colorEstado(pedido.estado);
 
+
+  
+  // =========================
+  // CANCELAR PEDIDO
+  // =========================
+const contenedorAcciones = document.getElementById("pedido-acciones");
+
+contenedorAcciones.innerHTML = "";
+
+if (
+  pedido.estado === "PENDIENTE" || 
+  pedido.estado === "PENDIENTE_PAGO"
+) {
+  contenedorAcciones.innerHTML = `
+    <button onclick="cancelarPedido(event, ${pedido.id})">
+      ❌ Cancelar pedido
+    </button>
+  `;
+}
+
   // =========================
   // PRODUCTOS
   // =========================
@@ -47,6 +67,40 @@ async function cargarPedido() {
     li.textContent = `${nombre} x${cantidad} — $${precio * cantidad}`;
     lista.appendChild(li);
   });
+}
+
+
+/*---------------------- CANCELAR PEDIDO -------------------------*/
+
+async function cancelarPedido(e, id) {
+  e.stopPropagation();
+
+  if (!confirm("¿Cancelar este pedido?")) return;
+
+  const btn = e.target;
+  btn.disabled = true;
+
+  try {
+    const res = await fetch(`/pedidos/${id}/cancelar`, {
+      method: "POST",
+      credentials: "include"
+    });
+
+    if (!res.ok) throw new Error();
+
+    const data = await res.json();
+
+    if (data.ok) {
+      alert("Pedido cancelado");
+      location.reload();
+    } else {
+      throw new Error(data.error);
+    }
+
+  } catch {
+    alert("Error al cancelar");
+    btn.disabled = false;
+  }
 }
 
 
@@ -67,6 +121,7 @@ function textoEstado(estado) {
     RETIRADO: "Retirado",
   }[estado] || estado;
 }
+
 
 function colorEstado(estado) {
   if (!estado) return "#000";
