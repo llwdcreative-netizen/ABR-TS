@@ -217,6 +217,41 @@ def purchase_history():
     return jsonify(data)
 
 
+
+
+@purchase_bp.route("/pedido/<int:pedido_id>", methods=["GET"])
+def detalle_pedido(pedido_id):
+    if "user_id" not in session:
+        return jsonify({"error": "No autorizado"}), 401
+
+    db = get_db()
+    cur = db.cursor()
+
+    cur.execute("""
+        SELECT *,
+        TO_CHAR(fecha AT TIME ZONE 'America/Argentina/Buenos_Aires',
+        'YYYY-MM-DD HH24:MI') as fecha_formateada
+        FROM historial
+        WHERE id = %s AND user_id = %s
+    """, (pedido_id, session["user_id"]))
+
+    row = cur.fetchone()
+    db.close()
+
+    if not row:
+        return jsonify({"error": "Pedido no encontrado"}), 404
+
+    return jsonify({
+        "id": row["id"],
+        "tipo": row["tipo"],
+        "fecha": row["fecha_formateada"],
+        "estado": row["estado"],
+        "total": row["total"],
+        "productos": json.loads(row["items"] or "[]"),
+        "cliente": json.loads(row["cliente"] or "{}")
+    })
+
+
 @purchase_bp.route("/pedidos/<int:pedido_id>/cancelar", methods=["POST"])
 def cancelar_pedido(pedido_id):
 
