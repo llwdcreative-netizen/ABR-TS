@@ -7,7 +7,7 @@ async function cargarPedido() {
     throw new Error("ID faltante");
   }
 
-  const res = await fetch(`/purchase/pedido/${id}`, {
+  const res = await fetch(`/pedido/${id}`, {
     credentials: "include"
   });
 
