@@ -1,0 +1,42 @@
+.tabs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.tab {
+  padding: 8px 15px;
+  border: none;
+  cursor: pointer;
+  background: #eee;
+  border-radius: 6px;
+}
+
+.tab.active {
+  background: #333;
+  color: white;
+}
+
+.lista-pedidos {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.pedido-card {
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 8px;
+  background: #fff;
+}
+
+.pedido-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 5px;
+}
+
+.pedido-acciones button {
+  margin-right: 5px;
+  cursor: pointer;
+}

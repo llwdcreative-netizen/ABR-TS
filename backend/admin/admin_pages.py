@@ -99,4 +99,11 @@ def admin_turnos_page():
 
 
 
+@admin_pages.route("/admin/archivos")
+@admin_required
+def admin_archivos():
+    return render_template("admin/archivados.html")
+
+
+
 

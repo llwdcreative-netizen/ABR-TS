@@ -25,7 +25,7 @@ def admin_pedidos():
     if tipo == "envio":
         # 🔥 SOLO ENVÍOS (desde historial o envios, elegí uno)
         cur.execute("""
-            SELECT id, tipo, total, estado, cliente, envio_id,
+            SELECT id, tipo, total, estado, cliente, envio_id, archivado_admin,
             TO_CHAR(fecha AT TIME ZONE 'America/Argentina/Buenos_Aires',
             'YYYY-MM-DD HH24:MI') as fecha
             FROM historial
@@ -35,7 +35,7 @@ def admin_pedidos():
 
     elif tipo == "retiro":
         cur.execute("""
-            SELECT id, tipo, total, estado, cliente, envio_id,
+            SELECT id, tipo, total, estado, cliente, envio_id, archivado_admin,
             TO_CHAR(fecha AT TIME ZONE 'America/Argentina/Buenos_Aires',
             'YYYY-MM-DD HH24:MI') as fecha
             FROM historial
@@ -46,7 +46,7 @@ def admin_pedidos():
     else:
         # opcional: traer todo si no se especifica
         cur.execute("""
-            SELECT id, tipo, total, estado, cliente, envio_id,
+            SELECT id, tipo, total, estado, cliente, envio_id, archivado_admin,
             TO_CHAR(fecha AT TIME ZONE 'America/Argentina/Buenos_Aires',
             'YYYY-MM-DD HH24:MI') as fecha
             FROM historial
@@ -72,7 +72,8 @@ def admin_pedidos():
             "total": r["total"],
             "estado": r["estado"],
             "nombre": nombre,
-            "envio_id": r.get("envio_id")
+            "envio_id": r.get("envio_id"),
+            "archivado": r.get("archivado_admin", False) 
         })
 
     return jsonify(data)
@@ -264,6 +265,24 @@ def cambiar_estado_pedido(pedido_id):
 
     return jsonify({"ok": True})
 
+
+#----------------- ARCHIVAR PEDIDOS ------------
+@admin_api_bp.route("/admin/pedidos/<int:pedido_id>/archivar", methods=["POST"])
+@admin_required
+def archivar_pedido(pedido_id):
+    db = get_db()
+    cur = db.cursor()
+
+    cur.execute("""
+        UPDATE historial
+        SET archivado_admin = NOT archivado_admin
+        WHERE id = %s
+    """, (pedido_id,))
+
+    db.commit()
+    db.close()
+
+    return jsonify({"ok": True})
 
 
 
