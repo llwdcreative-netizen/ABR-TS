@@ -103,14 +103,14 @@ def init_db():
                     subtotal REAL DEFAULT 0,
                     envio REAL DEFAULT 0,
                     estado TEXT DEFAULT 'PENDIENTE',
-                    email TEXT,
-                    archivado_admin BOOLEAN DEFAULT FALSE
+                    email TEXT
                 )
             """)
 
             cur.execute("""
                 ALTER TABLE historial 
                 ADD COLUMN IF NOT EXISTS envio_id INTEGER;
+                ADD COLUMN IF NOT EXISTS archivado_admin BOOLEAN DEFAULT FALSE
                 """)
             
             # Envíos
