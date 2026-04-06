@@ -1,7 +1,3 @@
-const activos = pedidos.filter(p => !p.archivado);
-
-const archivados = pedidos.filter(p => p.archivado);
-
 function botonArchivar(pedido) {
   return `
     <button onclick="toggleArchivar(${pedido.id})">
@@ -65,3 +61,5 @@ function renderLista(id, pedidos) {
     contenedor.appendChild(div);
   });
 }
+
+document.addEventListener("DOMContentLoaded", cargarPedidosAdmin);
