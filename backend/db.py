@@ -110,6 +110,10 @@ def init_db():
             cur.execute("""
                 ALTER TABLE historial 
                 ADD COLUMN IF NOT EXISTS envio_id INTEGER;
+                """)
+
+            cur.execute("""
+                ALTER TABLE historial 
                 ADD COLUMN IF NOT EXISTS archivado_admin BOOLEAN DEFAULT FALSE
                 """)
             
