@@ -17,41 +17,44 @@ admin_api_bp = Blueprint("admin_api", __name__)
 @admin_api_bp.route("/admin/api/pedidos")
 @admin_required
 def admin_pedidos():
-    tipo = request.args.get("tipo")  # 🔥 LEER QUERY PARAM
+    tipo = request.args.get("tipo")  # envio / retiro / None
+    archivado = request.args.get("archivado")  # "true" / "false"
 
     db = get_db()
     cur = db.cursor()
 
-    if tipo == "envio":
-        # 🔥 SOLO ENVÍOS (desde historial o envios, elegí uno)
-        cur.execute("""
-            SELECT id, tipo, total, estado, cliente, envio_id, archivado_admin,
-            TO_CHAR(fecha AT TIME ZONE 'America/Argentina/Buenos_Aires',
-            'YYYY-MM-DD HH24:MI') as fecha
-            FROM historial
-            WHERE tipo = 'envio'
-            ORDER BY fecha DESC
-        """)
+    # -------------------------
+    # QUERY BASE
+    # -------------------------
+    query = """
+        SELECT id, tipo, total, estado, cliente, envio_id, archivado_admin,
+        TO_CHAR(fecha AT TIME ZONE 'America/Argentina/Buenos_Aires',
+        'YYYY-MM-DD HH24:MI') as fecha
+        FROM historial
+        WHERE 1=1
+    """
 
-    elif tipo == "retiro":
-        cur.execute("""
-            SELECT id, tipo, total, estado, cliente, envio_id, archivado_admin,
-            TO_CHAR(fecha AT TIME ZONE 'America/Argentina/Buenos_Aires',
-            'YYYY-MM-DD HH24:MI') as fecha
-            FROM historial
-            WHERE tipo = 'retiro'
-            ORDER BY fecha DESC
-        """)
+    params = []
 
-    else:
-        # opcional: traer todo si no se especifica
-        cur.execute("""
-            SELECT id, tipo, total, estado, cliente, envio_id, archivado_admin,
-            TO_CHAR(fecha AT TIME ZONE 'America/Argentina/Buenos_Aires',
-            'YYYY-MM-DD HH24:MI') as fecha
-            FROM historial
-            ORDER BY fecha DESC
-        """)
+    # -------------------------
+    # FILTRO POR TIPO
+    # -------------------------
+    if tipo in ["envio", "retiro"]:
+        query += " AND tipo = %s"
+        params.append(tipo)
+
+    # -------------------------
+    # FILTRO POR ARCHIVADO
+    # -------------------------
+    if archivado == "true":
+        query += " AND archivado_admin = TRUE"
+    elif archivado == "false":
+        query += " AND (archivado_admin IS FALSE OR archivado_admin IS NULL)"
+
+    # -------------------------
+    query += " ORDER BY fecha DESC"
+
+    cur.execute(query, tuple(params))
 
     rows = cur.fetchall()
     db.close()
@@ -73,7 +76,7 @@ def admin_pedidos():
             "estado": r["estado"],
             "nombre": nombre,
             "envio_id": r.get("envio_id"),
-            "archivado": r.get("archivado_admin", False) 
+            "archivado": r.get("archivado_admin", False)
         })
 
     return jsonify(data)

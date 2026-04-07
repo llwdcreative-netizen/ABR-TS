@@ -20,14 +20,13 @@ async function toggleArchivar(id) {
 }
 
 async function cargarPedidosAdmin() {
-  const res = await fetch("/admin/api/pedidos", {
-    credentials: "include"
-  });
+  const [activosRes, archivadosRes] = await Promise.all([
+    fetch("/admin/api/pedidos?archivado=false", { credentials: "include" }),
+    fetch("/admin/api/pedidos?archivado=true", { credentials: "include" })
+  ]);
 
-  const pedidos = await res.json();
-
-  const activos = pedidos.filter(p => !p.archivado);
-  const archivados = pedidos.filter(p => p.archivado);
+  const activos = await activosRes.json();
+  const archivados = await archivadosRes.json();
 
   renderLista("lista-activos", activos);
   renderLista("lista-archivados", archivados);
