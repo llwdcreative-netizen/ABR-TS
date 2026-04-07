@@ -17,8 +17,8 @@ admin_api_bp = Blueprint("admin_api", __name__)
 @admin_api_bp.route("/admin/api/pedidos")
 @admin_required
 def admin_pedidos():
-    tipo = request.args.get("tipo")  # envio / retiro / None
-    archivado = request.args.get("archivado")  # "true" / "false"
+    tipo = request.args.get("tipo")  
+    archivado = request.args.get("archivado") 
 
     db = get_db()
     cur = db.cursor()
@@ -35,6 +35,14 @@ def admin_pedidos():
     """
 
     params = []
+
+# -------------------------
+# FILTRO POR ARCHIVADO
+# -------------------------
+    if archivado == "true":
+        query += " AND archivado_admin = TRUE"
+    elif archivado == "false":
+        query += " AND (archivado_admin IS FALSE OR archivado_admin IS NULL)"
 
     # -------------------------
     # FILTRO POR TIPO

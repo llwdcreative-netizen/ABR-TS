@@ -8,7 +8,7 @@ async function cargarRetirosAdmin() {
     return;
   }
 
-  const pedidos = await res.json();
+  const pedidos = (await res.json()).filter(p => !p.archivado);
   const tbody = document.getElementById("tabla-retiros");
   tbody.innerHTML = "";
 
