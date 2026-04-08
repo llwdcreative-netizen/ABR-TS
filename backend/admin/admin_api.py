@@ -51,6 +51,15 @@ def admin_pedidos():
         query += " AND tipo = %s"
         params.append(tipo)
 
+
+    # -------------------------
+    # FILTRO POR ESTADO
+    # -------------------------
+    if tipo == "envio":
+        query += " AND estado NOT IN ('ENTREGADO', 'CANCELADO')"
+
+    elif tipo == "retiro":
+        query += " AND estado NOT IN ('RETIRADO', 'CANCELADO')"
     # -------------------------
     query += " ORDER BY fecha DESC"
 
