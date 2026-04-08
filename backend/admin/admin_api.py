@@ -52,14 +52,6 @@ def admin_pedidos():
         params.append(tipo)
 
     # -------------------------
-    # FILTRO POR ARCHIVADO
-    # -------------------------
-    if archivado == "true":
-        query += " AND archivado_admin = TRUE"
-    elif archivado == "false":
-        query += " AND (archivado_admin IS FALSE OR archivado_admin IS NULL)"
-
-    # -------------------------
     query += " ORDER BY fecha DESC"
 
     cur.execute(query, tuple(params))
