@@ -1,5 +1,5 @@
 async function cargarRetirosAdmin() {
-  const res = await fetch("/admin/api/pedidos?tipo=retiro", {
+  const res = await fetch("/admin/api/pedidos?tipo=retiro&archivado=false", {
     credentials: "include"
   });
 
@@ -8,7 +8,7 @@ async function cargarRetirosAdmin() {
     return;
   }
 
-  const pedidos = (await res.json()).filter(p => !p.archivado);
+  const pedidos = await res.json();
   const tbody = document.getElementById("tabla-retiros");
   tbody.innerHTML = "";
 

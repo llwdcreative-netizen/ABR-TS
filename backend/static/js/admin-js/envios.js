@@ -1,5 +1,5 @@
 async function cargarEnviosAdmin() {
-  const res = await fetch("/admin/api/pedidos?tipo=envio", {
+  const res = await fetch("/admin/api/pedidos?tipo=envio&archivado=false", {
     credentials: "include"
   });
 
@@ -8,7 +8,7 @@ async function cargarEnviosAdmin() {
     return;
   }
 
-  const pedidos = (await res.json()).filter(p => !p.archivado);
+  const pedidos = await res.json();
   const tbody = document.getElementById("tabla-envios");
   tbody.innerHTML = "";
 
