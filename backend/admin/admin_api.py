@@ -287,7 +287,7 @@ def archivar_pedido(pedido_id):
 
     cur.execute("""
         UPDATE historial
-        SET archivado_admin = NOT archivado_admin
+        SET archivado_admin = NOT COALESCE(archivado_admin, FALSE)
         WHERE id = %s
     """, (pedido_id,))
 

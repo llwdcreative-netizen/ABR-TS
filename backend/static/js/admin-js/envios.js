@@ -3,10 +3,9 @@ async function cargarEnviosAdmin() {
     credentials: "include"
   });
 
-  if (!res.ok) {
-    console.error("Error al cargar pedidos");
-    return;
-  }
+if (res.ok) {
+  cargarEnviosAdmin(); 
+}
 
   const pedidos = await res.json();
   const tbody = document.getElementById("tabla-envios");
@@ -59,7 +58,7 @@ function opcionesEnvio(actual) {
   ).join("");
 }
 
-async function cambiarEstado(tipo, id, estado) {
+async function cambiarEstado(id, estado) {
   const res = await fetch(`/admin/pedidos/${id}/estado`, {
     method: "POST",
     credentials: "include",

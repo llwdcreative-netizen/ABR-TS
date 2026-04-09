@@ -3,10 +3,9 @@ async function cargarRetirosAdmin() {
     credentials: "include"
   });
 
-  if (!res.ok) {
-    console.error("Error al cargar pedidos");
-    return;
-  }
+if (res.ok) {
+  cargarRetirosAdmin();
+}
 
   const pedidos = await res.json();
   const tbody = document.getElementById("tabla-retiros");
