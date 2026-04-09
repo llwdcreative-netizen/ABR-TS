@@ -44,7 +44,6 @@ async function toggleArchivar(id) {
 // CARGAR SOLO ARCHIVADOS
 // -----------------------------
 async function cargarPedidosAdmin() {
-  console.log("PEDIDOS ARCHIVADOS:", pedidos);
   try {
     const res = await fetch("/admin/api/pedidos?archivado=true", {
       credentials: "include"
@@ -56,6 +55,7 @@ async function cargarPedidosAdmin() {
     }
 
     const pedidos = await res.json();
+    console.log("PEDIDOS ARCHIVADOS:", pedidos);
     renderLista("lista-archivados", pedidos);
 
   } catch (err) {
