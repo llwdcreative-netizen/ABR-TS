@@ -51,7 +51,19 @@ async function toggleArchivar(id) {
   });
 
   if (res.ok) {
-    await cargarEnviosAdmin();
+    const btn = document.querySelector(`button[onclick="toggleArchivar(${id})"]`);
+    const row = btn.closest("tr");
+
+    if (row) {
+      row.style.transition = "all 0.3s ease";
+      row.style.opacity = "0";
+      row.style.transform = "translateX(-20px)";
+
+      setTimeout(() => {
+        row.remove();
+      }, 300);
+    }
+
   } else {
     alert("Error al archivar");
   }
