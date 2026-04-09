@@ -23,14 +23,13 @@ async function toggleArchivar(id) {
     return;
   }
 
-  // 🔥 buscar la card
   const btn = document.querySelector(`button[onclick="toggleArchivar(${id})"]`);
   if (!btn) return;
 
   const card = btn.closest(".pedido-card");
   if (!card) return;
 
-  // 🎬 animación suave
+  // 🎬 animación
   card.style.transition = "all 0.3s ease";
   card.style.opacity = "0";
   card.style.transform = "translateY(-10px) scale(0.98)";
@@ -41,22 +40,20 @@ async function toggleArchivar(id) {
 }
 
 // -----------------------------
-// CARGAR SOLO ARCHIVADOS
+// CARGAR DATOS
 // -----------------------------
 async function cargarPedidosAdmin() {
   try {
-    const res = await fetch("/admin/api/pedidos?archivado=true", {
-      credentials: "include"
-    });
+    const [activosRes, archivadosRes] = await Promise.all([
+      fetch("/admin/api/pedidos?archivado=false", { credentials: "include" }),
+      fetch("/admin/api/pedidos?archivado=true", { credentials: "include" })
+    ]);
 
-    if (!res.ok) {
-      console.error("Error al cargar pedidos");
-      return;
-    }
+    const activos = await activosRes.json();
+    const archivados = await archivadosRes.json();
 
-    const pedidos = await res.json();
-    console.log("PEDIDOS ARCHIVADOS:", pedidos);
-    renderLista("lista-archivados", pedidos);
+    renderLista("lista-activos", activos);
+    renderLista("lista-archivados", archivados);
 
   } catch (err) {
     console.error("Error:", err);
@@ -73,7 +70,7 @@ function renderLista(id, pedidos) {
   contenedor.innerHTML = "";
 
   if (!pedidos.length) {
-    contenedor.innerHTML = `<p style="opacity:0.6;">No hay pedidos archivados</p>`;
+    contenedor.innerHTML = `<p style="opacity:0.6;">No hay pedidos</p>`;
     return;
   }
 
@@ -103,4 +100,34 @@ function renderLista(id, pedidos) {
 }
 
 // -----------------------------
-document.addEventListener("DOMContentLoaded", cargarPedidosAdmin);
+// TABS
+// -----------------------------
+function initTabs() {
+  const tabActivos = document.getElementById("tab-activos");
+  const tabArchivados = document.getElementById("tab-archivados");
+
+  const listaActivos = document.getElementById("lista-activos");
+  const listaArchivados = document.getElementById("lista-archivados");
+
+  tabActivos.addEventListener("click", () => {
+    tabActivos.classList.add("active");
+    tabArchivados.classList.remove("active");
+
+    listaActivos.style.display = "block";
+    listaArchivados.style.display = "none";
+  });
+
+  tabArchivados.addEventListener("click", () => {
+    tabArchivados.classList.add("active");
+    tabActivos.classList.remove("active");
+
+    listaArchivados.style.display = "block";
+    listaActivos.style.display = "none";
+  });
+}
+
+// -----------------------------
+document.addEventListener("DOMContentLoaded", () => {
+  cargarPedidosAdmin();
+  initTabs();
+});
