@@ -32,6 +32,10 @@ if (res.ok) {
       </td>
       <td>
         <a href="/admin/envio/${p.envio_id}">Ver</a>
+
+    <button onclick="toggleArchivar(${p.id})">
+      🗂 Archivar
+    </button>
       </td>
     `;
 
@@ -39,6 +43,19 @@ if (res.ok) {
   });
 }
 
+
+async function toggleArchivar(id) {
+  const res = await fetch(`/admin/pedidos/${id}/archivar`, {
+    method: "POST",
+    credentials: "include"
+  });
+
+  if (res.ok) {
+    await cargarEnviosAdmin();
+  } else {
+    alert("Error al archivar");
+  }
+}
 // =========================
 // ESTADO
 // =========================
