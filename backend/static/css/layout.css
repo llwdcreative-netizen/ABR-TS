@@ -261,6 +261,23 @@
    MENU CARRITO
 ========================= */
 
+.cart-icon {
+  position: relative;
+  font-size: 22px;
+}
+
+.badge {
+  position: absolute;
+  top: -6px;
+  right: -10px;
+  background: red;
+  color: white;
+  font-size: 11px;
+  padding: 2px 6px;
+  border-radius: 50%;
+  display: none;
+}
+
 .cart-menu{
   width:100%;
   max-height:80vh;

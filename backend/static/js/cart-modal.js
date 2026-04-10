@@ -1,4 +1,22 @@
 document.addEventListener("DOMContentLoaded", () => {
+
+  async function actualizarCarritoCount() {
+  const res = await fetch("/api/carrito/count");
+
+  if (!res.ok) return;
+
+  const data = await res.json();
+  const badge = document.getElementById("cart-count");
+
+  if (data.count > 0) {
+    badge.textContent = data.count;
+    badge.style.display = "inline-block";
+  } else {
+    badge.style.display = "none";
+  }
+}
+
+document.addEventListener("DOMContentLoaded", actualizarCarritoCount);
 // =========================
 // FUNCIONES GLOBALES
 // =========================

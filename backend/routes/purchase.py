@@ -307,3 +307,26 @@ def cancelar_pedido(pedido_id):
     )
 
     return jsonify({"ok": True})
+
+
+
+
+
+@purchase_bp.route("/api/carrito/count")
+def carrito_count():
+    if "user_id" not in session:
+        return jsonify({"count": 0})
+
+    db = get_db()
+    cur = db.cursor()
+
+    cur.execute("""
+        SELECT COALESCE(SUM(cantidad), 0)
+        FROM cart_items
+        WHERE user_id = %s
+    """, (session["user_id"],))
+
+    count = cur.fetchone()[0]
+    db.close()
+
+    return jsonify({"count": count})
