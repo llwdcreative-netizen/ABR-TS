@@ -309,24 +309,38 @@ def cancelar_pedido(pedido_id):
     return jsonify({"ok": True})
 
 
+@purchase_bp.route("/api/carrito", methods=["POST"])
+def agregar_carrito():
+    data = request.json
+    producto_id = data.get("producto_id")
+    cantidad = int(data.get("cantidad", 1))
+
+    carrito = session.get("carrito", [])
+
+    for item in carrito:
+        if item["producto_id"] == producto_id:
+            item["cantidad"] += cantidad
+            break
+    else:
+        carrito.append({
+            "producto_id": producto_id,
+            "cantidad": cantidad
+        })
+
+    session["carrito"] = carrito
+    session.modified = True
+
+    return jsonify({"ok": True})
+
+
 
 
 
 @purchase_bp.route("/api/carrito/count")
 def carrito_count():
-    if "user_id" not in session:
-        return jsonify({"count": 0})
+    carrito = session.get("carrito", [])
 
-    db = get_db()
-    cur = db.cursor()
+    # 🔥 suma cantidades reales
+    total = sum(item.get("cantidad", 1) for item in carrito)
 
-    cur.execute("""
-        SELECT COALESCE(SUM(cantidad), 0)
-        FROM cart_items
-        WHERE user_id = %s
-    """, (session["user_id"],))
-
-    count = cur.fetchone()[0]
-    db.close()
-
-    return jsonify({"count": count})
+    return jsonify({"count": total})
