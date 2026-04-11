@@ -114,4 +114,4 @@ def favoritos_page():
 
 @public_bp.route("/estado")
 def estado_pago():
-    return render_template("/mp/estado.html")
+    return render_template("mp/estado.html")
