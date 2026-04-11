@@ -152,14 +152,22 @@ document.addEventListener("DOMContentLoaded", () => {
   // =========================
   // ELIMINAR ITEM
   // =========================
-  document.addEventListener("click", (e) => {
-    const btn = e.target.closest(".remove-item");
-    if (!btn) return;
+document.addEventListener("click", async (e) => {
+  const btn = e.target.closest(".remove-item");
+  if (!btn) return;
 
-    carrito.splice(btn.dataset.index, 1);
+  const index = btn.dataset.index;
+  const item = carrito[index];
 
-    renderCart(); 
+  await syncCarritoBackend({
+    id: item.id,
+    cantidad: -item.cantidad
   });
+
+  carrito.splice(index, 1);
+
+  renderCart();
+});
 
   // =========================
   // COMPRA
