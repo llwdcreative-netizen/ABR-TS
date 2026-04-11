@@ -63,11 +63,11 @@ def create_mp_preference_service(data):
             "excluded_payment_types": []
         },
 
-        "notification_url": MP_NOTIFICATION_URL,
+        "notification_url": MP_NOTIFICATION_URL, 
         "back_urls": {
-            "success": "https://abr-ts.onrender.com/mp/gracias",
-            "failure": "https://abr-ts.onrender.com/mp/error",
-            "pending": "https://abr-ts.onrender.com/mp/pendiente"
+            "success": "https://abr-ts.onrender.com/mp/estado?tipo=success",
+            "failure": "https://abr-ts.onrender.com/mp/estado?tipo=error",
+            "pending": "https://abr-ts.onrender.com/mp/estado?tipo=pending"
         },
         "auto_return": "approved"
     }

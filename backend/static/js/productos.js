@@ -41,11 +41,11 @@ async function cargarProductos() {
       });
     });
 
-    // ✅ Inicializar filtros SI existen
+    // Inicializar filtros SI existen
     if (document.getElementById("filtros")) {
       await generarFiltros();
 
-      // 🔥 aplicar filtro desde URL DESPUÉS de renderizar
+      // aplicar filtro desde URL DESPUÉS de renderizar
       if (categoria) {
         filtrarProductos(categoria);
       }

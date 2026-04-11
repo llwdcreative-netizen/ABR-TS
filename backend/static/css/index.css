@@ -118,6 +118,11 @@ h2{
   cursor: pointer;
 }
 
+.categoria-btn p, a{
+  text-decoration: none;
+  color: var(--black-color);
+}
+
 
 
 /* =========================

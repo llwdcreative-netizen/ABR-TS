@@ -112,17 +112,6 @@ def favoritos_page():
     return render_template("favoritos.html")
 
 
-
-
-@public_bp.route("/mp/gracias")
-def mp_gracias():
-    return render_template("mp/gracias.html")
-
-
-@public_bp.route("/mp/pendiente")
-def mp_pendiente():
-    return render_template("mp/pendiente.html")
-
-@public_bp.route("/mp/error")
-def mp_error():
-    return render_template("mp/error.html")
+@public_bp.route("/estado")
+def estado_pago():
+    return render_template("estado.html")

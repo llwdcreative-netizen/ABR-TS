@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+      <link rel="stylesheet" href="static/css/layout.css">
+      <link rel="stylesheet" href="static/css/config-g.css">
+      <link rel="stylesheet" href="static/css/mp/estado-mp.css">
+</head>
+<body>
+
+<!-- HEADER -->
+{% include "components/header.html" %}
+
+<div id="status-modal" class="status-modal">
+
+  <div class="status-card" id="status-card">
+
+    <div class="status-icon" id="status-icon"></div>
+
+    <h2 id="status-title"></h2>
+
+    <p id="status-text"></p>
+
+    <button id="status-btn">Volver</button>
+
+  </div>
+
+</div>
+
+
+<!-- CHAT BOT -->
+{% include "components/chat.html" %}
+
+</main>
+<!-- FOOTER -->
+{% include "components/footer.html" %}
+
+{% include "components/modals.html" %}
+
+<script src="static/js/estado.js"></script>
+
+</body>
+</html>

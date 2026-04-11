@@ -359,6 +359,7 @@
 
   width:90%;
   max-width:350px;
+  height:400px;
 
   background:var(--white-color);
   border-radius:12px;
@@ -419,6 +420,9 @@
   display:flex;
   flex-direction:column;
   gap:8px;
+
+  flex:1;
+  overflow-y:auto;
 }
 
 .receptor{
