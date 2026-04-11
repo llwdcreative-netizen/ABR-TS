@@ -14,14 +14,13 @@ document.addEventListener("DOMContentLoaded", () => {
   let carrito = obtenerCarrito();
 
   // =========================
-  // CONTADOR (BACK + FRONT)
+  // CONTADOR (BACK + FALLBACK)
   // =========================
   async function actualizarCarritoCount() {
     const badge = document.getElementById("cart-count");
     if (!badge) return;
 
     try {
-      // 🔥 BACKEND manda la verdad
       const res = await fetch("/api/carrito/count", {
         credentials: "include"
       });
@@ -37,7 +36,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
     } catch {
-      // 🔥 fallback localStorage
+      // fallback local
       const total = carrito.reduce((acc, p) => acc + (p.cantidad || 1), 0);
 
       if (total > 0) {
@@ -50,7 +49,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // =========================
-  // SINCRONIZAR CON BACKEND
+  // SYNC BACKEND
   // =========================
   async function syncCarritoBackend(producto) {
     try {
@@ -99,11 +98,13 @@ document.addEventListener("DOMContentLoaded", () => {
     if (cartTotal) cartTotal.textContent = total.toFixed(2);
 
     guardarCarrito(carrito);
-    actualizarCarritoCount(); 
+
+    
+    actualizarCarritoCount();
   }
 
   // =========================
-  // ABRIR / CERRAR CARRITO
+  // ABRIR / CERRAR
   // =========================
   const cartBtn = document.getElementById("cartbtn");
   const cartOverlay = document.querySelector(".cart-overlay");
@@ -145,18 +146,19 @@ document.addEventListener("DOMContentLoaded", () => {
       await syncCarritoBackend(product);
     }
 
-    renderCart();
+    renderCart(); 
   });
 
   // =========================
   // ELIMINAR ITEM
   // =========================
-  document.addEventListener("click", e => {
+  document.addEventListener("click", (e) => {
     const btn = e.target.closest(".remove-item");
     if (!btn) return;
 
     carrito.splice(btn.dataset.index, 1);
-    renderCart();
+
+    renderCart(); 
   });
 
   // =========================
@@ -197,7 +199,7 @@ document.addEventListener("DOMContentLoaded", () => {
         // limpiar carrito
         carrito = [];
         guardarCarrito(carrito);
-        renderCart();
+        renderCart(); 
 
       } catch (err) {
         console.error(err);
@@ -209,7 +211,5 @@ document.addEventListener("DOMContentLoaded", () => {
   // =========================
   // INIT
   // =========================
-  renderCart();
-  actualizarCarritoCount();
-
+  renderCart();            
 });
