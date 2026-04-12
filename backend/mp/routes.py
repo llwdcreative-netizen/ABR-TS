@@ -310,6 +310,23 @@ def mp_webhook():
     return "OK", 200
 
 
+@mp_routes.route("/mp/estado")
+def mp_estado():
+    tipo = request.args.get("tipo")  # success | failure | pending
+    status = request.args.get("status")  # approved, rejected, pending
+    payment_id = request.args.get("payment_id")
+    external_reference = request.args.get("external_reference")
+
+    print("🔥 REDIRECT MP:")
+    print("TIPO:", tipo)
+    print("STATUS:", status)
+    print("PAYMENT ID:", payment_id)
+
+    return redirect(
+        f"/estado?tipo={tipo}&status={status}&payment_id={payment_id}"
+    )
+
+
 
 @mp_routes.route("/mp/success")
 def mp_success():

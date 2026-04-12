@@ -65,9 +65,9 @@ def create_mp_preference_service(data):
 
         "notification_url": MP_NOTIFICATION_URL, 
         "back_urls": {
-            "success": "https://abr-ts.onrender.com/mp/estado?tipo=success",
-            "failure": "https://abr-ts.onrender.com/mp/estado?tipo=error",
-            "pending": "https://abr-ts.onrender.com/mp/estado?tipo=pending"
+            "success": "https://abr-ts.onrender.com/estado?tipo=success",
+            "failure": "https://abr-ts.onrender.com/estado?tipo=error",
+            "pending": "https://abr-ts.onrender.com/estado?tipo=pending"
         },
         "auto_return": "approved"
     }

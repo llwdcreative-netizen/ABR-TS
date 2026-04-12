@@ -43,12 +43,35 @@ function mostrarEstado(tipo) {
   };  
 }
 
-// 🔥 AUTO-DETECCIÓN DESDE URL
-document.addEventListener("DOMContentLoaded", () => {
-  const params = new URLSearchParams(window.location.search);
-  const tipo = params.get("tipo");
 
-  if (tipo) {
-    mostrarEstado(tipo);
+document.addEventListener("DOMContentLoaded", async () => {
+  const params = new URLSearchParams(window.location.search);
+
+  const tipo = params.get("tipo");        // success | failure | pending
+  const paymentId = params.get("payment_id");
+
+  // fallback simple
+  if (!paymentId) {
+    mostrarEstado(tipo || "error");
+    return;
+  }
+
+  try {
+    const res = await fetch(`/api/pago/verificar?payment_id=${paymentId}`);
+    const data = await res.json();
+
+    if (data.estado === "aprobado") {
+      mostrarEstado("success");
+    } else if (data.estado === "pendiente") {
+      mostrarEstado("pending");
+    } else {
+      mostrarEstado("error");
+    }
+
+  } catch (e) {
+    console.error(e);
+
+    // fallback si backend falla
+    mostrarEstado(tipo || "error");
   }
 });
