@@ -165,7 +165,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // =========================
-  // COMPRA (ARREGLADO)
+  // COMPRA
   // =========================
   const buyBtn = document.getElementById("buy-btn");
 
