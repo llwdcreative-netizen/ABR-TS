@@ -212,14 +212,14 @@ if (buyBtn) {
         body: JSON.stringify(bodyData)
       });
 
+      const data = await res.json();
+
       await crearPagoCarrito(
       carrito,
       "cliente@correo.com",
       data.tipo,
       data.pedido_id
     );
-
-      const data = await res.json();
 
       if (!data.ok) {
         alert(data.error || "Error en compra");
