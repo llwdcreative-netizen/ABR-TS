@@ -1,4 +1,32 @@
 document.addEventListener("DOMContentLoaded", () => {
+  async function crearPagoCarrito(carrito, email, tipo, referencia_id) {
+
+  const items = carrito.map(p => ({
+    title: p.nombre || p.name || "Producto",
+    quantity: Number(p.cantidad || 1),
+    unit_price: Number(p.precio ?? p.price ?? 0),
+    currency_id: "ARS"
+  }));
+
+  const res = await fetch("/create_preference", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    credentials: "include",
+    body: JSON.stringify({
+      items,
+      tipo,
+      referencia_id,
+      payer: { email }
+    })
+  });
+
+  const data = await res.json();
+
+  if (!data.ok) throw new Error("Error creando pago");
+
+  window.location.href =
+    `https://www.mercadopago.com.ar/checkout/v1/redirect?pref_id=${data.preference_id}`;
+}
 
   // =========================
   // CARRITO STORAGE
