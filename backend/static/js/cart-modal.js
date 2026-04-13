@@ -36,6 +36,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
     } catch {
+      // fallback local
       const total = carrito.reduce((acc, p) => acc + (p.cantidad || 1), 0);
 
       if (total > 0) {
@@ -96,6 +97,8 @@ document.addEventListener("DOMContentLoaded", () => {
     if (cartTotal) cartTotal.textContent = total.toFixed(2);
 
     guardarCarrito(carrito);
+
+    
     actualizarCarritoCount();
   }
 
@@ -148,88 +151,91 @@ document.addEventListener("DOMContentLoaded", () => {
   // =========================
   // ELIMINAR ITEM
   // =========================
-  document.addEventListener("click", async (e) => {
-    const btn = e.target.closest(".remove-item");
-    if (!btn) return;
+document.addEventListener("click", async (e) => {
+  const btn = e.target.closest(".remove-item");
+  if (!btn) return;
 
-    const index = btn.dataset.index;
-    const item = carrito[index];
+  const index = btn.dataset.index;
+  const item = carrito[index];
 
-    await syncCarritoBackend({
-      id: item.id,
-      cantidad: -item.cantidad
-    });
-
-    carrito.splice(index, 1);
-    renderCart();
+  await syncCarritoBackend({
+    id: item.id,
+    cantidad: -item.cantidad
   });
+
+  carrito.splice(index, 1);
+
+  renderCart();
+});
 
   // =========================
   // COMPRA
   // =========================
-  const buyBtn = document.getElementById("buy-btn");
 
-  if (buyBtn) {
-    buyBtn.addEventListener("click", async () => {
+const buyBtn = document.getElementById("buy-btn");
 
-      if (!carrito.length) return alert("Carrito vacío");
+if (buyBtn) {
+  buyBtn.addEventListener("click", async () => {
 
-      try {
-        const productosEnvio = carrito.map(p => ({
-          id: p.id,
-          name: p.nombre,
-          price: p.precio,
-          cantidad: p.cantidad
-        }));
+    if (!carrito.length) return alert("Carrito vacío");
 
-        const tipoEntrega = document.getElementById("tipo-entrega")?.value || "retiro";
+    try {
+      const productosEnvio = carrito.map(p => ({
+        id: p.id,
+        name: p.nombre,
+        price: p.precio,
+        cantidad: p.cantidad
+      }));
 
-        const bodyData = {
-          tipo: tipoEntrega,
-          productos: productosEnvio
-        };
+      const tipoEntrega = document.getElementById("tipo-entrega")?.value || "retiro";
 
-        if (tipoEntrega === "envio") {
-          bodyData.nombre = document.getElementById("nombre")?.value;
-          bodyData.telefono = document.getElementById("telefono")?.value;
-          bodyData.email = document.getElementById("email")?.value;
-          bodyData.calle = document.getElementById("calle")?.value;
-          bodyData.numero = document.getElementById("numero")?.value;
-          bodyData.ciudad = document.getElementById("ciudad")?.value;
-          bodyData.provincia = document.getElementById("provincia")?.value;
-          bodyData.cp = document.getElementById("cp")?.value;
-        }
+      const bodyData = {
+        tipo: tipoEntrega,
+        productos: productosEnvio
+      };
 
-        const res = await fetch("/purchase", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          credentials: "include",
-          body: JSON.stringify(bodyData)
-        });
-
-        const data = await res.json();
-
-        if (!data.ok) {
-          alert(data.error || "Error en compra");
-          return;
-        }
-
-        carrito = [];
-        guardarCarrito(carrito);
-        renderCart();
-
-        alert("Compra realizada 🎉");
-
-      } catch (err) {
-        console.error(err);
-        alert("Error");
+      if (tipoEntrega === "envio") {
+        bodyData.nombre = document.getElementById("nombre")?.value;
+        bodyData.telefono = document.getElementById("telefono")?.value;
+        bodyData.email = document.getElementById("email")?.value;
+        bodyData.calle = document.getElementById("calle")?.value;
+        bodyData.numero = document.getElementById("numero")?.value;
+        bodyData.ciudad = document.getElementById("ciudad")?.value;
+        bodyData.provincia = document.getElementById("provincia")?.value;
+        bodyData.cp = document.getElementById("cp")?.value;
       }
 
-    });
-  }
+      const res = await fetch("/purchase", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify(bodyData)
+      });
+
+      const data = await res.json();
+
+      if (!data.ok) {
+        alert(data.error || "Error en compra");
+        return;
+      }
+
+      carrito = [];
+      guardarCarrito(carrito);
+      renderCart();
+
+      alert("Compra realizada 🎉");
+
+    } catch (err) {
+      console.error(err);
+      alert("Error");
+    }
+
+  });
+}
+  });
+
 
   // =========================
   // INIT
   // =========================
   renderCart();            
-});
