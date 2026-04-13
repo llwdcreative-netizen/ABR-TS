@@ -1,9 +1,30 @@
 let categorias = [];
 
+async function cargarShippingActual() {
+  try {
+    const res = await fetch("/api/shipping", {
+      credentials: "include"
+    });
+
+    const data = await res.json();
+
+    const input = document.getElementById("shippingCostInput");
+    if (input) {
+      input.value = data.shippingCost ?? 0;
+    }
+
+  } catch (err) {
+    console.error("Error cargando shipping:", err);
+  }
+}
+
 document.addEventListener("DOMContentLoaded", async () => {
   console.log("JS CARGADO CORRECTAMENTE");
+
+  await cargarShippingActual();
+
   const saveShippingBtn = document.getElementById("saveShipping");
-const shippingInput = document.getElementById("shippingCostInput");
+  const shippingInput = document.getElementById("shippingCostInput");
 
 if (saveShippingBtn) {
   saveShippingBtn.addEventListener("click", async () => {
@@ -210,12 +231,12 @@ async function cargarProductos() {
   if (!container) return;
 
   try {
-    // 🔥 1. Traemos productos
+    // 1. Traemos productos
     const res = await fetch("/admin/productos-json", { credentials: "include" });
     if (!res.ok) throw new Error("Error cargando productos");
     const productos = await res.json();
 
-    // 🔥 2. Traemos marcas UNA sola vez
+    //  2. Traemos marcas UNA sola vez
     const resMarcas = await fetch("/api/marcas", { credentials: "include" });
     if (!resMarcas.ok) throw new Error("Error cargando marcas");
     const marcas = await resMarcas.json();
@@ -261,7 +282,7 @@ async function cargarProductos() {
         <button class="eliminar">🗑 Eliminar</button>
       `;
 
-      // 🔥 Select de marcas
+      //  Select de marcas
       const marcaSelect = div.querySelector(".edit-marca");
 
       marcas.forEach(marca => {
