@@ -8,17 +8,25 @@ document.addEventListener("DOMContentLoaded", () => {
     currency_id: "ARS"
   }));
 
-  const res = await fetch("/create_preference", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    credentials: "include",
-    body: JSON.stringify({
-      items,
-      tipo,
-      referencia_id,
-      payer: { email }
-    })
-  });
+const res = await fetch("/create_preference", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  credentials: "include",
+  body: JSON.stringify({
+    items,
+    tipo,
+    referencia_id,
+    payer: { email },
+
+    back_urls: {
+          "success": "https://abr-ts.onrender.com/estado?tipo=success",
+          "failure": "https://abr-ts.onrender.com/estado?tipo=error",
+          "pending": "https://abr-ts.onrender.com/estado?tipo=pending"
+    },
+
+    auto_return: "approved"
+  })
+});
 
   const data = await res.json();
 
