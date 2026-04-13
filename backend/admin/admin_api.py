@@ -767,6 +767,33 @@ def limpiar_notificaciones():
     return jsonify({"success": True})
 
 
+@admin_api_bp.route("/notificaciones/count")
+def count_notificaciones():
+    db = get_db()
+    cur = db.cursor()
+
+    if session.get("rol") == "admin":
+        cur.execute("""
+            SELECT COUNT(*)
+            FROM notificaciones
+            WHERE rol = 'admin' AND leida = FALSE
+        """)
+
+    elif session.get("user_id"):
+        cur.execute("""
+            SELECT COUNT(*)
+            FROM notificaciones
+            WHERE usuario_id = %s AND leida = FALSE
+        """, (session["user_id"],))
+
+    else:
+        return jsonify({"count": 0})
+
+    count = cur.fetchone()[0]
+    db.close()
+
+    return jsonify({"count": count})
+
 
 
 

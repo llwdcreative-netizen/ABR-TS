@@ -2,9 +2,26 @@
 // 🔔 NOTIFICACIONES CLIENTE
 // ===============================
 
+async function marcarLeidasCliente() {
+  try {
+    await fetch(`/notificaciones/usuario/marcar-leidas`, {
+      method: "POST",
+      credentials: "include"
+    });
+
+    await cargarNotificacionesCliente();
+    actualizarNotificacionesCount();
+
+  } catch (err) {
+    console.error("Error marcando notificaciones:", err);
+  }
+}
+
 async function cargarNotificacionesCliente() {
   try {
-    const res = await fetch(`/notificaciones`);
+    const res = await fetch(`/notificaciones`, {
+      credentials: "include"
+    });
     const data = await res.json();
 
     const lista = document.getElementById("notificationList");
@@ -18,11 +35,13 @@ async function cargarNotificacionesCliente() {
       lista.innerHTML =
         "<p style='padding:15px;color:#aaa;'>No tienes notificaciones</p>";
       count.style.display = "none";
+      actualizarNotificacionesCount();
       return;
     }
 
     data.forEach(n => {
-      if (n.leida) noLeidas++;
+
+      if (!n.leida) noLeidas++; 
 
       const div = document.createElement("div");
       div.classList.add("notification-item");
@@ -39,7 +58,6 @@ async function cargarNotificacionesCliente() {
         <span class="time">${fecha}</span>
       `;
 
-      // 🔥 Redirección cliente
       div.addEventListener("click", () => {
         const id = n.referencia_id;
         if (!id) return;
@@ -50,7 +68,7 @@ async function cargarNotificacionesCliente() {
       lista.appendChild(div);
     });
 
-    // 🔴 Contador
+    // contador local panel
     if (noLeidas > 0) {
       count.style.display = "inline-block";
       count.textContent = noLeidas;
@@ -58,22 +76,9 @@ async function cargarNotificacionesCliente() {
       count.style.display = "none";
     }
 
+    actualizarNotificacionesCount(); 
   } catch (err) {
     console.error("Error cargando notificaciones:", err);
-  }
-}
-
-async function marcarLeidasCliente() {
-  try {
-    await fetch(`/notificaciones/usuario/marcar-leidas`, {
-      method: "POST",
-      credentials: "include"
-    });
-
-    cargarNotificacionesCliente();
-
-  } catch (err) {
-    console.error("Error marcando notificaciones:", err);
   }
 }
 
@@ -99,17 +104,48 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  clearBtn.addEventListener("click", async () => {
-    try {
-      await fetch(`/notificaciones/usuario/limpiar`, {
-        method: "DELETE",
-        credentials: "include"
-      });
+clearBtn.addEventListener("click", async () => {
+  try {
+    await fetch(`/notificaciones/usuario/limpiar`, {
+      method: "DELETE",
+      credentials: "include"
+    });
 
-      cargarNotificacionesCliente();
-    } catch (err) {
-      console.error("Error limpiando notificaciones:", err);
-    }
-  });
+    await cargarNotificacionesCliente();
+    actualizarNotificacionesCount(); 
 
+  } catch (err) {
+    console.error("Error limpiando notificaciones:", err);
+  }
 });
+});
+
+setInterval(() => {
+  cargarNotificacionesCliente();
+  actualizarNotificacionesCount();
+}, 5000);
+
+
+async function actualizarNotificacionesCount() {
+  const badge = document.getElementById("notif-count");
+  if (!badge) return;
+
+  try {
+    const res = await fetch("/notificaciones/count", {
+      credentials: "include"
+    });
+
+    const data = await res.json();
+    const total = data.count || 0;
+
+    if (total > 0) {
+      badge.textContent = total;
+      badge.style.display = "inline-block";
+    } else {
+      badge.style.display = "none";
+    }
+
+  } catch (e) {
+    console.error(e);
+  }
+}
