@@ -72,7 +72,6 @@ document.addEventListener("DOMContentLoaded", () => {
   // =========================
   const cartItems = document.getElementById("cart-items");
   const cartTotal = document.getElementById("cart-total");
-  const buyBtn = document.getElementById("buy-btn");
 
   // =========================
   // RENDER
@@ -172,49 +171,50 @@ document.addEventListener("click", async (e) => {
   // =========================
   // COMPRA
   // =========================
-  const confirmarCompraBtn = document.getElementById("confirmar-compra");
 
-  if (confirmarCompraBtn) {
-    confirmarCompraBtn.addEventListener("click", async () => {
+const buyBtn = document.getElementById("buy-btn");
 
-      if (!carrito.length) return alert("Carrito vacío");
+if (buyBtn) {
+  buyBtn.addEventListener("click", async () => {
 
-      try {
-        const productosEnvio = carrito.map(p => ({
-          id: p.id,
-          name: p.nombre,
-          price: p.precio,
-          cantidad: p.cantidad
-        }));
+    if (!carrito.length) return alert("Carrito vacío");
 
-        const res = await fetch("/purchase", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          credentials: "include",
-          body: JSON.stringify({
-            tipo: "envio",
-            productos: productosEnvio
-          })
-        });
+    try {
+      const productosEnvio = carrito.map(p => ({
+        id: p.id,
+        name: p.nombre,
+        price: p.precio,
+        cantidad: p.cantidad
+      }));
 
-        const data = await res.json();
+      const res = await fetch("/purchase", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({
+          tipo: "envio",
+          productos: productosEnvio
+        })
+      });
 
-        if (!data.ok) {
-          alert("Error en compra");
-          return;
-        }
+      const data = await res.json();
 
-        // limpiar carrito
-        carrito = [];
-        guardarCarrito(carrito);
-        renderCart(); 
-
-      } catch (err) {
-        console.error(err);
-        alert("Error");
+      if (!data.ok) {
+        alert("Error en compra");
+        return;
       }
-    });
-  }
+
+      carrito = [];
+      guardarCarrito(carrito);
+      renderCart();
+
+    } catch (err) {
+      console.error(err);
+      alert("Error");
+    }
+
+  });
+}
 
   // =========================
   // INIT
