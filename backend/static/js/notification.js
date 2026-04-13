@@ -121,7 +121,12 @@ clearBtn.addEventListener("click", async () => {
 });
 
 setInterval(() => {
-  cargarNotificacionesCliente();
+  const panel = document.getElementById("notificationPanel");
+
+  if (!panel.classList.contains("hidden")) {
+    cargarNotificacionesCliente();
+  }
+
   actualizarNotificacionesCount();
 }, 5000);
 
