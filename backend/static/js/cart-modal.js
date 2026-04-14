@@ -241,6 +241,7 @@ if (buyBtn) {
         bodyData.cp = document.getElementById("cp")?.value;
       }
 
+      console.log("TIPO EN FRONT:", tipo);
       const res = await fetch("/purchase", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
