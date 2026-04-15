@@ -1,8 +1,8 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const confirmarBtn = document.getElementById("confirmar-compra");
+  const confirmarBtn = document.getElementById("confirmar-compra-fast");
   if (!confirmarBtn) return;
 
-  let procesando = false; // 🔥 evita doble click
+  let procesando = false; 
 
   confirmarBtn.addEventListener("click", async () => {
     if (procesando) return;
@@ -62,7 +62,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     try {
       // =====================
-      // 1️⃣ CREAR PEDIDO
+      // CREAR PEDIDO
       // =====================
       const tipo = metodoEl.value;
 
@@ -90,7 +90,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const pedidoId = pedidoData.pedido_id;
 
       // =====================
-      // 2️⃣ MERCADO PAGO
+      // MERCADO PAGO
       // =====================
       const mpPayload = {
         items: productos.map(p => ({
@@ -101,12 +101,12 @@ document.addEventListener("DOMContentLoaded", () => {
         })),
 
         payer: {
-          email: datos.email || "test@test.com" // fallback simple
+          email: datos.email || "test@test.com" 
         },
 
         metadata: {
           tipo: tipo,
-          referencia_id: pedidoId   // 🔥 CLAVE
+          referencia_id: pedidoId   
         }
       };
 
@@ -127,7 +127,7 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
-      // 🔥 REDIRECCIÓN CORRECTA
+
       window.location.href = `https://www.mercadopago.com.ar/checkout/v1/redirect?pref_id=${mpData.preference_id}`;
 
     } catch (err) {

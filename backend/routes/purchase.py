@@ -19,7 +19,7 @@ def purchase():
     if "user_id" not in session:
         return jsonify({"error": "No autenticado"}), 401
 
-    data = request.json or {}
+    data = request.get_json(silent=True) or {}
 
     tipo = data.get("tipo").lower()  # "envio" o "retiro"
     if tipo not in ["envio", "retiro"]:
@@ -65,9 +65,15 @@ def purchase():
 
     if tipo == "envio":
         campos = ["nombre", "telefono", "calle", "numero", "ciudad", "provincia", "cp"]
+        
+        print("DATA COMPLETA:", data)
+        print("TIPO DATA:", type(data))
+        print("PROVINCIA RAW:", data.get("provincia"))
 
         for c in campos:
-            if not data.get(c):
+            value = data.get(c)
+
+            if value is None or str(value).strip() == "":
                 return jsonify({"error": f"Falta {c}"}), 400
 
         cliente = {
@@ -77,13 +83,13 @@ def purchase():
             "direccion": {
                 "calle": data.get("calle"),
                 "numero": data.get("numero"),
-                "piso": data.get("piso"),
-                "barrio": data.get("barrio"),
+                "piso": data.get("piso") or "",
+                "barrio": data.get("barrio") or "",
                 "ciudad": data.get("ciudad"),
                 "provincia": data.get("provincia"),
                 "cp": data.get("cp"),
             },
-            "notas": data.get("notas")
+            "notas": data.get("notas") or ""
         }
 
     elif tipo == "retiro":

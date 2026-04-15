@@ -208,10 +208,86 @@ document.addEventListener("click", async (e) => {
   // COMPRA
   // =========================
 
-const buyBtn = document.getElementById("buy-btn");
 
-if (buyBtn) {
-  buyBtn.addEventListener("click", async () => {
+  // =========================
+// MODOS DE ENTREGA (ENVÍO / RETIRO)
+// =========================
+
+const radiosEntrega = document.querySelectorAll('input[name="entrega"]');
+const formEnvio = document.getElementById("form-envio");
+const retiroInfo = document.getElementById("retiro-info");
+
+if (radiosEntrega.length) {
+  radiosEntrega.forEach(radio => {
+    radio.addEventListener("change", () => {
+
+      if (radio.value === "envio") {
+        formEnvio?.classList.remove("oculto");
+        retiroInfo?.classList.add("oculto");
+      }
+
+      if (radio.value === "retiro") {
+        retiroInfo?.classList.remove("oculto");
+        formEnvio?.classList.add("oculto");
+      }
+
+    });
+  });
+}
+
+const buyBtn = document.getElementById("buy-btn");
+const confirmarCompraBtn = document.getElementById("confirmar-compra-cart");
+const orderSummary = document.getElementById("order-summary");
+const orderTotal = document.getElementById("order-total");
+const orderModal = document.getElementById("orderModal");
+
+if (buyBtn && orderSummary && orderTotal && orderModal) {
+  buyBtn.addEventListener("click", () => {
+
+    if (!carrito.length) {
+      alert("Carrito vacío");
+      return;
+    }
+
+    orderSummary.innerHTML = "";
+    let total = 0;
+
+    carrito.forEach(item => {
+      const nombre = item.nombre || item.name || "Producto";
+      const precio = Number(item.precio ?? item.price ?? 0);
+      const cantidad = Number(item.cantidad ?? 1);
+
+      const li = document.createElement("li");
+      li.textContent = `${nombre} x${cantidad} - $${precio * cantidad}`;
+
+      orderSummary.appendChild(li);
+
+      total += precio * cantidad;
+    });
+
+    orderTotal.textContent = total.toFixed(2);
+
+    orderModal.style.display = "block";
+  });
+}
+
+
+const confirmBtn = document.getElementById("confirm-btn");
+const modalCompra = document.getElementById("modal-compra");
+
+if (confirmBtn && orderModal && modalCompra) {
+  confirmBtn.addEventListener("click", () => {
+    orderModal.style.display = "none";
+    modalCompra.style.display = "block";
+  });
+}
+
+
+
+
+if (confirmarCompraBtn) {
+  confirmarCompraBtn.addEventListener("click", async (e) => {
+  e.preventDefault();
 
     if (!carrito.length) return alert("Carrito vacío");
 
@@ -223,45 +299,77 @@ if (buyBtn) {
         cantidad: p.cantidad
       }));
 
-      const tipoEntrega = document.getElementById("tipo-entrega")?.value || "retiro";
+      const tipoEntrega = document.querySelector('input[name="entrega"]:checked')?.value;
+
+      if (!tipoEntrega) {
+      return alert("Seleccioná método de entrega");
+    }
 
       const bodyData = {
         tipo: tipoEntrega,
         productos: productosEnvio
       };
 
-      if (tipoEntrega === "envio") {
-        bodyData.nombre = document.getElementById("nombre")?.value;
-        bodyData.telefono = document.getElementById("telefono")?.value;
-        bodyData.email = document.getElementById("email")?.value;
-        bodyData.calle = document.getElementById("calle")?.value;
-        bodyData.numero = document.getElementById("numero")?.value;
-        bodyData.ciudad = document.getElementById("ciudad")?.value;
-        bodyData.provincia = document.getElementById("provincia")?.value;
-        bodyData.cp = document.getElementById("cp")?.value;
-      }
+if (tipoEntrega === "envio") {
 
-      console.log("TIPO EN FRONT:", tipo);
+  const nombre = document.getElementById("env-nombre")?.value.trim();
+  const telefono = document.getElementById("env-telefono")?.value.trim();
+  const emailInput = document.getElementById("env-email")?.value.trim();
+  const calle = document.getElementById("env-calle")?.value.trim();
+  const numero = document.getElementById("env-numero")?.value.trim();
+  const ciudad = document.getElementById("env-ciudad")?.value.trim();
+  const provincia = document.getElementById("env-provincia")?.value.trim();
+  const cp = document.getElementById("env-cp")?.value.trim();
+
+  if (!nombre || !telefono || !calle || !numero || !ciudad || !provincia || !cp) {
+    return alert("Completá los datos obligatorios de envío");
+  }
+
+
+  bodyData.nombre = nombre;
+  bodyData.telefono = telefono;
+  bodyData.email = emailInput;
+  bodyData.calle = calle;
+  bodyData.numero = numero;
+  bodyData.ciudad = ciudad;
+  bodyData.provincia = provincia;
+  bodyData.cp = cp;
+
+  console.log("BODY:", bodyData);
+
+  const piso = document.getElementById("env-piso")?.value.trim();
+  const barrio = document.getElementById("env-barrio")?.value.trim();
+  const notas = document.getElementById("env-notas")?.value.trim();
+
+  if (piso) bodyData.piso = piso;
+  if (barrio) bodyData.barrio = barrio;
+  if (notas) bodyData.notas = notas;
+}
+
+
       const res = await fetch("/purchase", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
         body: JSON.stringify(bodyData)
+        
       });
 
       const data = await res.json();
-
-      await crearPagoCarrito(
-      carrito,
-      "cliente@correo.com",
-      data.tipo,
-      data.pedido_id
-    );
 
       if (!data.ok) {
         alert(data.error || "Error en compra");
         return;
       }
+
+      const email = bodyData.email || "test@test.com";
+
+      await crearPagoCarrito(
+        carrito,
+        email,
+        tipoEntrega,
+        data.pedido_id
+      );
 
       carrito = [];
       guardarCarrito(carrito);
