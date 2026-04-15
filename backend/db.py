@@ -11,10 +11,12 @@ def get_db():
     db_url = os.getenv("DATABASE_URL")
 
     if not db_url:
-            db_url = "LOCALHOST_DATABASE"
+        raise RuntimeError("DATABASE_URL no está configurada")
 
     return psycopg.connect(
         db_url,
+        sslmode="require",
+        connect_timeout=10,
         row_factory=psycopg.rows.dict_row
     )
 
