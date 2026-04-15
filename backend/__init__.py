@@ -1,8 +1,6 @@
 from flask import Flask
 import os
 
-from backend.db import init_db
-
 from backend.routes.auth import auth_bp
 from backend.routes.purchase import purchase_bp
 
@@ -34,8 +32,5 @@ def create_app():
 
     app.register_blueprint(public_bp)
     app.register_blueprint(mp_routes)
-
-    with app.app_context():
-        init_db()
 
     return app
