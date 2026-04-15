@@ -7,7 +7,6 @@ from werkzeug.security import generate_password_hash
 ADMIN_EMAIL = "llwd.creative@gmail.com"
 
 
-
 def get_db():
     db_url = os.getenv("DATABASE_URL")
 
