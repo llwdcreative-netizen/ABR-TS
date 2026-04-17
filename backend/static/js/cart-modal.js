@@ -42,27 +42,24 @@ document.addEventListener("DOMContentLoaded", () => {
 
   let carrito = obtenerCarrito();
 
-  async function actualizarCarritoCount() {
-    const badge = document.getElementById("cart-count");
-    if (!badge) return;
 
-    try {
-      const res = await fetch("/api/carrito/count", {
-        credentials: "include"
-      });
 
-      const data = await res.json();
-      const total = data.count || 0;
 
-      badge.textContent = total;
-      badge.style.display = total > 0 ? "inline-block" : "none";
+function actualizarCarritoCount() {
+  const badge = document.getElementById("cart-count");
+  if (!badge) return;
 
-    } catch {
-      const total = carrito.reduce((acc, p) => acc + (p.cantidad || 1), 0);
-      badge.textContent = total;
-      badge.style.display = total > 0 ? "inline-block" : "none";
-    }
-  }
+  const carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+
+  const total = carrito.reduce((acc, p) => acc + (p.cantidad || 1), 0);
+
+  badge.textContent = total;
+  badge.style.display = total > 0 ? "inline-block" : "none";
+}
+
+
+
+
 
   async function syncCarritoBackend(producto) {
     try {
