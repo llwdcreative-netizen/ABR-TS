@@ -3,7 +3,7 @@
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Panel de Envíos</title>
-  <link rel="stylesheet" href="/static/css/admin-styles/layout2.css">
+  <link rel="stylesheet" href="/static/css/admin-styles/layout.css">
   <link rel="stylesheet" href="/static/css/admin-styles/admin-config-g.css">
   <link rel="stylesheet" href="/static/css/admin-styles/search-admin.css">
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
@@ -15,8 +15,9 @@
 
 <main class="admin-content">
 
+{% set target = "#tabla-envios tr" %}
 {% include "admin/components/search.html" %}
-  <table class="admin-table">
+  <table class="admin-table" name="envios">
     <thead>
       <tr>
         <th>ID</th>

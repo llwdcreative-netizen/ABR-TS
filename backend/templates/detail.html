@@ -6,7 +6,6 @@
   <title>Producto</title>
   <link rel="icon" href="/static/img/favicon.ico">
   <link rel="stylesheet" href="/static/css/layout.css">
-  <link rel="stylesheet" href="/static/css/responsive.css">
   <link rel="stylesheet" href="/static/css/productos.css">
   <link rel="stylesheet" href="/static/css/detail.css">
   <link rel="stylesheet" href="/static/css/config-g.css">
@@ -56,13 +55,7 @@
 
   <div class="reviews-grid">
 
-    <!-- IZQUIERDA: LISTA -->
-    <div class="reviews-list">
-      <h3>Opiniones</h3>
-      <div id="lista-resenas"></div>
-    </div>
-
-    <!-- DERECHA: FORMULARIO -->
+    <!-- IZQUIERDA: FORMULARIO -->
     <div class="reviews-box">
       <h3>Dejar una reseña</h3>
 
@@ -78,7 +71,13 @@
         placeholder="Escribí tu comentario..."
         required></textarea>
 
-      <button onclick="enviarResena()">Enviar reseña</button>
+      <button onclick="enviarReview()">Enviar reseña</button>
+    </div>
+
+        <!-- DERECHA: LISTA -->
+    <div class="reviews-list">
+      <h3>Opiniones</h3>
+      <div id="lista-reviews"></div>
     </div>
 
   </div>
@@ -99,6 +98,7 @@
 <script src="https://sdk.mercadopago.com/js/v2"></script>
 <script src="/static/js/mercadopago.js"></script>
 <script src="/static/js/checkout.js"></script>
+<script src="static/js/modal.js"></script>
 <script src="/static/js/cart-modal.js"></script>
 <script src="/static/js/detail.js"></script>
 <script src="/static/js/productos.js"></script>

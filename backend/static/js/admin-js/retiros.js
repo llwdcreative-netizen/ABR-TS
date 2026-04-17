@@ -3,9 +3,10 @@ async function cargarRetirosAdmin() {
     credentials: "include"
   });
 
-if (res.ok) {
-  cargarRetirosAdmin();
-}
+  if (!res.ok) {
+    console.error("Error cargando pedidos");
+    return;
+  }
 
   const pedidos = await res.json();
   const tbody = document.getElementById("tabla-retiros");
@@ -32,10 +33,11 @@ if (res.ok) {
         </td>
         <td>
           <a href="/admin/retiro/${p.id}">Ver</a>
-
-    <button onclick="toggleArchivar(${p.id})">
-      🗂 Archivar
-    </button>
+        </td>
+        <td>
+        <button onclick="toggleArchivar(${p.id})" class="arch-button">
+          🗂 Archivar
+        </button>
         </td>
     `;
 

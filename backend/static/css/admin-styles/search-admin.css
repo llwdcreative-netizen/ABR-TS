@@ -23,8 +23,8 @@
     padding: 10px 14px;
     border-radius: 18px;
     border: 1px solid var(--black-color);
-    background-color: var(--w2-color);
-    color: var(--w-color);
+    background-color: var(--gray2-color);
+    color: var(--white2-color);
     outline: none;
 }
 

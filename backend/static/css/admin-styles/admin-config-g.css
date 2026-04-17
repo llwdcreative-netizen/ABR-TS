@@ -1,16 +1,23 @@
 /* Reset simple */
 body{
     --black-color: #111;
-    --w-color: #bfbfbf;
-    --w2-color: #464646;
-    --gray-color: #242424;
+    --white-color: #bfbfbf;
+    --white2-color: #fff;
+    --gray2-color: #464646;
+    --black2-color: #171a21;
     --yellow-color: #d9b04f;
-    background-color: var(--gray-color);
+    background-color: var(--black-color);
+    font-family:system-ui,-apple-system,sans-serif;
+    color: var(--white2-color);
 }
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     font-family: Arial, sans-serif;
-    color: var(--w-color);
+    color: var(--white2-color);
+}
+
+main{
+    margin: 1rem;
 }

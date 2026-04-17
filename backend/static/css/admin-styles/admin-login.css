@@ -1,18 +1,4 @@
-/* =========================
-RESET
-========================= */
-
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-}
-
 body{
-  font-family:system-ui,-apple-system,sans-serif;
-  background:#0f1115;
-  color:#e5e7eb;
-
   min-height:100vh;
 
   display:flex;
@@ -47,7 +33,7 @@ FORMULARIO
 
   width:100%;
 
-  background:#171a21;
+  background:var(--black2-color);
 
   padding:1.5rem;
 
@@ -75,7 +61,7 @@ FORMULARIO
 
   background:#1e222b;
 
-  color:white;
+  color:var(--white2-color);
 
   font-size:.9rem;
 }
@@ -100,7 +86,7 @@ FORMULARIO
 
   background:#3b82f6;
 
-  color:white;
+  color:var(--white2-color);
 
   font-weight:600;
 

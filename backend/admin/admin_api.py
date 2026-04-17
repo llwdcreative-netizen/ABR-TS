@@ -852,7 +852,7 @@ def contar_no_leidas():
 #----------- REVIEWS ------------
 
 @admin_api_bp.route("/api/reviews", methods=["POST"])
-def crear_resena():
+def crear_review():
 
     print("SESSION:", session)
 
@@ -881,7 +881,7 @@ def crear_resena():
 # REVIEWS SECCION
 
 @admin_api_bp.route("/api/reviews/<int:producto_id>")
-def obtener_resenas(producto_id):
+def obtener_reviews(producto_id):
     db = get_db()
     cur = db.cursor()
 
@@ -894,7 +894,7 @@ def obtener_resenas(producto_id):
         ORDER BY r.fecha DESC
     """, (producto_id,))
 
-    resenas = [dict(row) for row in cur.fetchall()]
+    reviews = [dict(row) for row in cur.fetchall()]
 
     # 2️⃣ Obtener promedio
     cur.execute("""
@@ -909,7 +909,7 @@ def obtener_resenas(producto_id):
     db.close()
 
     return jsonify({
-        "resenas": resenas,
+        "reviews": reviews,
         "rating": {
             "promedio": rating["promedio"] or 0,
             "total": rating["total"] or 0

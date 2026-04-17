@@ -47,7 +47,7 @@ form.active {
 input {
     padding: 10px;
     border: 1px solid var(--brown-yellow);
-    background: var(--gray-color);
+    background: var(var(--black2-color));
     border-radius: 2px;
     outline: none;
     }

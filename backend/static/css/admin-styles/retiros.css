@@ -1,21 +1,4 @@
 /* ========================
-RESET
-======================== */
-
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-}
-
-body{
-  font-family:system-ui, -apple-system, sans-serif;
-  background:#0f1115;
-  color:#e6e6e6;
-}
-
-
-/* ========================
 LAYOUT PRINCIPAL
 ======================== */
 
@@ -57,7 +40,7 @@ BUSCADOR
   border:none;
   background:transparent;
   padding:.7rem;
-  color:white;
+  color:var(--white2-color);
   font-size:.9rem;
 }
 
@@ -68,7 +51,7 @@ BUSCADOR
 .search-button{
   border:none;
   background:#2c313a;
-  color:white;
+  color:var(--white2-color);
   padding:.6rem .8rem;
   cursor:pointer;
 }
@@ -79,18 +62,6 @@ BUSCADOR
 
 @media (min-width:1024px){
 
-main{
-  padding:2rem;
-}
-
-
-/* layout */
-
-main{
-  display:grid;
-  grid-template-columns:240px 1fr;
-  gap:2rem;
-}
 
 
 /* contenedor del retiro */

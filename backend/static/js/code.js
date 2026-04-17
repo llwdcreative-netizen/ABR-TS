@@ -17,29 +17,3 @@ document.addEventListener("DOMContentLoaded", () => {
   }
   })
 
-/*--------------- MODALES -----------------*/
-document.addEventListener("DOMContentLoaded", () => {
-  const radios = document.querySelectorAll('input[name="entrega"]');
-
-  const formEnvio = document.getElementById("form-envio");
-  const retiroInfo = document.getElementById("retiro-info");
-  const costoEnvio = document.getElementById("costo-envio");
-
-  function actualizarVista(valor) {
-    if (valor === "envio") {
-      formEnvio.classList.remove("oculto");
-      retiroInfo.classList.add("oculto");
-      costoEnvio.classList.remove("oculto");
-    } else if (valor === "retiro") {
-      retiroInfo.classList.remove("oculto");
-      formEnvio.classList.add("oculto");
-      costoEnvio.classList.add("oculto");
-    }
-  }
-
-  radios.forEach(radio => {
-    radio.addEventListener("change", (e) => {
-      actualizarVista(e.target.value);
-    });
-  });
-});

@@ -47,7 +47,7 @@ BANNER
 
   width: 55%;
   text-align: center;
-  color: white;
+  color: var(--white2-color);
 }
 
 .texto-banner h3{
@@ -97,7 +97,7 @@ FAQ
   padding: 12px;
 
   background: var(--blue2-color);
-  color: white;
+  color: var(--white2-color);
 
   border: none;
   text-align: left;
@@ -113,7 +113,7 @@ FAQ
 /* respuesta */
 
 .faq-answer{
-  background: white;
+  background: var(--white2-color);
   max-height: 0;
   overflow: hidden;
 

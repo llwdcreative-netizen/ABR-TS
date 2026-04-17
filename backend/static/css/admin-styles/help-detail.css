@@ -1,30 +1,4 @@
 /* =========================
-RESET
-========================= */
-
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-}
-
-body{
-  font-family:system-ui,-apple-system,sans-serif;
-  background:#0f1115;
-  color:#e6e6e6;
-}
-
-
-/* =========================
-MAIN
-========================= */
-
-main{
-  padding:1rem;
-}
-
-
-/* =========================
 GRID PRINCIPAL
 ========================= */
 
@@ -40,7 +14,7 @@ MENSAJE
 ========================= */
 
 .help-data-list{
-  background:#171a21;
+  background:var(--black2-color);
   border-radius:10px;
   padding:1rem;
 

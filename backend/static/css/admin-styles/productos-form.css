@@ -1,21 +1,4 @@
 /* =========================
-RESET
-========================= */
-
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-}
-
-body{
-  font-family:system-ui, -apple-system, sans-serif;
-  background:#0f1115;
-  color:#e5e7eb;
-}
-
-
-/* =========================
 MAIN
 ========================= */
 
@@ -27,9 +10,9 @@ MAIN
 .producto-item{
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
-    background:#171a21;
-    border-radius:10px;
+    gap: 1rem;
+    background:var(--black2-color);
+    border-radius: .2rem;
     padding: 1rem;
 }
 
@@ -72,10 +55,9 @@ SECCIONES
 ========================= */
 
 .admin-section{
-  background: none;
+  background: var(--black2-color);
   padding:1rem;
-
-  box-shadow:0 5px 15px rgba(0,0,0,.35);
+  border-radius: .2rem;
 }
 
 .admin-section h2{
@@ -93,8 +75,10 @@ SECCIONES
 LISTA PRODUCTOS
 ========================= */
 
+
 #productos-list{
   display:flex;
+  margin-top: .5rem;
   flex-direction:column;
   gap:.7rem;
 }
@@ -103,9 +87,9 @@ LISTA PRODUCTOS
 /* ejemplo producto */
 
 .product-item{
-  background:#1f232b;
+  background:var(--black2-color);
   padding:.7rem;
-  border-radius:6px;
+  border-radius: .2rem;
   font-size:.9rem;
 }
 
@@ -123,13 +107,13 @@ FORMULARIO
 .add-form input,
 .add-form textarea,
 .add-form select{
-  background:#1a1d24;
-  border:1px solid #2a2f39;
+  background: var(--black-color);
+  border:1px solid var(--black2-color);
 
   padding:.55rem;
-  border-radius:6px;
+  border-radius: .2rem;
 
-  color:white;
+  color:var(--white2-color);
   font-size:.9rem;
 }
 
@@ -150,22 +134,17 @@ FORMULARIO
 .add-form button{
   margin-top:.5rem;
 
-  background:#3b82f6;
+  background: var(--yellow-color);
   border:none;
 
   padding:.6rem;
-  border-radius:6px;
+  border-radius: .2rem;
 
-  color:white;
+  color:var(--white2-color);
   font-weight:600;
 
   cursor:pointer;
 }
-
-.add-form button:hover{
-  background:#2f6fdc;
-}
-
 
 /* =========================
 IMAGEN PREVIEW
@@ -173,7 +152,7 @@ IMAGEN PREVIEW
 
 #preview{
   margin-top:.5rem;
-  border-radius:6px;
+  border-radius: .2rem;
 }
 
 
@@ -182,29 +161,29 @@ COSTO ENVÍO
 ========================= */
 
 .shipping-container{
-  background:#171a21;
+  background:var(--black2-color);
   padding:1rem;
   border-radius:10px;
+  margin-bottom: 1rem;
 }
 
 .shipping-container input{
   width:100%;
   margin:.5rem 0;
 
-  background:#1a1d24;
-  border:1px solid #2a2f39;
+  background: var(--black-color);
 
   padding:.5rem;
   border-radius:6px;
-  color:white;
+  color:var(--white2-color);
 }
 
 .shipping-container button{
-  background:#3b82f6;
+  background: var(--yellow-color);
   border:none;
   padding:.5rem .8rem;
   border-radius:6px;
-  color:white;
+  color:var(--white2-color);
   cursor:pointer;
 }
 
@@ -214,7 +193,7 @@ CATEGORÍAS
 ========================= */
 
 .categorias-container{
-  background:#171a21;
+  background:var(--black2-color);
   padding:1rem;
   border-radius:10px;
 }
@@ -225,24 +204,24 @@ CATEGORÍAS
   width:100%;
   margin:.3rem 0;
 
-  background:#1a1d24;
-  border:1px solid #2a2f39;
+  background: var(--black-color);
+  border:1px solid var(--black2-color);
 
   padding:.45rem;
   border-radius:6px;
-  color:white;
+  color:var(--white2-color);
 }
 
 .categorias-container button{
   margin-bottom:.5rem;
 
-  background:#3b82f6;
+  background: var(--yellow-color);
   border:none;
 
   padding:.45rem .7rem;
   border-radius:6px;
 
-  color:white;
+  color:var(--white2-color);
   cursor:pointer;
 }
 
@@ -264,8 +243,8 @@ CATEGORÍAS
   border:none;
   border-radius:8px;
 
-  background:#1f232b;
-  color:#cbd5e1;
+  background:var(--black2-color);
+  color: var(--white-color);
 
   cursor:pointer;
 
@@ -275,12 +254,12 @@ CATEGORÍAS
 }
 
 .tab-btn:hover{
-  background:#2a2f39;
+  background: var(--black2-color);
 }
 
 .tab-btn.active{
-  background:#3b82f6;
-  color:white;
+  background: var(--yellow-color);
+  color:var(--white2-color);
 }
 
 
@@ -288,7 +267,12 @@ CATEGORÍAS
   display:none;
 }
 
-
+.form-grid input,
+.form-grid textarea,
+.form-grid select {
+  background: var(--black-color);
+  color: var(--white2-color);
+}
 
 
 @media (min-width:1024px){

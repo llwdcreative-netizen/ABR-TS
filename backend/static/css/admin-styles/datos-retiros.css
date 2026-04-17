@@ -1,25 +1,4 @@
 /* =========================
-RESET
-========================= */
-
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-}
-
-body{
-  font-family:system-ui,-apple-system,sans-serif;
-  background:#0f1115;
-  color:#e5e7eb;
-}
-
-main{
-  padding:1rem;
-}
-
-
-/* =========================
 CONTENEDOR PRINCIPAL
 ========================= */
 
@@ -49,7 +28,7 @@ TARJETAS
 
 .admin-retiro-info{
 
-  background:#171a21;
+  background:var(--black2-color);
 
   padding:1rem;
 
@@ -97,7 +76,7 @@ ESTADO
   background:#1e222b;
   border:1px solid #2a2f39;
 
-  color:white;
+  color:var(--white2-color);
 
   border-radius:6px;
 }
@@ -116,7 +95,7 @@ ESTADO
 
   background:#3b82f6;
 
-  color:white;
+  color:var(--white2-color);
 
   font-weight:600;
 

@@ -14,20 +14,21 @@
 
 .tab.active {
   background: #333;
-  color: white;
+  color: var(--white2-color);
 }
 
 .lista-pedidos {
   display: flex;
   flex-direction: column;
   gap: 10px;
+  margin: 0 5rem 0 5rem;
 }
 
 .pedido-card {
-  border: 1px solid #ccc;
   padding: 10px;
   border-radius: 8px;
-  background: #fff;
+  background: var(--black2-color);
+  margin-bottom: .5rem;
 }
 
 .pedido-header {
@@ -39,4 +40,16 @@
 .pedido-acciones button {
   margin-right: 5px;
   cursor: pointer;
+}
+
+
+
+
+.btn-archivar{
+  padding: .4rem;
+  border: none;
+  text-transform: uppercase;
+  border-radius: .2rem;
+  background: var(--yellow-color);
+  color: var(--white2-color);
 }

@@ -154,3 +154,32 @@ async function actualizarNotificacionesCount() {
     console.error(e);
   }
 }
+
+
+
+
+
+
+
+
+function showNotification(mensaje, tipo = "info") {
+  const container = document.getElementById("notifications-container");
+  if (!container) return;
+
+  const notif = document.createElement("div");
+  notif.className = `notif notif-${tipo}`;
+  notif.textContent = mensaje;
+
+  container.appendChild(notif);
+
+  // animación entrada
+  setTimeout(() => notif.classList.add("show"), 10);
+
+  // auto remove
+  setTimeout(() => {
+    notif.classList.remove("show");
+    setTimeout(() => notif.remove(), 300);
+  }, 3000);
+}
+
+

@@ -2,8 +2,8 @@
 HEADER
 ===================== */
 input, select, textarea{
-  background: #3d3d3d;
-  color: #fff;
+  background: var(--black2-color);
+  color: var(--white2-color);
   border: none;
   border-radius: 0.2rem;
   padding: 5px;
@@ -16,8 +16,8 @@ input, select, textarea{
 
   padding:10px 15px;
 
-  background:#111318;
-  color:white;
+  background: var(--black2-color);
+  color: var(--white2-color);
 
   position:relative;
 }
@@ -30,7 +30,7 @@ BOTÓN HAMBURGUESA
 .admin-menu-btn{
   background:none;
   border:none;
-  color:white;
+  color: var(--white2-color);
   font-size:28px;
   cursor:pointer;
 }
@@ -49,7 +49,7 @@ SIDEBAR MOBILE
   width:240px;
   height:100vh;
 
-  background:#161a21;
+  background: var(--black2-color);
 
   padding-top:70px;
 
@@ -66,7 +66,7 @@ SIDEBAR MOBILE
 }
 
 .admin-sidebar li{
-  border-bottom:1px solid #232833;
+  border-bottom:1px solid var(--black2-color);
 }
 
 .admin-sidebar a{
@@ -74,14 +74,14 @@ SIDEBAR MOBILE
   padding:14px 20px;
 
   text-decoration:none;
-  color:#d0d6df;
+  color: var(--white2-color);
 
   font-size:.9rem;
 }
 
 .admin-sidebar a:hover{
-  background:#1f2430;
-  color:white;
+  background:var(--black2-color);
+  color: var(--white2-color);
 }
 
 
@@ -116,7 +116,7 @@ BOTÓN
   background:none;
   border:none;
 
-  color:white;
+  color:var(--white2-color);
   font-size:20px;
 
   cursor:pointer;
@@ -133,7 +133,7 @@ BOTÓN
   right:3px;
 
   background:#ff4d4d;
-  color:white;
+  color:var(--white2-color);
 
   font-size:10px;
   font-weight:bold;
@@ -157,7 +157,7 @@ PANEL
   max-height:320px;
 
   background:#1a1d23;
-  color:white;
+  color:var(--white2-color);
 
   border-radius:8px;
 
@@ -238,7 +238,7 @@ LOGOUT
 #logout-btn{
   background:#1f2430;
   border:none;
-  color:white;
+  color:var(--white2-color);
 
   padding:6px 10px;
   border-radius:6px;
@@ -248,14 +248,17 @@ LOGOUT
 
 
 /*------------ TABLES -----------*/
+
+.admin-table{
+  margin: 1rem 5rem 1rem 5rem;
+  width: 90%;
+}
 .admin-table thead{
   display:none;
 }
 
 
 /* tabla se vuelve bloque */
-
-.admin-table,
 .admin-table tbody,
 .admin-table tr,
 .admin-table td{
@@ -287,7 +290,7 @@ LOGOUT
   padding:6px 0;
 
   font-size:.9rem;
-  border-bottom:1px solid #2a2f39;
+  border-bottom:1px solid var(--black2-color);
 }
 
 
@@ -302,9 +305,19 @@ LOGOUT
 
 .admin-table td::before{
   font-weight:600;
-  color:#9aa4b2;
+  color: var(--white-color);
 }
 
+
+/* botón de archivar */
+.arch-button{
+  padding: .4rem;
+  border: none;
+  text-transform: uppercase;
+  border-radius: .2rem;
+  background: var(--yellow-color);
+  color: var(--white2-color);
+}
 
 /* nombres de columnas */
 
@@ -341,8 +354,10 @@ LOGOUT
 }
 
 .admin-sidebar ul{
+  padding: 0 7rem 0 7rem;
   display:flex;
-  gap:20px;
+  flex-direction:row;
+  gap:1rem;
 }
 
 .admin-sidebar li{

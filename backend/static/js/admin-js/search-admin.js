@@ -1,33 +1,52 @@
-// ------------------- BUSCADOR DE PEDIDOS -------------------
+// =========================
+// BUSCADOR GLOBAL REUTILIZABLE
+// =========================
+
 document.addEventListener("DOMContentLoaded", () => {
-  const searchInput = document.querySelector(".search-input");
-  const clearBtn = document.querySelector(".clear-search");
 
-  if (!searchInput) return;
+  document.querySelectorAll(".search-input").forEach(input => {
 
-  searchInput.addEventListener("input", () => {
-    const query = searchInput.value.toLowerCase().trim();
-    filtrarPedidos(query);
+    const selector = input.dataset.target;
+    if (!selector) return;
+
+    const clearBtn = document.querySelector(".clear-search");
+
+    input.addEventListener("input", () => {
+      filtrarLista(input, selector);
+    });
+
+    clearBtn?.addEventListener("click", () => {
+      input.value = "";
+      filtrarLista(input, selector);
+    });
+
   });
 
-  if (clearBtn) {
-    clearBtn.addEventListener("click", () => {
-      searchInput.value = "";
-      filtrarPedidos("");
-    });
-  }
 });
 
-function filtrarPedidos(texto) {
-  const filas = document.querySelectorAll("#tabla-envios tr");
 
-  filas.forEach((tr, index) => {
-    // saltar header
-    if (index === 0) return;
+// =========================
+// FILTRO GENÉRICO
+// =========================
+function filtrarLista(input, selector) {
+  const items = document.querySelectorAll(selector);
+  const texto = normalizar(input.value);
 
-    const contenido = tr.dataset.search || "";
+  items.forEach(el => {
+    const contenido = normalizar(el.textContent);
     const coincide = contenido.includes(texto);
 
-    tr.style.display = coincide ? "" : "none";
+    el.style.display = coincide ? "" : "none";
   });
+}
+
+
+// =========================
+// NORMALIZAR TEXTO (acentos)
+// =========================
+function normalizar(texto) {
+  return texto
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "");
 }

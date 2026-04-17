@@ -1,30 +1,4 @@
 /* =========================
-RESET
-========================= */
-
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-}
-
-body{
-  font-family:system-ui,-apple-system,sans-serif;
-  background:#0f1115;
-  color:#e5e7eb;
-}
-
-
-/* =========================
-MAIN
-========================= */
-
-.admin-main{
-  padding:1rem;
-}
-
-
-/* =========================
 LAYOUT GENERAL
 ========================= */
 
@@ -72,7 +46,7 @@ CARDS DE GRÁFICOS
 
 .chart-box{
 
-  background:#171a21;
+  background:var(--black2-color);
 
   padding:1rem;
 
@@ -99,7 +73,7 @@ TOTAL DEL DÍA
 
 .daily-total{
 
-  background:#171a21;
+  background:var(--black2-color);
 
   padding:1.2rem;
 

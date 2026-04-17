@@ -61,7 +61,7 @@ text-align:center;
 padding:10px;
 cursor:pointer;
 font-weight:500;
-color: var(--white-color);
+color: var(--white2-color);
 }
 
 .tab.active{
@@ -93,7 +93,7 @@ border-radius:6px;
 border:1px solid #ccc;
 font-size:14px;
 width:100%;
-background: var(--white-color);
+background: var(--white2-color);
 }
 form input::placeholder{
 color: var(--black-color);
@@ -107,7 +107,7 @@ padding:10px;
 border:none;
 border-radius:6px;
 background:var(--blue-color);
-color:white;
+color:var(--white2-color);
 font-size:15px;
 cursor:pointer;
 }

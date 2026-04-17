@@ -16,13 +16,14 @@ body {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    --white-color: #e8eaf0;
+    --white2-color: #e8eaf0;
     --black-color: #111;
-    --gray-color: #666;
+    --black2-color: #666;
     --gray2-color: #8b8b8b;
     --green-color: #27ae60;
     --blue-color: #79abc2;
     --blue2-color: #59869b;
+    --gold-color: #ecdb78;
 
     background: var(--bg-color);
 }

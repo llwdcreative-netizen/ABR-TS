@@ -3,7 +3,7 @@
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Datos de Turnos</title>
-  <link rel="stylesheet" href="/static/css/admin-styles/layout2.css">
+  <link rel="stylesheet" href="/static/css/admin-styles/layout.css">
   <link rel="stylesheet" href="/static/css/admin-styles/admin-config-g.css">
   <link rel="stylesheet" href="/static/css/admin-styles/search-admin.css">
   <link rel="stylesheet" href="/static/css/admin-styles/datos-turnos.css">
@@ -15,15 +15,16 @@
 {% include "admin/components/header.html" %}
 
 
-<main class="admin-content">
+<main>
 
+{% set target = "#tabla-turnos tr" %}
 {% include "admin/components/search.html" %}
 
   <div class="turn-subtitle">
     <h2>Turnos solicitados</h2>
   </div>
 
-<div class="admin-table">
+<div class="admin-table" name="turnos">
 <table>
 <thead>
 <tr>

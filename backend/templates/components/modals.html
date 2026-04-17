@@ -19,7 +19,7 @@
 <!-- ==========================
        MODAL COMPRA FINAL
 =========================== -->
-<div id="modal-compra" class="modal">
+<div id="modal-compra" class="modal" style="display:none;">
   <div class="modal-content">
     <span class="close-modal">&times;</span>
     <h2>Confirmar compra</h2>
@@ -50,7 +50,7 @@
     <!-- MÉTODO: RETIRO -->
 <div id="retiro-info" class="oculto">
   <h4>Datos para retiro</h4>
-  <label>Nombre de quien retira:</label>
+  <label for="cliente">Nombre de quien retira:</label>
   <input type="text" id="cliente" placeholder="Tu nombre" required>
 </div>
 
@@ -58,6 +58,7 @@
     <!-- FORM ENVÍO -->
     <div id="form-envio" class="form-envio oculto">
       <h3>Datos de envío</h3>
+      <div class="form-envio-container">
       <input type="text" id="env-nombre" placeholder="Nombre completo">
       <input type="text" id="env-telefono" placeholder="Teléfono" required>
       <input type="email" id="env-email" placeholder="Email" required>
@@ -69,6 +70,7 @@
       <input type="text" id="env-provincia" placeholder="Provincia" required>
       <input type="text" id="env-cp" placeholder="Código postal" required>
       <textarea id="env-notas" placeholder="Notas adicionales (opcional)"></textarea>
+      </div>
     </div>
 
     <button id="confirmar-compra-cart" class="btn-confirmar" data-from="cart">Confirmar compra</button>
@@ -77,8 +79,9 @@
 
 
   <!-- MODAL ÉXITO -->
-  <div id="successModal" class="successModal">
+  <div id="successModal" class="modal successModal">
     <div class="modal-content">
+      <span class="close-modal">&times;</span>
       <h2>✅ Compra realizada con éxito</h2>
       <p>Tu pedido ha sido registrado correctamente.</p>
     </div>

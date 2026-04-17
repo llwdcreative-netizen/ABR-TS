@@ -45,7 +45,7 @@ main{
 
 /* CARD */
 .status-card{
-  background:white;
+  background:var(--white2-color);
   padding:25px;
   border-radius:16px;
   text-align:center;

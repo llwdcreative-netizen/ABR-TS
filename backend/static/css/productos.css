@@ -35,7 +35,7 @@ BANNER
   transform: translate(-50%, -50%);
 
   text-align: center;
-  color: white;
+  color: var(--white2-color);
 
   width: 40%;
 }
@@ -149,7 +149,7 @@ gap:12px;
 /* producto */
 
 .producto{
-background:white;
+background:var(--white-color);
 border-radius:8px;
 padding:10px;
 box-shadow:0 2px 6px rgba(0,0,0,0.1);

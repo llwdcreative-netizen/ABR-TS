@@ -1,28 +1,6 @@
 /* =========================
-RESET
-========================= */
-
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-}
-
-body{
-  font-family:system-ui,-apple-system,sans-serif;
-  background:#0f1115;
-  color:#e5e7eb;
-}
-
-
-/* =========================
 CONTENEDOR
 ========================= */
-
-.admin-content{
-  padding:1rem;
-}
-
 .help-grid{
   display:flex;
   flex-direction:column;
@@ -35,7 +13,7 @@ TABLA → TARJETAS
 ========================= */
 
 .admin-table{
-  width:100%;
+  width: 100%;
 }
 
 .admin-table thead{
@@ -54,7 +32,7 @@ TABLA → TARJETAS
 
 .admin-table tr{
 
-  background:#171a21;
+  background:var(--black2-color);
 
   padding:1rem;
 
@@ -119,7 +97,7 @@ TABLA → TARJETAS
 /* tabla normal */
 
 .admin-table{
-  width:100%;
+  width:85%;
   border-collapse:collapse;
 }
 
@@ -133,7 +111,7 @@ TABLA → TARJETAS
 
 .admin-table tr{
   display:table-row;
-  background:#171a21;
+  background:var(--black2-color);
 }
 
 .admin-table th,
@@ -145,7 +123,7 @@ TABLA → TARJETAS
 /* encabezados */
 
 .admin-table th{
-  background:#1f232b;
+  background:var(--black2-color);
   padding:.7rem;
   font-size:.9rem;
   text-align:left;
