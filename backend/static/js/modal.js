@@ -123,6 +123,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const metodo = modal.querySelector('input[name="entrega"]:checked');
 
+      console.log("RADIOS:", modal.querySelectorAll('input[name="entrega"]'));
+      console.log("CHECKED:", modal.querySelector('input[name="entrega"]:checked'));
+
       if (!metodo) {
         alert("Seleccioná método de entrega");
         return;

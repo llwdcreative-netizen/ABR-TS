@@ -178,10 +178,16 @@ function actualizarCarritoCount() {
 
     onConfirm: async (tipoEntrega) => {
 
-let bodyData = {
+console.log("🔥 onConfirm ejecutado");
+
+body: JSON.stringify({
   tipo: tipoEntrega,
+  origen: "carrito",
   productos: carrito
-};
+})
+
+console.log("🟡 antes de validación");
+
 
 if (tipoEntrega === "envio") {
 
@@ -220,6 +226,8 @@ if (tipoEntrega === "retiro") {
   };
 }
 
+  console.log("BODY DATA:", bodyData);
+
       const res = await fetch("/purchase", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -227,8 +235,13 @@ if (tipoEntrega === "retiro") {
         body: JSON.stringify(bodyData)
       });
 
-      const data = await res.json();
-      if (!data.ok) throw new Error("Error en compra");
+    const data = await res.json();
+
+    if (!res.ok) {
+      console.error("ERROR BACKEND:", data);
+      alert(data.error || "Error en compra");
+      return;
+    }
 
       await crearPagoCarrito(
         carrito,

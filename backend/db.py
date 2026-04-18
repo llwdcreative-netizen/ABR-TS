@@ -119,6 +119,11 @@ def init_db():
                 ADD COLUMN IF NOT EXISTS archivado_admin BOOLEAN DEFAULT FALSE
                 """)
             
+            cur.execute("""
+                ALTER TABLE historial 
+                ADD COLUMN IF NOT EXISTS origen TEXT;
+                """)
+            
             # Envíos
             cur.execute("""
                 CREATE TABLE IF NOT EXISTS envios (

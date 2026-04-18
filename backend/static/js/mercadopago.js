@@ -1,16 +1,4 @@
-function obtenerCarrito() {
-  return JSON.parse(localStorage.getItem("carrito")) || [];
-}
-
-function calcularEnvio() { return 1500; } // ejemplo fijo
-
-function calcularTotal() {
-  const carrito = obtenerCarrito();
-  const subtotal = carrito.reduce((acc, item) => acc + (item.precio * item.cantidad), 0);
-  return subtotal + calcularEnvio();
-}
-
-async function crearPagoMercadoPago(carrito, email) {
+async function crearPagoMercadoPago(carrito, tipo, referencia_id, email) {
   const items = carrito.map(p => ({
     title: p.nombre,
     quantity: Number(p.cantidad) || 1,
@@ -18,15 +6,37 @@ async function crearPagoMercadoPago(carrito, email) {
     currency_id: "ARS"
   }));
 
-  const res = await fetch("/create_preference", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    credentials: "include",
-    body: JSON.stringify({ items, payer: { email }, auto_return: "approved" })
-  });
+
+  console.log("ENVIANDO A MP:", {
+  items,
+  email,
+  tipo,
+  referencia_id
+});
+
+const res = await fetch("/create_preference", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  credentials: "include",
+  body: JSON.stringify({
+    items,
+    payer: { email },
+    metadata: {              
+      tipo,
+      referencia_id
+    },
+    auto_return: "approved"
+  })
+});
 
   const data = await res.json();
-  if (!data.ok) throw new Error(data.error || "No se pudo crear la preferencia de pago");
+
+  if (!data.ok) {
+    console.error("ERROR MP:", data);
+    throw new Error(data.error || "No se pudo crear la preferencia de pago");
+  }
+
   console.log("MP DATA:", data);
+
   return data.id;
 }

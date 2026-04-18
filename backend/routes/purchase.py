@@ -16,15 +16,24 @@ purchase_bp = Blueprint("purchase", __name__)
 @purchase_bp.route("/purchase", methods=["POST"])
 def purchase():
     print("🚨 PURCHASE EJECUTADO")
+
     if "user_id" not in session:
         return jsonify({"error": "No autenticado"}), 401
 
     data = request.get_json(silent=True) or {}
 
-    tipo = data.get("tipo").lower()  # "envio" o "retiro"
-    if tipo not in ["envio", "retiro"]:
+    # -------------------------
+    # TIPOS
+    # -------------------------
+    tipo = (data.get("tipo") or "").lower()      # envio / retiro
+    origen = (data.get("origen") or "").lower()  # producto / carrito (opcional)
+
+    if tipo not in ("envio", "retiro"):
         return jsonify({"error": "Tipo inválido"}), 400
 
+    # -------------------------
+    # ITEMS
+    # -------------------------
     items = data.get("productos") or data.get("items") or []
 
     if not items:
@@ -37,43 +46,41 @@ def purchase():
 
     for p in items:
         try:
-            price = float(p.get("price") or 0)
+            price = float(p.get("price") or p.get("precio") or 0)
             cantidad = int(p.get("cantidad") or 1)
             subtotal += price * cantidad
         except:
             return jsonify({"error": "Producto inválido"}), 400
 
+    # -------------------------
+    # COSTO ENVÍO
+    # -------------------------
     envio_cost = 0
 
     if tipo == "envio":
         conn = get_db()
         cur = conn.cursor()
-        print("DB URL:", conn.info.dsn)
+
         cur.execute("SELECT valor FROM configuracion WHERE clave = 'shipping_cost'")
         row = cur.fetchone()
+
         envio_cost = float(row["valor"]) if row else 0
         conn.close()
 
     total = subtotal + envio_cost
-
     fecha = datetime.now(ZoneInfo("America/Argentina/Buenos_Aires"))
 
     # -------------------------
-    # DATOS EXTRA
+    # DATOS CLIENTE
     # -------------------------
     cliente = {}
 
     if tipo == "envio":
         campos = ["nombre", "telefono", "calle", "numero", "ciudad", "provincia", "cp"]
-        
-        print("DATA COMPLETA:", data)
-        print("TIPO DATA:", type(data))
-        print("PROVINCIA RAW:", data.get("provincia"))
 
         for c in campos:
             value = data.get(c)
-
-            if value is None or str(value).strip() == "":
+            if not value or str(value).strip() == "":
                 return jsonify({"error": f"Falta {c}"}), 400
 
         cliente = {
@@ -93,22 +100,24 @@ def purchase():
         }
 
     elif tipo == "retiro":
-        cliente = data.get("cliente", {})
+        cliente = data.get("cliente", {}) or {}
+
+        if not cliente.get("nombre"):
+            return jsonify({"error": "Falta nombre para retiro"}), 400
 
         if not cliente.get("email"):
             cliente["email"] = data.get("email")
-            print("📩 EMAIL FINAL GUARDADO:", cliente.get("email"))
 
-# -------------------------
-# INSERT
-# -------------------------
+    # -------------------------
+    # INSERT DB
+    # -------------------------
     conn = get_db()
     cur = conn.cursor()
 
     envio_id = None
 
+    # 🔹 TABLA ENVIOS
     if tipo == "envio":
-        # 1. guardar en tabla envios
         cur.execute("""
             INSERT INTO envios (
                 fecha, total, estado,
@@ -139,18 +148,18 @@ def purchase():
 
         envio_id = cur.fetchone()["id"]
 
-    # 2. guardar en historial (SIEMPRE)
-    
+    # 🔹 HISTORIAL (SIEMPRE)
     cur.execute("""
         INSERT INTO historial (
-            user_id, tipo, items, subtotal, envio, total,
+            user_id, tipo, origen, items, subtotal, envio, total,
             estado, cliente, fecha, envio_id
         )
-        VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
+        VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
         RETURNING id
     """, (
         session["user_id"],
         tipo,
+        origen or None,
         json.dumps(items, ensure_ascii=False),
         subtotal,
         envio_cost,
@@ -158,7 +167,7 @@ def purchase():
         "PENDIENTE_PAGO",
         json.dumps(cliente, ensure_ascii=False),
         fecha,
-        envio_id 
+        envio_id
     ))
 
     pedido_id = cur.fetchone()["id"]

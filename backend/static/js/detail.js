@@ -71,33 +71,72 @@ buyNow.addEventListener("click", async () => {
 
     onConfirm: async (tipoEntrega) => {
 
-      const carritoMP = [{
-        name: producto.nombre,
-        price: producto.precio,
-        cantidad: 1
-      }];
+  const carritoMP = [{
+    name: producto.nombre,
+    price: producto.precio,
+    cantidad: 1
+  }];
 
-      const res = await fetch("/purchase", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
-        body: JSON.stringify({
-          tipo: tipoEntrega,
-          productos: carritoMP
-        })
-      });
+let bodyData = {
+  tipo: tipoEntrega,
+  origen: "producto",
+  productos: carritoMP
+};
+
+  if (tipoEntrega === "envio") {
+    const nombre = document.getElementById("env-nombre")?.value.trim();
+    const telefono = document.getElementById("env-telefono")?.value.trim();
+    const email = document.getElementById("env-email")?.value.trim();
+    const calle = document.getElementById("env-calle")?.value.trim();
+    const numero = document.getElementById("env-numero")?.value.trim();
+    const ciudad = document.getElementById("env-ciudad")?.value.trim();
+    const provincia = document.getElementById("env-provincia")?.value.trim();
+    const cp = document.getElementById("env-cp")?.value.trim();
+
+    if (!nombre || !telefono || !calle || !numero || !ciudad || !provincia || !cp) {
+      return alert("Completá los datos de envío");
+    }
+
+    bodyData = {
+      ...bodyData,
+      nombre,
+      telefono,
+      email,
+      calle,
+      numero,
+      ciudad,
+      provincia,
+      cp
+  };
+}
+
+if (tipoEntrega === "retiro") {
+  const nombre = document.getElementById("cliente")?.value.trim();
+
+  bodyData = {
+    ...bodyData,
+    cliente: { nombre }
+  };
+}
+
+const res = await fetch("/purchase", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  credentials: "include",
+  body: JSON.stringify(bodyData)
+});
 
       const data = await res.json();
       if (!data.ok) throw new Error("Error");
 
       const referenciaId = data.pedido_id;
 
-      await crearPagoMercadoPago(
-        carritoMP,
-        tipoEntrega,
-        referenciaId,
-        "test@test.com"
-      );
+    await crearPagoMercadoPago(
+      carritoMP,
+      "producto",
+      referenciaId,
+      "test@test.com"
+    );
     }
   });
 
