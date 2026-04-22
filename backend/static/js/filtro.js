@@ -79,8 +79,8 @@ function generarSubcategorias(cat) {
   contenedor.innerHTML = "";
   (cat.subcategorias || []).forEach(sub => {
     const boton = document.createElement("button");
-    boton.textContent = sub;
-    boton.onclick = () => filtrarProductos(cat.categoria, sub);
+    boton.textContent = sub.nombre;
+    boton.onclick = () => filtrarProductos(cat.categoria, sub.nombre);
     contenedor.appendChild(boton);
   });
 }

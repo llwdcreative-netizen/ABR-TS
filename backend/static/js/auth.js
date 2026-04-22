@@ -54,7 +54,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       const pass2 = document.getElementById("reg-password2").value;
 
       if (pass !== pass2) {
-        alert("Las contraseñas no coinciden.");
+        showNotification("Las contraseñas no coinciden", "error");
         return;
       }
 
@@ -67,10 +67,10 @@ document.addEventListener("DOMContentLoaded", async () => {
 
       const data = await res.json();
 
-      if (!res.ok) {
-        alert(data.error || "Error en el registro");
-        return;
-      }
+    if (!res.ok) {
+      showNotification(data.error || "Error en el registro", "error");
+      return;
+    }
 
       window.location.href = "/dashboard";
     });
@@ -95,10 +95,13 @@ document.addEventListener("DOMContentLoaded", async () => {
 
       const data = await res.json();
 
-      if (!res.ok) {
-        alert(data.error || "Usuario o contraseña incorrecta");
-        return;
-      }
+    if (!res.ok) {
+      showNotification(data.error || "Usuario o contraseña incorrecta", "error");
+      return;
+    }
+
+    showNotification("Registro exitoso", "success");
+    showNotification("Login correcto", "success");
 
       window.location.href = "/dashboard";
     });

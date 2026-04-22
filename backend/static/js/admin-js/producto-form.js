@@ -31,10 +31,10 @@ if (saveShippingBtn) {
 
     const valor = parseFloat(shippingInput.value);
 
-    if (isNaN(valor) || valor < 0) {
-      alert("Ingresá un valor válido.");
-      return;
-    }
+  if (isNaN(valor) || valor < 0) {
+    showNotification("Ingresá un valor válido.", "error");
+    return;
+  }
 
     try {
       const res = await fetch("/admin/api/shipping", {
@@ -50,15 +50,15 @@ if (saveShippingBtn) {
 
       if (!res.ok) {
         const text = await res.text();
-        alert("Error: " + text);
+        showNotification("Error: " + text, "error");
         return;
       }
 
-      alert("Costo de envío actualizado correctamente");
+      showNotification("Costo de envío actualizado correctamente", "success");
 
     } catch (err) {
       console.error(err);
-      alert("Error de red");
+      showNotification("Error de red", "error");
     }
 
   });
@@ -93,15 +93,15 @@ form.addEventListener("submit", async (e) => {
 
 
 
-if (!marcaId) {
-  alert("Seleccioná una marca");
-  return;
-}
+    if (!marcaId) {
+      showNotification("Seleccioná una marca", "error");
+      return;
+    }
 
-  if (!nombre || isNaN(precio)) {
-    alert("Nombre y precio son obligatorios y válidos.");
-    return;
-  }
+    if (!nombre || isNaN(precio)) {
+      showNotification("Nombre y precio son obligatorios y válidos.", "error");
+      return;
+    }
 
   const formData = new FormData();
 
@@ -131,17 +131,15 @@ if (!marcaId) {
 
     if (!res.ok) {
       const text = await res.text();
-      alert("Error al guardar producto: " + text);
+      showNotification("Error al guardar producto: " + text, "error");
       return;
     }
 
-    alert("Producto guardado correctamente");
-    form.reset();
-    cargarProductos();
+    showNotification("Producto guardado correctamente", "success");
 
   } catch (err) {
     console.error(err);
-    alert("Error de red al guardar producto");
+    showNotification("Error de red al guardar producto", "error");
   }
 });
 
@@ -184,7 +182,7 @@ async function cargarCategoriasProducto() {
     categorias.forEach(cat => {
 
       const option = document.createElement("option");
-      option.value = cat.categoria;
+      option.value = cat.id;
       option.textContent = cat.categoria;
 
       select.appendChild(option);
@@ -208,15 +206,15 @@ document.addEventListener("change", (e) => {
 
   subSelect.innerHTML = `<option value="">Subcategoría</option>`;
 
-  const categoria = categorias.find(c => c.categoria === nombreCategoria);
+  const categoria = categorias.find(c => c.id == nombreCategoria);
 
   if (!categoria) return;
 
   categoria.subcategorias.forEach(sub => {
 
     const option = document.createElement("option");
-    option.value = sub;
-    option.textContent = sub;
+    option.value = sub.id;
+    option.textContent = sub.nombre;
 
     subSelect.appendChild(option);
 
@@ -306,10 +304,10 @@ async function cargarProductos() {
       categorias.forEach(cat => {
 
         const option = document.createElement("option");
-        option.value = cat.categoria;
+        option.value = cat.id;
         option.textContent = cat.categoria;
 
-        if (p.categoria === cat.categoria) {
+        if (p.categoria_id === cat.id) {
           option.selected = true;
         }
 
@@ -319,7 +317,7 @@ async function cargarProductos() {
 
       categoriaSelect.addEventListener("change", () => {
 
-      const categoria = categorias.find(c => c.categoria === categoriaSelect.value);
+      const categoria = categorias.find(c => c.id == categoriaSelect.value);
 
       subcategoriaSelect.innerHTML = `<option value="">Subcategoría</option>`;
 
@@ -328,18 +326,43 @@ async function cargarProductos() {
       categoria.subcategorias.forEach(sub => {
 
         const option = document.createElement("option");
-        option.value = sub;
-        option.textContent = sub;
+        option.value = sub.id;
+        option.textContent = sub.nombre;
 
         subcategoriaSelect.appendChild(option);
 
       });
 
     });
-      if (p.categoria) categoriaSelect.value = p.categoria;
-      if (p.subcategoria) subcategoriaSelect.value = p.subcategoria;
 
-      const categoriaActual = categorias.find(c => c.categoria === p.categoria);
+
+
+  if (p.categoria_id) {
+  categoriaSelect.value = p.categoria_id;
+
+  const categoriaActual = categorias.find(c => c.id == p.categoria_id);
+
+  subcategoriaSelect.innerHTML = `<option value="">Subcategoría</option>`;
+
+  if (categoriaActual) {
+    categoriaActual.subcategorias.forEach(sub => {
+      const option = document.createElement("option");
+      option.value = sub.id;
+      option.textContent = sub.nombre;
+
+      if (p.subcategoria_id === sub.id) {
+        option.selected = true;
+      }
+
+      subcategoriaSelect.appendChild(option);
+    });
+  }
+}
+
+
+
+
+      const categoriaActual = categorias.find(c => c.id == p.categoria_id);
 
       if (categoriaActual) {
 
@@ -348,10 +371,10 @@ async function cargarProductos() {
         categoriaActual.subcategorias.forEach(sub => {
 
           const option = document.createElement("option");
-          option.value = sub;
-          option.textContent = sub;
+          option.value = sub.id;
+          option.textContent = sub.nombre;
 
-          if (p.subcategoria === sub) {
+          if (p.subcategoria_id === sub.id) {
             option.selected = true;
           }
 
@@ -379,8 +402,8 @@ async function cargarProductos() {
         formData.append("precio", div.querySelector(".edit-precio").value);
         formData.append("stock", div.querySelector(".edit-stock").value);
         formData.append("marca_id", marcaSelect.value);
-        formData.append("categoria", categoriaSelect.value);
-        formData.append("subcategoria", subcategoriaSelect.value);
+        formData.append("categoria_id", categoriaSelect.value);
+        formData.append("subcategoria_id", subcategoriaSelect.value);
 
         if (fileInput.files.length > 0) {
           formData.append("imagen", fileInput.files[0]);
@@ -392,26 +415,48 @@ async function cargarProductos() {
           body: formData
         });
 
-        if (!res.ok) {
-          const text = await res.text();
-          alert("Error: " + text);
-          return;
-        }
+      if (!res.ok) {
+        const text = await res.text();
+        showNotification("Error: " + text, "error");
+        return;
+      }
 
-        alert("Producto actualizado correctamente");
+      showNotification("Producto actualizado correctamente", "success");
       };
 
       // ELIMINAR
-      div.querySelector(".eliminar").onclick = async () => {
-        if (!confirm("¿Eliminar producto?")) return;
+div.querySelector(".eliminar").onclick = async () => {
+  if (!confirm("¿Eliminar producto?")) return;
 
-        await fetch(`/admin/productos/${p.id}/eliminar`, {
-          method: "POST",
-          credentials: "include"
-        });
+  try {
+    const res = await fetch(`/admin/productos/${p.id}/eliminar`, {
+      method: "POST",
+      credentials: "include"
+    });
 
-        div.remove();
-      };
+    const data = await res.json();
+
+    if (!res.ok || !data.ok) {
+      showNotification("Error al eliminar producto", "error");
+      return;
+    }
+
+    // animación opcional
+    div.style.transition = "all 0.3s ease";
+    div.style.opacity = "0";
+    div.style.transform = "scale(0.95)";
+
+    setTimeout(() => {
+      div.remove();
+    }, 300);
+
+    showNotification("Producto eliminado correctamente", "success");
+
+  } catch (err) {
+    console.error(err);
+    showNotification("Error de red", "error");
+  }
+};
 
       container.appendChild(div);
     });
@@ -439,7 +484,7 @@ async function crearCategoria(){
     body:JSON.stringify({nombre})
   });
 
-  alert("Categoría creada");
+  showNotification("Categoría creada", "success");
 }
 
 async function crearSubcategoria(){
@@ -453,7 +498,7 @@ async function crearSubcategoria(){
     body:JSON.stringify({nombre,categoria_id})
   });
 
-  alert("Subcategoría creada");
+  showNotification("Subcategoría creada", "success");
 }
 
 async function cargarCategoriasAdmin() {
@@ -487,7 +532,7 @@ buttons.forEach(button => {
 
     // ocultar todas las secciones
     document
-      document.querySelectorAll("#productos, #crear, #shipping")
+      .querySelectorAll("#productos, #crear, #shipping")
       .forEach(section => section.classList.add("tab-hidden"));
 
     // mostrar sección seleccionada

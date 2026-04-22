@@ -53,10 +53,11 @@ document.getElementById("enviar-turno").addEventListener("click", async () => {
   };
 
   if(!data.fecha || !data.hora){
-    alert("Debe seleccionar fecha y horario");
+    showNotification("Debe seleccionar fecha y horario", "error");
     return;
   }
 
+try {
   const res = await fetch("/api/turnos",{
     method:"POST",
     headers:{
@@ -68,11 +69,16 @@ document.getElementById("enviar-turno").addEventListener("click", async () => {
   const result = await res.json();
 
   if(result.ok){
-    alert("Turno solicitado correctamente");
-    location.reload();
+    showNotification("Turno solicitado correctamente", "success");
+    setTimeout(() => location.reload(), 1200);
   }else{
-    alert("Error al solicitar turno");
+    showNotification(result.error || "Error al solicitar turno", "error");
   }
+
+} catch (e) {
+  console.error(e);
+  showNotification("Error de conexión con el servidor", "error");
+}
 
 });
 

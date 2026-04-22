@@ -6,8 +6,8 @@ inputFecha.addEventListener("input", () => {
   const fecha = new Date(inputFecha.value);
   const dia = fecha.getDay();
 
-  if (dia === 0 || dia === 6) {
-    alert("No se pueden seleccionar fines de semana");
+  if (dia === 5 || dia === 6) {
+    showNotification("No se pueden seleccionar fines de semana", "error");
     inputFecha.value = "";
   }
 

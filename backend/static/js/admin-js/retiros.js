@@ -55,8 +55,10 @@ async function toggleArchivar(id) {
     document.querySelector(`button[onclick="toggleArchivar(${id})"]`)
       .closest("tr")
       .remove();
+
+    showNotification(`Pedido #${id} archivado`, "success");
   } else {
-    alert("Error al archivar");
+    showNotification("Error al archivar el pedido", "error");
   }
 }
 // =========================
@@ -89,9 +91,10 @@ async function cambiarEstado(id, estado) {
   const data = await res.json();
 
   if (data.ok) {
-    await cargarRetirosAdmin(); // 🔥 recarga SOLO la tabla
+    showNotification(`Estado actualizado a ${estado}`, "success");
+    await cargarRetirosAdmin();
   } else {
-    alert("Error al actualizar");
+    showNotification("Error al actualizar el estado", "error");
   }
 }
 

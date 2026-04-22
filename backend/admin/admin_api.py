@@ -446,11 +446,13 @@ def admin_productos_json():
             p.activo,
             p.marca_id,
             p.categoria_id,
+            p.subcategoria_id, 
             c.nombre AS categoria,
             m.nombre AS marca
         FROM productos p
         LEFT JOIN marcas m ON p.marca_id = m.id
         LEFT JOIN categorias c ON p.categoria_id = c.id
+        WHERE p.activo = TRUE
         ORDER BY p.id DESC
     """)
 
@@ -508,6 +510,21 @@ def editar_producto(id):
     categoria_id = request.form.get("categoria_id")
     subcategoria_id = request.form.get("subcategoria_id")
 
+    print("SUBCATEGORIA RECIBIDA:", subcategoria_id)
+
+    if not categoria_id:
+        categoria_id = None
+    else:
+        categoria_id = int(categoria_id)
+
+    if not subcategoria_id:
+        subcategoria_id = None
+    else:
+        subcategoria_id = int(subcategoria_id)
+
+    db = get_db()
+    cur = db.cursor()
+
     if marca_id:
         marca_id = int(marca_id)
     else:
@@ -520,9 +537,6 @@ def editar_producto(id):
 
     archivo = request.files.get("imagen")
     nombre_imagen = None
-
-    db = get_db()
-    cur = db.cursor()
 
     if archivo and archivo.filename:
         filename = secure_filename(archivo.filename)
@@ -569,10 +583,16 @@ def eliminar_producto(id):
         UPDATE productos
         SET activo = FALSE
         WHERE id = %s
+        RETURNING id
     """, (id,))
+
+    result = cur.fetchone()
 
     db.commit()
     db.close()
+
+    if not result:
+        return jsonify({"ok": False, "error": "Producto no encontrado"}), 404
 
     return jsonify({"ok": True})
 
@@ -594,6 +614,17 @@ def guardar_producto():
 
     categoria_id = request.form.get("categoria")
     subcategoria_id = request.form.get("subcategoria")
+
+    if not categoria_id:
+        categoria_id = None
+    else:
+        categoria_id = int(categoria_id)
+
+    if not subcategoria_id:
+        subcategoria_id = None
+    else:
+        subcategoria_id = int(subcategoria_id)
+
 
     archivo = request.files.get("imagen")
     print("ARCHIVO RECIBIDO:", archivo)
@@ -1083,10 +1114,16 @@ def api_categorias():
         cat_id = r["id"]
 
         if cat not in categorias:
-            categorias[cat] = {"id": cat_id, "subcategorias": []}
+            categorias[cat] = {
+                "id": cat_id,
+                "subcategorias": []
+            }
 
         if r["subcategoria"]:
-            categorias[cat]["subcategorias"].append(r["subcategoria"])
+            categorias[cat]["subcategorias"].append({
+                "id": r["sub_id"],
+                "nombre": r["subcategoria"]
+            })
 
     resultado = [
         {"categoria": k, "id": v["id"], "subcategorias": v["subcategorias"]}

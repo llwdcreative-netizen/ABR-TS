@@ -27,6 +27,11 @@ def create_preference():
     tipo = metadata.get("tipo")
     referencia_id = metadata.get("referencia_id")
 
+    print("METADATA:", metadata)
+    print("TIPO:", tipo)
+    print("REF:", referencia_id)
+
+
     # =========================
     # VALIDACIONES
     # =========================

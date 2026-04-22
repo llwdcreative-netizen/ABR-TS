@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   let currentContext = null;
   let baseTotal = 0;
-  let shippingCache = null; // 🔥 cache real
+  let shippingCache = null; 
 
   // =========================
   // FETCH SHIPPING REAL
@@ -61,7 +61,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let total = baseTotal;
 
     if (tipo === "envio") {
-      const envio = await getShippingCost(); // 🔥 valor real backend
+      const envio = await getShippingCost();
 
       total += envio;
 
@@ -94,7 +94,7 @@ document.addEventListener("DOMContentLoaded", () => {
       formEnvio?.classList.add("oculto");
     }
 
-    await renderModalSummary(tipo); // 🔥 importante
+    await renderModalSummary(tipo);
   });
 
   // =========================
@@ -127,7 +127,7 @@ document.addEventListener("DOMContentLoaded", () => {
       console.log("CHECKED:", modal.querySelector('input[name="entrega"]:checked'));
 
       if (!metodo) {
-        alert("Seleccioná método de entrega");
+        showNotification("Seleccioná método de entrega", "error");
         return;
       }
 
@@ -135,7 +135,7 @@ document.addEventListener("DOMContentLoaded", () => {
         await currentContext.onConfirm(metodo.value);
       } catch (err) {
         console.error(err);
-        alert("Error en compra");
+        showNotification("Error en la compra", "error");
       }
     });
   }

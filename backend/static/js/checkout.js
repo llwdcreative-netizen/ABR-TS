@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const metodoEl = document.querySelector("input[name='entrega']:checked");
     if (!metodoEl) {
-      alert("Seleccioná un método de entrega");
+      showNotification("Seleccioná un método de entrega", "error");
       procesando = false;
       confirmarBtn.disabled = false;
       return;
@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const productos = JSON.parse(localStorage.getItem("carrito")) || [];
     if (!productos.length) {
-      alert("Tu carrito está vacío 😅");
+      showNotification("Tu carrito está vacío", "info");
       procesando = false;
       confirmarBtn.disabled = false;
       return;
@@ -45,19 +45,19 @@ document.addEventListener("DOMContentLoaded", () => {
       datos.ciudad = document.getElementById("env-ciudad").value.trim();
 
       if (!datos.nombre || !datos.calle || !datos.numero || !datos.ciudad) {
-        alert("Completá los datos obligatorios del envío.");
+        showNotification("Completá los datos obligatorios del envío", "error");
         procesando = false;
         confirmarBtn.disabled = false;
         return;
       }
     } else {
       datos.nombre = document.getElementById("cliente").value.trim();
-      if (!datos.nombre) {
-        alert("Ingresá el nombre de quien retira.");
-        procesando = false;
-        confirmarBtn.disabled = false;
-        return;
-      }
+    if (!datos.nombre) {
+      showNotification("Ingresá el nombre de quien retira", "error");
+      procesando = false;
+      confirmarBtn.disabled = false;
+      return;
+    }
     }
 
     try {
@@ -79,13 +79,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const pedidoData = await pedidoResp.json();
 
-      if (!pedidoData.ok) {
-        console.error(pedidoData);
-        alert("Error creando el pedido");
-        procesando = false;
-        confirmarBtn.disabled = false;
-        return;
-      }
+    if (!pedidoData.ok) {
+      console.error(pedidoData);
+      showNotification("Error creando el pedido, inténtalo nuevamente", "error");
+      procesando = false;
+      confirmarBtn.disabled = false;
+      return;
+    }
 
       const pedidoId = pedidoData.pedido_id;
 
@@ -132,7 +132,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     } catch (err) {
       console.error(err);
-      alert("Error inesperado en la compra");
+      showNotification("Error inesperado en la compra", "error");
       procesando = false;
       confirmarBtn.disabled = false;
     }

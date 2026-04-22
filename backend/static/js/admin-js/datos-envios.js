@@ -9,7 +9,7 @@ async function cargarEnvioAdmin() {
   });
 
   if (!res.ok) {
-    alert("Pedido no encontrado");
+    showNotification("Pedido no encontrado", "error");
     return;
   }
 
@@ -52,32 +52,43 @@ async function cargarEnvioAdmin() {
   });
 }
 
-document.addEventListener("DOMContentLoaded", cargarEnvioAdmin);
 
 async function actualizarEstadoEnvio() {
-  const partes = window.location.pathname.split("/");
-  const id = partes.at(-1);
+  try {
+    const partes = window.location.pathname.split("/");
+    const id = partes.at(-1);
 
-  const nuevoEstado = document.getElementById("cambiar-estado").value;
+    const nuevoEstado = document.getElementById("cambiar-estado").value;
 
-  const res = await fetch(`/admin/pedidos/${id}/estado`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    credentials: "include",
-    body: JSON.stringify({ estado: nuevoEstado })
-  });
+    const res = await fetch(`/admin/pedidos/${id}/estado`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      credentials: "include",
+      body: JSON.stringify({ estado: nuevoEstado })
+    });
 
-  const data = await res.json();
+    const data = await res.json();
 
-  if (data.ok) {
-    document.getElementById("pedido-estado").textContent = nuevoEstado;
-    alert("Estado actualizado");
-  } else {
-    alert(data.error || "Error al actualizar estado");
+    if (data.ok) {
+      document.getElementById("pedido-estado").textContent = nuevoEstado;
+
+      showNotification("Estado actualizado correctamente", "success");
+    } else {
+      showNotification(data.error || "Error al actualizar estado", "error");
+    }
+
+  } catch (err) {
+    console.error(err);
+    showNotification("Error de conexión", "error");
   }
 }
 
-document.getElementById("btn-estado")
-  ?.addEventListener("click", actualizarEstadoEnvio);
+document.addEventListener("DOMContentLoaded", () => {
+  cargarEnvioAdmin();
+
+  document
+    .getElementById("btn-estado")
+    ?.addEventListener("click", actualizarEstadoEnvio);
+});

@@ -53,6 +53,7 @@ async function toggleArchivar(id) {
   });
 
   if (res.ok) {
+    showNotification("Pedido archivado", "success");
     const btn = document.querySelector(`button[onclick="toggleArchivar(${id})"]`);
     const row = btn.closest("tr");
 
@@ -67,7 +68,7 @@ async function toggleArchivar(id) {
     }
 
   } else {
-    alert("Error al archivar");
+    showNotification("Error al archivar pedido", "error");
   }
 }
 // =========================
@@ -100,9 +101,10 @@ async function cambiarEstado(id, estado) {
   const data = await res.json();
 
   if (data.ok) {
-    cargarEnviosAdmin(); // 🔥 recarga automática
+    showNotification("Estado actualizado", "success");
+    cargarEnviosAdmin();
   } else {
-    alert("Error al actualizar");
+    showNotification("Error al actualizar estado", "error");
   }
 }
 

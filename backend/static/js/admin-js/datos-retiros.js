@@ -8,10 +8,10 @@ async function cargarRetiroAdmin() {
     credentials: "include"
   });
 
-if (!res.ok) {
-  alert("Error del servidor");
-  return;
-}
+  if (!res.ok) {
+    showNotification("Error del servidor", "error");
+    return;
+  }
 
 const data = await res.json();
 
@@ -59,33 +59,40 @@ const data = await res.json();
   }
 }
 
-document.addEventListener("DOMContentLoaded", cargarRetiroAdmin);
 
 async function actualizarEstadoRetiro() {
-  const partes = window.location.pathname.split("/");
-  const id = partes.at(-1);
+  try {
+    const partes = window.location.pathname.split("/");
+    const id = partes.at(-1);
 
-  const nuevoEstado = document.getElementById("cambiar-estado").value;
+    const nuevoEstado = document.getElementById("cambiar-estado").value;
 
-  const res = await fetch(`/admin/pedidos/${id}/estado`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    credentials: "include",
-    body: JSON.stringify({ estado: nuevoEstado })
-  });
+    const res = await fetch(`/admin/pedidos/${id}/estado`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      credentials: "include",
+      body: JSON.stringify({ estado: nuevoEstado })
+    });
 
-  const data = await res.json();
+    const data = await res.json();
 
-  if (data.ok) {
-    document.getElementById("pedido-estado").textContent = nuevoEstado;
-    document.getElementById("cambiar-estado").value = nuevoEstado;
-    alert("Estado actualizado");
-  } else {
-    alert(data.error || "Error al actualizar estado");
+    if (data.ok) {
+      document.getElementById("pedido-estado").textContent = nuevoEstado;
+      document.getElementById("cambiar-estado").value = nuevoEstado;
+
+      showNotification("Estado actualizado correctamente", "success");
+    } else {
+      showNotification(data.error || "Error al actualizar estado", "error");
+    }
+
+  } catch (err) {
+    console.error(err);
+    showNotification("Error de conexión", "error");
   }
 }
+
 
 document.addEventListener("DOMContentLoaded", () => {
   cargarRetiroAdmin();

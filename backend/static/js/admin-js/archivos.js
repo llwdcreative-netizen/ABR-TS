@@ -13,30 +13,38 @@ function botonArchivar(pedido) {
 // TOGGLE ARCHIVAR
 // -----------------------------
 async function toggleArchivar(id) {
-  const res = await fetch(`/admin/pedidos/${id}/archivar`, {
-    method: "POST",
-    credentials: "include"
-  });
+  try {
+    const res = await fetch(`/admin/pedidos/${id}/archivar`, {
+      method: "POST",
+      credentials: "include"
+    });
 
-  if (!res.ok) {
-    alert("Error");
-    return;
+    if (!res.ok) {
+      showNotification("Error al archivar el pedido", "error");
+      return;
+    }
+
+    const btn = document.querySelector(`button[onclick="toggleArchivar(${id})"]`);
+    if (!btn) return;
+
+    const card = btn.closest(".pedido-card");
+    if (!card) return;
+
+    // animación
+    card.style.transition = "all 0.3s ease";
+    card.style.opacity = "0";
+    card.style.transform = "translateY(-10px) scale(0.98)";
+
+    setTimeout(() => {
+      card.remove();
+    }, 300);
+
+    showNotification("Pedido actualizado", "success");
+
+  } catch (err) {
+    console.error(err);
+    showNotification("Error de conexión", "error");
   }
-
-  const btn = document.querySelector(`button[onclick="toggleArchivar(${id})"]`);
-  if (!btn) return;
-
-  const card = btn.closest(".pedido-card");
-  if (!card) return;
-
-  // 🎬 animación
-  card.style.transition = "all 0.3s ease";
-  card.style.opacity = "0";
-  card.style.transform = "translateY(-10px) scale(0.98)";
-
-  setTimeout(() => {
-    card.remove();
-  }, 300);
 }
 
 // -----------------------------

@@ -45,6 +45,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     // Validar formato
     if (!Array.isArray(historial)) {
       container.innerHTML = "<p>Error al cargar historial.</p>";
+      showNotification("Error cargando historial", "error");
       console.error("Historial inválido:", historial);
       return;
     }
@@ -132,7 +133,7 @@ orderDiv.style.cursor = "pointer";
 
 orderDiv.onclick = () => {
   if (!order.id) {
-    alert("Pedido sin ID");
+    showNotification("Pedido sin ID", "error");
     return;
   }
   const tipo = order.tipo || "envio";
@@ -170,5 +171,6 @@ orderDiv.innerHTML = `
 
   } catch (err) {
     console.error("Error inesperado en dashboard:", err);
+    showNotification("Error cargando el panel", "error");
   }
 });

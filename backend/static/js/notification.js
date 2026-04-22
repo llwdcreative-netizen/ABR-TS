@@ -162,9 +162,14 @@ async function actualizarNotificacionesCount() {
 
 
 
-function showNotification(mensaje, tipo = "info") {
+window.showNotification = function(mensaje, tipo = "info") {
   const container = document.getElementById("notifications-container");
   if (!container) return;
+
+  // limitar cantidad
+  if (container.children.length > 3) {
+    container.removeChild(container.firstChild);
+  }
 
   const notif = document.createElement("div");
   notif.className = `notif notif-${tipo}`;
@@ -172,14 +177,11 @@ function showNotification(mensaje, tipo = "info") {
 
   container.appendChild(notif);
 
-  // animación entrada
   setTimeout(() => notif.classList.add("show"), 10);
 
-  // auto remove
   setTimeout(() => {
     notif.classList.remove("show");
     setTimeout(() => notif.remove(), 300);
   }, 3000);
-}
-
+};
 

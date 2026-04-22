@@ -165,7 +165,7 @@ function actualizarCarritoCount() {
   buyBtn.addEventListener("click", () => {
 
   if (!carrito.length) {
-    alert("Carrito vacío");
+    showNotification("Carrito vacío", "error");
     return;
   }
 
@@ -176,83 +176,86 @@ function actualizarCarritoCount() {
     precio: total,
     envio: 0,
 
-    onConfirm: async (tipoEntrega) => {
+onConfirm: async (tipoEntrega) => {
 
-console.log("🔥 onConfirm ejecutado");
+  console.log("🔥 onConfirm ejecutado");
 
-body: JSON.stringify({
-  tipo: tipoEntrega,
-  origen: "carrito",
-  productos: carrito
-})
+  const carritoMP = carrito;
 
-console.log("🟡 antes de validación");
+  let bodyData = {
+    tipo: tipoEntrega,
+    origen: "carrito",
+    productos: carritoMP
+  };
 
+  console.log("🟡 antes de validación");
 
-if (tipoEntrega === "envio") {
-
-  const nombre = document.getElementById("env-nombre")?.value.trim();
-  const telefono = document.getElementById("env-telefono")?.value.trim();
-  const email = document.getElementById("env-email")?.value.trim();
-  const calle = document.getElementById("env-calle")?.value.trim();
-  const numero = document.getElementById("env-numero")?.value.trim();
-  const ciudad = document.getElementById("env-ciudad")?.value.trim();
-  const provincia = document.getElementById("env-provincia")?.value.trim();
-  const cp = document.getElementById("env-cp")?.value.trim();
+  if (tipoEntrega === "envio") {
+    const nombre = document.getElementById("env-nombre")?.value.trim();
+    const telefono = document.getElementById("env-telefono")?.value.trim();
+    const email = document.getElementById("env-email")?.value.trim();
+    const calle = document.getElementById("env-calle")?.value.trim();
+    const numero = document.getElementById("env-numero")?.value.trim();
+    const ciudad = document.getElementById("env-ciudad")?.value.trim();
+    const provincia = document.getElementById("env-provincia")?.value.trim();
+    const cp = document.getElementById("env-cp")?.value.trim();
 
   if (!nombre || !telefono || !calle || !numero || !ciudad || !provincia || !cp) {
-    return alert("Completá los datos de envío");
+    showNotification("Completá los datos de envío", "error");
+    return;
   }
 
-  bodyData = {
-    ...bodyData,
-    nombre,
-    telefono,
-    email,
-    calle,
-    numero,
-    ciudad,
-    provincia,
-    cp
-  };
-}
+    bodyData = {
+      ...bodyData,
+      nombre,
+      telefono,
+      email,
+      calle,
+      numero,
+      ciudad,
+      provincia,
+      cp
+    };
+  }
 
-if (tipoEntrega === "retiro") {
-  const nombre = document.getElementById("cliente")?.value.trim();
+  if (tipoEntrega === "retiro") {
+    const nombre = document.getElementById("cliente")?.value.trim();
 
-  bodyData = {
-    ...bodyData,
-    cliente: { nombre }
-  };
-}
+    bodyData = {
+      ...bodyData,
+      cliente: { nombre }
+    };
+  }
 
-  console.log("BODY DATA:", bodyData);
+  console.log("BODY FINAL:", bodyData);
 
-      const res = await fetch("/purchase", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
-        body: JSON.stringify(bodyData)
-      });
-
-    const data = await res.json();
-
-    if (!res.ok) {
-      console.error("ERROR BACKEND:", data);
-      alert(data.error || "Error en compra");
-      return;
-    }
-
-      await crearPagoCarrito(
-        carrito,
-        "test@test.com",
-        tipoEntrega,
-        data.pedido_id
-      );
-    }
+  const res = await fetch("/purchase", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    credentials: "include",
+    body: JSON.stringify(bodyData)
   });
 
-});
+  const data = await res.json();
 
+  if (!res.ok) {
+    console.error("ERROR BACKEND:", data);
+    showNotification(data.error || "Error en compra", "error");
+    return;
+  }
+
+    console.log("PEDIDO ID:", data.pedido_id);
+
+await crearPagoCarrito(
+  carrito,
+  "test@test.com",
+  tipoEntrega,
+  tipoEntrega === "envio" ? data.envio_id : data.pedido_id
+);
+
+showNotification("Redirigiendo a pago...", "success");
+}
+  });
+});
   renderCart();
 });

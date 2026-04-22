@@ -1,3 +1,48 @@
+async function crearPagoMercadoPago(carrito, tipo, referencia_id, email) {
+
+  const items = carrito.map(p => ({
+    title: p.nombre,
+    quantity: Number(p.cantidad) || 1,
+    unit_price: Number(p.precio) || 0,
+    currency_id: "ARS"
+  }));
+
+  console.log("ENVIANDO A MP:", {
+    items,
+    tipo,
+    referencia_id,
+    email
+  });
+
+  const res = await fetch("/create_preference", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    credentials: "include",
+    body: JSON.stringify({
+      items,
+      payer: { email },
+      metadata: {
+        tipo,
+        referencia_id
+      },
+      auto_return: "approved"
+    })
+  });
+
+  const data = await res.json();
+
+  if (!data.ok) {
+    console.error("ERROR MP:", data);
+    throw new Error(data.error);
+  }
+
+  // 🔥 REDIRECCIÓN A MP
+  window.location.href =
+    `https://www.mercadopago.com.ar/checkout/v1/redirect?pref_id=${data.preference_id}`;
+}
+
+
+
 document.addEventListener("DOMContentLoaded", async () => {
 
   async function checkLogin() {
@@ -71,11 +116,11 @@ buyNow.addEventListener("click", async () => {
 
     onConfirm: async (tipoEntrega) => {
 
-  const carritoMP = [{
-    name: producto.nombre,
-    price: producto.precio,
-    cantidad: 1
-  }];
+const carritoMP = [{
+  nombre: producto.nombre,
+  precio: producto.precio,
+  cantidad: 1
+}];
 
 let bodyData = {
   tipo: tipoEntrega,
@@ -129,11 +174,14 @@ const res = await fetch("/purchase", {
       const data = await res.json();
       if (!data.ok) throw new Error("Error");
 
-      const referenciaId = data.pedido_id;
+      const referenciaId =
+    tipoEntrega === "envio"
+      ? data.envio_id
+      : data.pedido_id;
 
     await crearPagoMercadoPago(
       carritoMP,
-      "producto",
+      tipoEntrega,
       referenciaId,
       "test@test.com"
     );

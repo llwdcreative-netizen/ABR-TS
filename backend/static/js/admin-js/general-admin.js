@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
 
   // ========================
-  // 🔐 LOGOUT
+  //  LOGOUT
   // ========================
   const logoutBtn = document.getElementById("logout-btn");
   if (logoutBtn) {
@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // ========================
-  // 🍔 MENÚ HAMBURGUESA
+  //  MENÚ HAMBURGUESA
   // ========================
   const menuBtn = document.getElementById("adminMenuBtn");
   const sidebar = document.querySelector(".admin-sidebar");
@@ -40,7 +40,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // ========================
-  // 🔔 NOTIFICACIONES
+  //  NOTIFICACIONES
   // ========================
   const btn = document.getElementById("notificationBtn");
   const panel = document.getElementById("notificationPanel");
@@ -50,7 +50,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (!btn || !panel || !lista || !count) return;
 
-  // 🔄 Cargar notificaciones
+  //  Cargar notificaciones
   async function cargarNotificaciones() {
     try {
     const res = await fetch(`/notificaciones?rol=admin`, {
@@ -98,7 +98,7 @@ document.addEventListener("DOMContentLoaded", () => {
         lista.appendChild(div);
       });
 
-      // 🔴 contador
+      //  contador
       if (noLeidas > 0) {
         count.style.display = "inline-block";
         count.textContent = noLeidas;
@@ -111,7 +111,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // 🟢 Marcar como leídas
+  // Marcar como leídas
   async function marcarLeidas() {
     try {
       await fetch("/notificaciones/marcar-leidas", {
@@ -125,13 +125,13 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // ========================
-  // 🎛 EVENTOS UI
+  // EVENTOS UI
   // ========================
 
-  // 🔄 cargar al iniciar
+  // cargar al iniciar
   cargarNotificaciones();
 
-  // 🔔 abrir / cerrar
+  // abrir / cerrar
   btn.addEventListener("click", async (e) => {
     e.stopPropagation();
     panel.classList.toggle("hidden");
@@ -141,14 +141,14 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // ❌ cerrar al click afuera
+  //  cerrar al click afuera
   document.addEventListener("click", (e) => {
     if (!btn.contains(e.target) && !panel.contains(e.target)) {
       panel.classList.add("hidden");
     }
   });
 
-  // 🧹 limpiar notificaciones
+  //  limpiar notificaciones
   if (clearBtn) {
     clearBtn.addEventListener("click", async () => {
       try {
@@ -190,8 +190,39 @@ async function eliminarPedido(id) {
 
   const data = await res.json();
 
-  if (data.ok) {
-    alert("Pedido eliminado");
-    location.reload();
-  }
+if (data.ok) {
+  showNotification("Pedido eliminado correctamente", "success");
+  location.reload();
+} else {
+  showNotification("Error al eliminar el pedido", "error");
 }
+}
+
+
+window.showNotification = function(mensaje, tipo = "info") {
+  const container = document.getElementById("notifications-container");
+  if (!container) return;
+
+  // limitar cantidad
+  if (container.children.length > 3) {
+    container.removeChild(container.firstChild);
+  }
+
+  const notif = document.createElement("div");
+  notif.className = `notif notif-${tipo}`;
+  notif.textContent = mensaje;
+
+  container.appendChild(notif);
+
+  setTimeout(() => notif.classList.add("show"), 10);
+
+  setTimeout(() => {
+    notif.classList.remove("show");
+    setTimeout(() => notif.remove(), 300);
+  }, 3000);
+};
+
+
+
+
+
