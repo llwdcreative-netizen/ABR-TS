@@ -1,5 +1,6 @@
 from flask import Blueprint, request, jsonify, session
 from werkzeug.security import generate_password_hash, check_password_hash
+from backend.services.notification_service import crear_notificacion
 from backend.db import get_db
 from datetime import datetime
 
@@ -111,8 +112,8 @@ def contact():
 
         # Insertar mensaje
         cur.execute("""
-            INSERT INTO help_messages (nombre, apellido, email, telefono, mensaje)
-            VALUES (%s, %s, %s, %s, %s)
+            INSERT INTO help_messages (nombre, apellido, email, telefono, mensaje, fecha)
+            VALUES (%s, %s, %s, %s, %s, %s)
             RETURNING id
         """, (
             data["nombre"],
@@ -120,6 +121,7 @@ def contact():
             data["email"],
             data.get("telefono"),
             data["mensaje"],
+            datetime.now()
         ))
 
         msg_id = cur.fetchone()["id"]
@@ -201,6 +203,7 @@ def crear_turno():
         if m:
             marca_id = m["id"]
 
+    # INSERT + RETURNING ID
     cur.execute("""
         INSERT INTO turnos (
             fecha,
@@ -215,6 +218,7 @@ def crear_turno():
             descripcion
         )
         VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
+        RETURNING id
     """, (
         data["fecha"],
         hora,
@@ -227,6 +231,18 @@ def crear_turno():
         data["tipo_reparacion"],
         data["descripcion"]
     ))
+
+    turno_id = cur.fetchone()["id"]
+
+    # NOTIFICACIÓN ADMIN
+    crear_notificacion(
+        usuario_id=None,
+        rol="admin",
+        titulo="Nuevo turno",
+        mensaje=f"{data['nombre']} solicitó turno para el {data['fecha']} a las {hora}",
+        referencia_id=turno_id,
+        tipo="turno"
+    )
 
     db.commit()
     db.close()

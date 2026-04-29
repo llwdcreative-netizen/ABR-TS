@@ -172,10 +172,6 @@ FAQ
     width: 100%;
   }
 
-}
-
-@media (min-width: 1024px){
-
   .texto-banner{
     width: 50%;
   }

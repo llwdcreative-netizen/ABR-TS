@@ -47,7 +47,10 @@ async function cargarEnvioAdmin() {
 
   p.productos.forEach(prod => {
     const li = document.createElement("li");
-    li.textContent = `${prod.name} x${prod.cantidad} — $${prod.price * prod.cantidad}`;
+      const nombre = prod.nombre || prod.name || "Producto";
+      const cantidad = prod.cantidad || 1;
+
+    li.textContent = `${nombre} x${cantidad}`;
     ul.appendChild(li);
   });
 }

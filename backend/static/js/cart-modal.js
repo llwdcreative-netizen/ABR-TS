@@ -1,4 +1,33 @@
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
+
+  async function validarCarrito() {
+  try {
+    const res = await fetch("/api/productos"); // endpoint de productos
+    if (!res.ok) return;
+
+    const productos = await res.json();
+
+    // IDs válidos
+    const idsValidos = productos.map(p => p.id);
+
+    carrito = carrito.filter(item => idsValidos.includes(item.id));
+
+    carrito = carrito.map(item => {
+    const prod = productos.find(p => p.id === item.id);
+    if (!prod) return null;
+
+    return {
+      ...item,
+      precio: prod.precio
+    };
+  }).filter(Boolean);
+
+    guardarCarrito(carrito);
+
+  } catch (e) {
+    console.warn("Error validando carrito", e);
+  }
+}
 
   async function crearPagoCarrito(carrito, email, tipo, referencia_id) {
     const items = carrito.map(p => ({
@@ -41,6 +70,8 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   let carrito = obtenerCarrito();
+
+  await validarCarrito(); 
 
 
 

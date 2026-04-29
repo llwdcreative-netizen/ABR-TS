@@ -26,7 +26,7 @@ async function cargarEnviosAdmin() {
             ${textoEstado(p.estado)}
           </span>
 
-          <select onchange="cambiarEstado('${p.tipo}', ${p.id}, this.value)">
+          <select onchange="cambiarEstado(${p.id}, this.value)">
             ${opcionesEnvio(p.estado)}
           </select>
         </div>
@@ -91,7 +91,7 @@ function opcionesEnvio(actual) {
 }
 
 async function cambiarEstado(id, estado) {
-  const res = await fetch(`/admin/pedidos/${id}/estado`, {
+  const res = await fetch(`/admin/pedidos/${id}/estado`,{
     method: "POST",
     credentials: "include",
     headers: { "Content-Type": "application/json" },

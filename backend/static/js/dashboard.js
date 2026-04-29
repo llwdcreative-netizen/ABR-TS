@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     if (!data || !data.logged) {
       console.warn("Usuario no autenticado → redirigiendo");
-      window.location.href = "login.html";
+      window.location.href = "/login";
       return;
     }
 
@@ -36,6 +36,17 @@ document.addEventListener("DOMContentLoaded", async () => {
     const historial = await resHistory.json();
 
     console.log("Historial recibido:", historial);
+
+    // ========================
+    // BOTÓN DE CIERRE DE SESIÓN
+    // ========================
+    const logoutBtn = document.getElementById("logout-btn");
+    if (logoutBtn) {
+      logoutBtn.addEventListener("click", async () => {
+        await fetch("/logout", { method: "POST", credentials: "include" });
+        window.location.href = "/login";
+      });
+    }
 
     const container = document.getElementById("purchase-history");
     if (!container) return;
@@ -92,9 +103,10 @@ purchases.forEach(order => {
         productosHTML += `<li>${p}</li>`;
         return;
       }
-      const name = 
-      p.name || 
-      p.item || 
+    const name = 
+      p.nombre || 
+      p.name   || 
+      p.item   || 
       "Producto";
 
       const qty = 
@@ -102,7 +114,8 @@ purchases.forEach(order => {
       p.qty || 
       1;
 
-      const price = 
+    const price = 
+      p.precio || 
       p.price  || 
       0;
 
@@ -155,19 +168,6 @@ orderDiv.innerHTML = `
 
   container.appendChild(orderDiv);
 });
-
-
-
-    // ========================
-    // BOTÓN DE CIERRE DE SESIÓN
-    // ========================
-    const logoutBtn = document.getElementById("logout-btn");
-    if (logoutBtn) {
-      logoutBtn.addEventListener("click", async () => {
-        await fetch("/logout", { method: "POST", credentials: "include" });
-        window.location.href = "/login";
-      });
-    }
 
   } catch (err) {
     console.error("Error inesperado en dashboard:", err);

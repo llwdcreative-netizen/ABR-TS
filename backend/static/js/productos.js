@@ -21,8 +21,8 @@ async function cargarProductos() {
         <div class="producto"
             data-id="${p.id}"
             data-nombre="${p.nombre.toLowerCase()}"
-            data-categoria="${p.categoria || ""}"
-            data-subcategoria="${p.subcategoria || ""}"
+            data-categoria="${p.categoria_id || ""}"
+            data-subcategoria="${p.subcategoria_id || ""}"
             data-marca="${p.marca ? p.marca.toLowerCase() : ""}">
             <img src="${p.imagen ? `/static/uploads/${p.imagen}` : '/static/img/placeholder.png'}" alt="${p.nombre}">
             <div class="info-container">
@@ -46,9 +46,9 @@ async function cargarProductos() {
       await generarFiltros();
 
       // aplicar filtro desde URL DESPUÉS de renderizar
-      if (categoria) {
-        filtrarProductos(categoria);
-      }
+    if (categoria) {
+      filtrarProductos(Number(categoria));
+    }
     }
 
   } catch (err) {

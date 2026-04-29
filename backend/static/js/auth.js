@@ -106,4 +106,19 @@ document.addEventListener("DOMContentLoaded", async () => {
       window.location.href = "/dashboard";
     });
   }
+
+
+document.querySelectorAll(".toggle-password").forEach(btn => {
+  btn.addEventListener("click", () => {
+    const input = btn.previousElementSibling; // el input anterior
+
+    if (input.type === "password") {
+      input.type = "text";
+      btn.innerHTML = '<i class="fa-solid fa-eye-slash"></i>';
+    } else {
+      input.type = "password";
+      btn.innerHTML = '<i class="fa-solid fa-eye"></i>';
+    }
+  });
+});
 });

@@ -128,6 +128,28 @@ margin-top:5px;
 
 
 
+.password-field {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.password-field input {
+  width: 100%;
+  padding-right: 40px;
+}
+
+.toggle-password {
+  position: absolute;
+  right: 10px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #666;
+}
+
+
+
 /*------------ DESKTOP QUERIES -----------*/
 @media (min-width:1024px){
 

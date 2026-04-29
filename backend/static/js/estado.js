@@ -61,6 +61,15 @@ document.addEventListener("DOMContentLoaded", async () => {
     const data = await res.json();
 
     if (data.estado === "aprobado") {
+
+    localStorage.removeItem("carrito");
+
+      mostrarEstado(tipo || "error");
+      return;
+
+    if (window.carrito) {
+      window.carrito = [];
+    }
       mostrarEstado("success");
     } else if (data.estado === "pendiente") {
       mostrarEstado("pending");

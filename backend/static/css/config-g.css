@@ -1,16 +1,24 @@
 /*---------- RESET ---------- */
-* { box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    font-family: "Sofia Sans", sans-serif;
-}
-*::before,
-*::after {
-  box-sizing: border-box;
+html, body{
+  height: 100%;
 }
 
-html, body { 
-    height: 100%; 
+body{
+  display: flex;
+  flex-direction: column;
+}
+
+
+main{
+  flex: 1;
+  margin: 0 auto;
+}
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+font-family: "Sofia Sans", sans-serif;
 }
 body {
     min-height: 100vh;

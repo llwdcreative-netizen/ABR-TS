@@ -15,6 +15,7 @@ async function cargarMensaje() {
   document.getElementById("msg-id").textContent = m.id;
   document.getElementById("msg-nombre").textContent =
     `${m.nombre} ${m.apellido}`;
+  document.getElementById("msg-fecha").textContent = m.fecha;
   document.getElementById("msg-email").textContent = m.email;
   document.getElementById("msg-telefono").textContent = m.telefono || "-";
   document.getElementById("msg-texto").textContent = m.mensaje;

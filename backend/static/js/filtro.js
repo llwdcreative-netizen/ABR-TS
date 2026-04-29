@@ -1,3 +1,10 @@
+function normalizar(str) {
+  return String(str || "")
+    .toLowerCase()
+    .trim();
+}
+
+
 async function generarFiltros() {
   const contenedor = document.getElementById("filtros");
   const subContenedor = document.getElementById("subfiltros");
@@ -30,7 +37,7 @@ categorias.forEach(cat => {
 
   boton.onclick = () => {
     const url = new URL(window.location);
-    url.searchParams.set("categoria", cat.categoria);
+    url.searchParams.set("categoria", cat.id);
     window.history.pushState({}, "", url);
 
     filtrarProductos(cat.categoria);
@@ -91,11 +98,11 @@ function filtrarProductos(cat, sub) {
 
     const matchCat =
       !cat ||
-      p.dataset.categoria.toLowerCase() === cat.toLowerCase();
+      normalizar(p.dataset.categoria) === normalizar(cat);
 
     const matchSub =
       !sub ||
-      p.dataset.subcategoria.toLowerCase() === sub.toLowerCase();
+      normalizar(p.dataset.subcategoria) === normalizar(sub);
 
     p.classList.toggle("oculto", !(matchCat && matchSub));
   });

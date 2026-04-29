@@ -4,7 +4,7 @@ async function cargarRetiroAdmin() {
 
   if (!id || isNaN(id)) return;
 
-  const res = await fetch(`/admin/api/${id}`, {
+  const res = await fetch(`/admin/api/retiros/${id}`, {
     credentials: "include"
   });
 

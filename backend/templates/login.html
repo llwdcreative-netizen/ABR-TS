@@ -5,7 +5,6 @@
     <title>ABR Servicio Técnico</title>
     <link rel="icon" href="/static/img/favicon.ico">
     <link rel="stylesheet" href="static/css/layout.css">
-    <link rel="stylesheet" href="static/css/responsive.css">
     <link rel="stylesheet" href="static/css/config-g.css">
     <link rel="stylesheet" href="static/css/login.css">
 
@@ -28,7 +27,12 @@
 
 <form id="login-form" class="active" >
   <input id="login-email" type="email" placeholder="Correo electrónico" required>
+  <div class="password-field">
   <input id="login-password" type="password" placeholder="Contraseña" required>
+    <button type="button" class="toggle-password">
+      <i class="fa-solid fa-eye"></i>
+    </button>
+    </div>
   <button type="submit">Entrar</button>
 </form>
 
@@ -36,9 +40,20 @@
 <form id="register-form">
   <input id="reg-name" type="text" placeholder="Nombre completo" required>
   <input id="reg-email" type="email" placeholder="Correo electrónico" required>
-  <input id="reg-password" type="password" placeholder="Contraseña" required>
-  <input id="reg-password2" type="password" placeholder="Confirmar contraseña" required>
 
+  <div class="password-field">
+  <input id="reg-password" type="password" placeholder="Contraseña" required>
+  <button type="button" class="toggle-password">
+    <i class="fa-solid fa-eye"></i>
+  </button>
+  </div>
+
+  <div class="password-field">
+  <input id="reg-password2" type="password" placeholder="Confirmar contraseña" required>
+    <button type="button" class="toggle-password">
+      <i class="fa-solid fa-eye"></i>
+    </button>
+  </div>
   <button type="submit">Crear cuenta</button>
 </form>
 </main>

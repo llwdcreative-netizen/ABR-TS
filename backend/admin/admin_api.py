@@ -51,15 +51,6 @@ def admin_pedidos():
         query += " AND tipo = %s"
         params.append(tipo)
 
-
-    # -------------------------
-    # FILTRO POR ESTADO
-    # -------------------------
-    if tipo == "envio":
-        query += " AND estado NOT IN ('ENTREGADO', 'CANCELADO')"
-
-    elif tipo == "retiro":
-        query += " AND estado NOT IN ('RETIRADO', 'CANCELADO')"
     # -------------------------
     query += " ORDER BY fecha DESC"
 
@@ -198,7 +189,7 @@ def admin_help_detalle_api(msg_id):
         db.close()
         return jsonify({"error": "Mensaje no encontrado"}), 404
 
-    # 🔥 Marcar notificación como leída
+    #  Marcar notificación como leída
     cur.execute("""
         UPDATE notificaciones
         SET leida = TRUE
@@ -237,8 +228,9 @@ def cambiar_estado_pedido(pedido_id):
     db = get_db()
     cur = db.cursor()
 
+    # Obtener datos del pedido
     cur.execute("""
-        SELECT user_id, tipo, envio_id
+        SELECT user_id, tipo, envio_id, archivado_admin
         FROM historial
         WHERE id = %s
     """, (pedido_id,))
@@ -248,14 +240,21 @@ def cambiar_estado_pedido(pedido_id):
         db.close()
         return jsonify({"error": "Pedido no encontrado"}), 404
 
-    # 🔥 actualizar historial
+    estados_finales = ["ENTREGADO", "RETIRADO", "CANCELADO"]
+
+    # 🔥 UPDATE OPTIMIZADO (estado + archivado en una sola query)
     cur.execute("""
         UPDATE historial
-        SET estado = %s
+        SET 
+            estado = %s,
+            archivado_admin = CASE
+                WHEN %s = ANY(%s) THEN TRUE
+                ELSE archivado_admin
+            END
         WHERE id = %s
-    """, (nuevo_estado, pedido_id))
+    """, (nuevo_estado, nuevo_estado, estados_finales, pedido_id))
 
-    # 🔥 si es envío, actualizar también envios
+    # Si es envío → actualizar tabla envios también
     if row["tipo"] == "envio" and row["envio_id"]:
         cur.execute("""
             UPDATE envios
@@ -266,6 +265,7 @@ def cambiar_estado_pedido(pedido_id):
     db.commit()
     db.close()
 
+    # Notificación al usuario
     crear_notificacion(
         usuario_id=row["user_id"],
         rol="usuario",
@@ -404,11 +404,13 @@ def api_productos():
             p.precio,
             p.stock, 
             p.imagen,
-            c.nombre AS categoria,
+            c.nombre AS categoria_id,
+            s.nombre AS subcategoria_id,
             m.nombre AS marca
         FROM productos p
         LEFT JOIN marcas m ON p.marca_id = m.id
         LEFT JOIN categorias c ON p.categoria_id = c.id
+        LEFT JOIN subcategorias s ON p.subcategoria_id = s.id
         WHERE p.activo = TRUE
     """
 
