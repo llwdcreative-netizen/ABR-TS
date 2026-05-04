@@ -271,7 +271,7 @@ async function cargarProductos() {
 
         <img
           class="edit-preview"
-          src="${p.imagen ? `/static/uploads/${p.imagen}` : ""}"
+          src="${p.imagen || ""}"
           style="max-width:200px; ${p.imagen ? "" : "display:none;"}"
         >
 

@@ -9,6 +9,14 @@ from werkzeug.utils import secure_filename
 import uuid
 import os
 from collections import defaultdict
+import cloudinary
+import cloudinary.uploader
+
+cloudinary.config(
+    cloud_name="CLOUD_NAME",
+    api_key="API_KEY",
+    api_secret="API_SECRET"
+)
 
 
 admin_api_bp = Blueprint("admin_api", __name__)
@@ -538,29 +546,17 @@ def editar_producto(id):
         categoria_id = int(categoria_id)
 
     archivo = request.files.get("imagen")
-    nombre_imagen = None
+    imagen_url = None
 
     if archivo and archivo.filename:
-        filename = secure_filename(archivo.filename)
-
-        if "." not in filename:
-            return "Archivo inválido", 400
-
-        ext = filename.rsplit(".", 1)[1].lower()
-        nombre_imagen = f"{uuid.uuid4().hex}.{ext}"
-
-        # 🔥 RUTA CORRECTA ABSOLUTA
-        upload_folder = os.path.join(current_app.root_path, "static", "uploads")
-        os.makedirs(upload_folder, exist_ok=True)
-
-        ruta = os.path.join(upload_folder, nombre_imagen)
-        archivo.save(ruta)
+        resultado = cloudinary.uploader.upload(archivo)
+        imagen_url = resultado["secure_url"]
 
         cur.execute("""
             UPDATE productos
             SET nombre=%s, descripcion=%s, precio=%s, stock=%s, imagen=%s, marca_id=%s, categoria_id=%s, subcategoria_id=%s
             WHERE id=%s
-        """, (nombre, descripcion, precio, stock, nombre_imagen, marca_id, categoria_id, subcategoria_id, id))
+        """, (nombre, descripcion, precio, stock, imagen_url, marca_id, categoria_id, subcategoria_id, id))
     else:
         cur.execute("""
             UPDATE productos
@@ -600,10 +596,6 @@ def eliminar_producto(id):
 
 
 
-
-
-UPLOAD_FOLDER = "static/uploads"
-
 @admin_api_bp.route("/producto-form", methods=["POST"])
 @admin_required
 def guardar_producto():
@@ -631,7 +623,7 @@ def guardar_producto():
     archivo = request.files.get("imagen")
     print("ARCHIVO RECIBIDO:", archivo)
 
-    nombre_imagen = None
+    imagen_url = None
 
     if archivo and archivo.filename:
         filename = secure_filename(archivo.filename)
@@ -640,12 +632,12 @@ def guardar_producto():
             return "Archivo inválido", 400
 
         ext = filename.rsplit(".", 1)[1].lower()
-        nombre_imagen = f"{uuid.uuid4().hex}.{ext}"
+        imagen_url = f"{uuid.uuid4().hex}.{ext}"
 
         upload_folder = os.path.join(current_app.root_path, "static", "uploads")
         os.makedirs(upload_folder, exist_ok=True)
 
-        ruta = os.path.join(upload_folder, nombre_imagen)
+        ruta = os.path.join(upload_folder, imagen_url)
         archivo.save(ruta)
 
     db = get_db()
@@ -668,7 +660,7 @@ def guardar_producto():
         descripcion,
         precio,
         stock,
-        nombre_imagen,
+        imagen_url,
         marca_id,
         categoria_id,
         subcategoria_id
