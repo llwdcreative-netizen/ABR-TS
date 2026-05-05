@@ -397,4 +397,4 @@ def validar_firma_mp(request):
 
     except Exception as e:
         print("❌ Error validando firma:", e)
-        return True  # 🔥 nunca bloquear en error
+        return True 
