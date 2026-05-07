@@ -52,7 +52,7 @@ async function cargarFavoritos(){
         card.className = "producto-card";
 
         card.innerHTML = `
-            <img src="/static/uploads/${p.imagen}" class="producto-img">
+            <img src="${p.imagen}" class="producto-img">
 
             <h3>${p.nombre}</h3>
 

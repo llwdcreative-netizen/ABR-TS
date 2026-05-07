@@ -15,7 +15,7 @@ async function cargarProductos() {
 
     contenedor.innerHTML = "";
 
-    // ✅ Renderizar TODOS
+    //  Renderizar TODOS
     productos.forEach(p => {
       contenedor.innerHTML += `
         <div class="producto"
@@ -24,7 +24,7 @@ async function cargarProductos() {
             data-categoria="${p.categoria_id || ""}"
             data-subcategoria="${p.subcategoria_id || ""}"
             data-marca="${p.marca ? p.marca.toLowerCase() : ""}">
-            <img src="${p.imagen ? `/static/uploads/${p.imagen}` : '/static/img/placeholder.png'}" alt="${p.nombre}">
+            <img src="${p.imagen ? p.imagen : '/static/img/placeholder.png'}" alt="${p.nombre}">
             <div class="info-container">
               <h3>${p.nombre}</h3>
               <p>${p.descripcion}</p>

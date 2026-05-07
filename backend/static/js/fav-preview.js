@@ -16,7 +16,7 @@ async function cargarFavoritosPreview(){
 
         card.innerHTML = `
             <a href="/producto/${p.id}">
-                <img src="/static/uploads/${p.imagen}">
+                <img src="${p.imagen}">
                 <h4>${p.nombre}</h4>
                 <p>$${p.precio}</p>
             </a>

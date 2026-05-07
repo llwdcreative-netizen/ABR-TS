@@ -11,7 +11,7 @@ async function cargarTopProductos() {
 
     card.innerHTML = `
       <div class="badge">Más vendido</div>
-      <img class="card-img" src="/static/uploads/${p.imagen}" alt="${p.nombre}">
+      <img class="card-img" src="${p.imagen} alt="${p.nombre}">
       <div class="info">
         <h3>${p.nombre}</h3>
         <p class="marca">${p.marca}</p>

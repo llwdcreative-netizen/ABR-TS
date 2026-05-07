@@ -85,7 +85,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   document.getElementById("prod-imagen").src =
     producto.imagen
-      ? `/static/uploads/${producto.imagen}`
+      ? producto.imagen
       : "/static/img/placeholder.png";
 
   document.getElementById("prod-nombre").textContent = producto.nombre;
