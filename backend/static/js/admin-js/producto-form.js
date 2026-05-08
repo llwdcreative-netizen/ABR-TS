@@ -422,6 +422,8 @@ async function cargarProductos() {
       }
 
       showNotification("Producto actualizado correctamente", "success");
+
+      await cargarProductos();
       };
 
       // ELIMINAR
@@ -485,6 +487,9 @@ async function crearCategoria(){
   });
 
   showNotification("Categoría creada", "success");
+
+  await cargarCategoriasProducto();
+  await cargarCategoriasAdmin();
 }
 
 async function crearSubcategoria(){
@@ -499,6 +504,9 @@ async function crearSubcategoria(){
   });
 
   showNotification("Subcategoría creada", "success");
+
+  await cargarCategoriasProducto();
+  await cargarCategoriasAdmin();
 }
 
 async function cargarCategoriasAdmin() {
