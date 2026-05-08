@@ -1,12 +1,10 @@
-from flask import request, jsonify, Blueprint, jsonify, redirect, session,current_app
+from flask import request, jsonify, Blueprint, jsonify, session
 import json
 from backend.db import get_db
 from backend.admin.decorators import admin_required
 from backend.services.catalog_utils import (load_product_catalog,
 is_available)
 from backend.services.notification_service import (crear_notificacion)
-from werkzeug.utils import secure_filename
-import uuid
 import os
 from collections import defaultdict
 import cloudinary
@@ -626,19 +624,8 @@ def guardar_producto():
     imagen_url = None
 
     if archivo and archivo.filename:
-        filename = secure_filename(archivo.filename)
-
-        if "." not in filename:
-            return "Archivo inválido", 400
-
-        ext = filename.rsplit(".", 1)[1].lower()
-        imagen_url = f"{uuid.uuid4().hex}.{ext}"
-
-        upload_folder = os.path.join(current_app.root_path, "static", "uploads")
-        os.makedirs(upload_folder, exist_ok=True)
-
-        ruta = os.path.join(upload_folder, imagen_url)
-        archivo.save(ruta)
+        resultado = cloudinary.uploader.upload(archivo)
+        imagen_url = resultado["secure_url"]
 
     db = get_db()
     cur = db.cursor()
