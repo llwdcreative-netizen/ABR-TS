@@ -70,6 +70,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   let carrito = obtenerCarrito();
+  console.log("INICIO:", carrito);
 
   await validarCarrito(); 
 
@@ -112,6 +113,7 @@ function actualizarCarritoCount() {
   const cartTotal = document.getElementById("cart-total");
 
   function renderCart() {
+    console.log("RENDER:", carrito);
     if (cartItems) cartItems.innerHTML = "";
 
     let total = 0;

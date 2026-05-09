@@ -27,7 +27,6 @@ with get_db() as db:
                 productos,
                 subcategorias,
                 categorias,
-                marcas,
                 users
             RESTART IDENTITY CASCADE;
         """)
