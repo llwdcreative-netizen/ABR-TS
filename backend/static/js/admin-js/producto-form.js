@@ -65,7 +65,7 @@ if (saveShippingBtn) {
 }
 
   const form = document.getElementById("producto-form");
-  if (!form) return;
+  if (!form) {
 
   const inputImagen = document.getElementById("imagen");
   const preview = document.getElementById("preview");
@@ -142,6 +142,7 @@ form.addEventListener("submit", async (e) => {
     showNotification("Error de red al guardar producto", "error");
   }
 });
+}
 
 async function cargarMarcas() {
   try {
