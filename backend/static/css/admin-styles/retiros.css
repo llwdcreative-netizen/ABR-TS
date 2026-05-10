@@ -2,11 +2,6 @@
 LAYOUT PRINCIPAL
 ======================== */
 
-.admin-content{
-  width:100%;
-  padding:1rem;
-}
-
 .retiros-grid{
   display:flex;
   flex-direction:column;

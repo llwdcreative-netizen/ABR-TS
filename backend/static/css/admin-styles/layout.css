@@ -250,7 +250,7 @@ LOGOUT
 /*------------ TABLES -----------*/
 
 .admin-table{
-  margin: 1rem 5rem 1rem 5rem;
+  margin: 1rem;
   width: 90%;
 }
 .admin-table thead{

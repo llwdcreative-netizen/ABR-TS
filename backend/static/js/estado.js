@@ -60,22 +60,33 @@ document.addEventListener("DOMContentLoaded", async () => {
     const res = await fetch(`/api/pago/verificar?payment_id=${paymentId}`);
     const data = await res.json();
 
-    if (data.estado === "aprobado") {
+if (data.estado === "aprobado") {
 
-    localStorage.removeItem("carrito");
+  localStorage.removeItem("carrito");
 
-      mostrarEstado(tipo || "error");
-      return;
+  if (window.carrito) {
+    window.carrito = [];
+  }
 
-    if (window.carrito) {
-      window.carrito = [];
-    }
-      mostrarEstado("success");
-    } else if (data.estado === "pendiente") {
-      mostrarEstado("pending");
-    } else {
-      mostrarEstado("error");
-    }
+  const badge = document.getElementById("cart-count");
+
+  if (badge) {
+    badge.textContent = "0";
+    badge.style.display = "none";
+  }
+
+  mostrarEstado("success");
+
+
+} else if (data.estado === "pendiente") {
+
+  mostrarEstado("pending");
+
+} else {
+
+  mostrarEstado("error");
+
+}
 
   } catch (e) {
     console.error(e);
