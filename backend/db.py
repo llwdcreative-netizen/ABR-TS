@@ -4,8 +4,7 @@ import os
 print(os.getenv("DATABASE_URL"))
 from werkzeug.security import generate_password_hash
 
-ADMIN_EMAIL = "llwd.creative@gmail.com"
-
+ADMIN_PASSWORD = os.getenv("ADMIN_PASSWORD")
 
 def get_db():
     db_url = os.getenv("DATABASE_URL")
@@ -220,7 +219,7 @@ def init_db():
                     VALUES (%s, %s)
                 """, (
                     ADMIN_EMAIL,
-                    generate_password_hash("7776")
+                    generate_password_hash(ADMIN_PASSWORD)
                 ))
 
             # Insertar producto si tabla vacía

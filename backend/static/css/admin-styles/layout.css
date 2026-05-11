@@ -181,16 +181,11 @@ HEADER
 ========================= */
 
 .notification-header{
+  background-color:var(--black-color);
+  color: var(--white2-color);
   display:flex;
   justify-content:space-between;
-  align-items:center;
-
-  padding:10px 12px;
-
-  border-bottom:1px solid #2a2f39;
-
-  font-size:.9rem;
-  font-weight:600;
+  padding:10px;
 }
 
 
