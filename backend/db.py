@@ -159,6 +159,21 @@ def init_db():
                 )
             """)
 
+            cur.execute("""
+            CREATE TABLE IF NOT EXISTS categorias (
+                id SERIAL PRIMARY KEY,
+                nombre TEXT UNIQUE NOT NULL
+            );
+            """)
+
+            cur.execute("""
+            CREATE TABLE IF NOT EXISTS subcategorias (
+                id SERIAL PRIMARY KEY,
+                nombre TEXT NOT NULL,
+                categoria_id INTEGER REFERENCES categorias(id) ON DELETE CASCADE
+            );
+            """)
+
 
             cur.execute("""
                 CREATE TABLE IF NOT EXISTS productos (
@@ -270,20 +285,6 @@ def init_db():
                     ON CONFLICT (nombre) DO NOTHING;
             """)
 
-            cur.execute("""
-            CREATE TABLE IF NOT EXISTS categorias (
-                id SERIAL PRIMARY KEY,
-                nombre TEXT UNIQUE NOT NULL
-            );
-            """)
-
-            cur.execute("""
-            CREATE TABLE IF NOT EXISTS subcategorias (
-                id SERIAL PRIMARY KEY,
-                nombre TEXT NOT NULL,
-                categoria_id INTEGER REFERENCES categorias(id) ON DELETE CASCADE
-            );
-            """)
             
             
             cur.execute("""
