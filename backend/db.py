@@ -5,6 +5,7 @@ print(os.getenv("DATABASE_URL"))
 from werkzeug.security import generate_password_hash
 
 ADMIN_PASSWORD = os.getenv("ADMIN_PASSWORD")
+ADMIN_EMAIL= os.getenv("MAIL_USER")
 
 def get_db():
     db_url = os.getenv("DATABASE_URL")
@@ -201,9 +202,7 @@ def init_db():
                     activo BOOLEAN DEFAULT TRUE
                 )
             """)
-            
-            ADMIN_EMAIL = "llwd.creative@gmail.com"
-    
+
             cur.execute("""
                 CREATE TABLE IF NOT EXISTS configuracion (
                     clave TEXT PRIMARY KEY,
