@@ -27,7 +27,8 @@ with get_db() as db:
                 productos,
                 subcategorias,
                 categorias,
-                users
+                users,
+                admins
             RESTART IDENTITY CASCADE;
         """)
     db.commit()
