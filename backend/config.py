@@ -7,6 +7,7 @@ MP_WEBHOOK_SECRET = os.environ.get("MP_WEBHOOK_SECRET")
 
 MAIL_USER = os.environ.get("MAIL_USER")
 MAIL_PASSWORD = os.environ.get("MAIL_PASSWORD")
+ADMIN_EMAIL= os.getenv("MAIL_USER")
 
 SQLALCHEMY_DATABASE_URI = os.environ.get("DATABASE_URL")
 
